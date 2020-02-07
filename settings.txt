@@ -1,0 +1,1 @@
+{"figures": 3, "time": 60, "speed": 1, "colors": "Medium", "sound": "On"}
