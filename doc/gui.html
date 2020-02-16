@@ -1,0 +1,2012 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>MemorizeIT.gui API documentation</title>
+<meta name="description" content="Graphical User Interface Module …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>MemorizeIT.gui</code></h1>
+</header>
+<section id="section-intro">
+<p>Graphical User Interface Module</p>
+<p>This module is responsible for creating and interacting between different menus. It contains methods responsible for
+making button or displaying label, animating them. Here is defined size (width, height) of application. It chains
+elements showed to user with proper functions from other modules. On general class Gui are based: main, settings and
+summary menus.</p>
+<p>Modules used are: <code>collections</code>, <code>pygame</code>, <code>sys</code>, <code>colors</code>, <code>time</code>, <code>config</code>, <code>game</code>. It is required to provide them
+before running application.</p>
+<p>It contains classes:</p>
+<pre><code>* Gui - contains general methods used in each menu
+* Menu - covers definition how to create main menu launched on start of application
+* Settings - collects methods used to display settings menu and interact with default values
+* Summary - contains methods needed for summarization and displaying to user correct result of gameplay
+</code></pre>
+<p>License:
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Graphical User Interface Module
+
+This module is responsible for creating and interacting between different menus. It contains methods responsible for
+making button or displaying label, animating them. Here is defined size (width, height) of application. It chains
+elements showed to user with proper functions from other modules. On general class Gui are based: main, settings and
+summary menus.
+
+Modules used are: `collections`, `pygame`, `sys`, `colors`, `time`, `config`, `game`. It is required to provide them
+before running application.
+
+It contains classes:
+
+    * Gui - contains general methods used in each menu
+    * Menu - covers definition how to create main menu launched on start of application
+    * Settings - collects methods used to display settings menu and interact with default values
+    * Summary - contains methods needed for summarization and displaying to user correct result of gameplay
+
+License:
+THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+&#34;&#34;&#34;
+
+from collections import namedtuple
+import pygame
+import sys
+import colors
+from config import *
+from game import *
+
+
+class Gui:
+    &#34;&#34;&#34;
+    A class collecting general methods which are used in different menus. Responsible for drawing buttons, displaying
+    labels and background. It also controls interaction between mouse and elements on the screen.
+
+    ...
+
+    Attributes
+    ----------
+    display : tuple
+        a tuple with two int values - width, height - size of application
+    screen : pygame.Surface
+        `pygame.Surface` where we draw or bind displayed elements in each menu
+    colors : tuple
+        contains two color codes in RGB (0-255, 0-255, 0-255) format. On place 0 is inactive color for interactive
+        elements away of mouse cursor. On place 1 is active color for interactive elements under mouse cursor.
+    Dimensions : namedtuple
+        allows to created namedtuple with size of element - x values from and to, y values from and to.
+    text_size : int
+        specifies size of text used in buttons and labels
+
+
+    Methods
+    -------
+    blit_background()
+        sets menu color to default (from color module), displays logo and application name
+    adjust_image()
+        converts logo image to appropriate size
+    animate_element(point, dimensions, function, arguments=False, button=False, message=&#39;&#39;)
+        ensures that area passed as arguments can be clicked and uses specified function when it happens
+    is_mouse_over(dimensions)
+        returns True when mouse cursor is over passed dimensions
+    use_on_click(function, arguments)
+        when mouse button is pressed passed function is used
+    create_arrows(point, position, gap, value, left_condition, right_condition, function, argument=None)
+        creates and animates arrows buttons based on side conditions (till when they will be highlighted)
+    draw_triangle(color, point, left=True)
+        draws triangle used to create arrows buttons
+    create_button(message, point, function, arguments=False, border=False)
+        creates button with function chained to it (bordered buttons as option)
+    draw_button(message, color, point)
+        puts label on screen and draws border around it
+    create_label(message, mid_point, color=None, size=None)
+        displays text on the screen
+    draw_border(color, point)
+        draws border around point passed as argument
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        &#34;&#34;&#34;Sets basic information used in each menu&#34;&#34;&#34;
+
+        self.display = (800, 600)
+        self.screen = pygame.display.set_mode(self.display)
+        self.colors = colors.get_menu_colors()
+        self.Dimensions = namedtuple(&#39;Dimensions&#39;, (&#39;x_from&#39;, &#39;x_to&#39;, &#39;y_from&#39;, &#39;y_to&#39;))
+        self.text_size = 25
+        self.blit_background()
+
+    def blit_background(self):
+        &#34;Sets menu color to default (from color module), displays logo and application name&#34;
+
+        self.screen.fill(colors.get_background_color())
+        size = self.text_size * 5
+        size = size if self.display[0] &gt;= 800 else int(size * self.display[0] / 1000)
+        self.create_label(&#39;MemorizeIT&#39;, (self.display[0] // 2, size), colors.get_logo_color(), size)
+        try:
+            image = self.adjust_image()
+            size = image.get_size()
+            self.screen.blit(image, (0, self.display[1] - size[1]))
+        except pygame.error:
+            pass
+
+    def adjust_image(self):
+        &#34;&#34;&#34;Converts logo image to appropriate size&#34;&#34;&#34;
+
+        image = pygame.image.load(&#39;images/brain.png&#39;)
+        size = image.get_size()[0]
+        display = min(self.display)
+        if display - size - 180 &lt; 0:
+            size = [int(display * 0.7)] * 2
+            image = pygame.transform.scale(image, size)
+        return image
+
+    def animate_element(self, point, dimensions, function, arguments=None, button=False, message=&#39;&#39;):
+        &#34;&#34;&#34;Highlights element when mouse is over (uses active color [1] from colors attribute)
+
+        Parameters
+        ----------
+        point : tuple
+            a tuple with two int values - width, height allowing to draw animated element
+        dimensions : namedtuple
+            namedtuple with size of area - x values from and to, y values from and to. Moving cursor over this area will
+            animate element and clicking will run passed function
+        function : function
+            function used during mouse click in set area
+        arguments : list, None, optional
+            a list with arguments passed to function if they are needed (default is None - function without arguments)
+        button : str, bool, optional
+            specifies what type of button will be animated (True - with border, False - only label, left or right -
+            arrow with set direction (default is False - label)
+        message : str, optional
+            text used in animated button (default is &#39;&#39; which means empty - no text at all, used with arrow buttons)
+        &#34;&#34;&#34;
+
+        if self.is_mouse_over(dimensions):
+            if button:
+                if button == &#39;left&#39;:
+                    self.draw_triangle(self.colors[1], point)
+                elif button == &#39;right&#39;:
+                    self.draw_triangle(self.colors[1], point, left=False)
+                else:
+                    self.draw_button(message, self.colors[1], point)
+            else:
+                self.create_label(message, point, self.colors[1])
+            self.use_on_click(function, arguments)
+
+    @staticmethod
+    def is_mouse_over(dimensions):
+        &#34;&#34;&#34;Specifies if mouse is over area
+
+        Parameters
+        ----------
+        dimensions : namedtuple
+            namedtuple with size of area - x values from and to, y values from and to
+
+        Returns
+        -------
+        bool
+            True when mouse cursor is over set area else False
+        &#34;&#34;&#34;
+
+        mouse = pygame.mouse.get_pos()
+        if dimensions.x_from &lt; mouse[0] &lt; dimensions.x_to and dimensions.y_from &lt; mouse[1] &lt; dimensions.y_to:
+            return True
+        return False
+
+    @staticmethod
+    def use_on_click(function, arguments):
+        &#34;&#34;&#34;Uses function when mouse button is pressed
+
+        Parameters
+        ----------
+        function : function
+            function used when mouse button is pressed
+        arguments : list, None, optional
+            a list with arguments passed to function or None if function doesn&#39;t require arguments
+        &#34;&#34;&#34;
+
+        if pygame.mouse.get_pressed()[0]:
+            function(*arguments) if arguments else function()
+            pygame.time.delay(100)
+
+    def create_arrows(self, point, position, gap, value, left_condition, right_condition, function):
+        &#34;&#34;&#34;Draws and animates arrows buttons according to set conditions
+
+        Parameters
+        ----------
+        point : tuple
+            a tuple with two int values - width, height allowing to draw and animate element
+        position : str
+            name of setting which arrows are chained to (to decrease, increase proper value)
+        gap : int
+            distance between arrows
+        value : int
+            index of showed option - compared with conditions to animate arrow or not
+        left_condition : int
+            index of side option on the left - until which left arrow will be animated
+        right_condition : int
+            index of side option on the right - until which right arrow will be animated
+        function : function
+            function used during mouse click on animated element
+        &#34;&#34;&#34;
+
+        new_point = [point[0] - gap // 2, point[1]]
+        left = self.draw_triangle(self.colors[0], new_point)
+        if value &gt; left_condition:
+            self.animate_element(new_point, left, function, [position, False], &#39;left&#39;)
+
+        new_point[0] += gap
+        right = self.draw_triangle(self.colors[0], new_point, False)
+        if value &lt; right_condition:
+            self.animate_element(new_point, right, function, [position], &#39;right&#39;)
+
+    def draw_triangle(self, color, point, left=True):
+        &#34;&#34;&#34;Draws triangle on the screen
+
+        Parameters
+        ----------
+        color : tuple
+            RGB color code in format (0-255, 0-255, 0-255)
+        point : tuple
+            a tuple with two int values - width, height specifies where triangle will be drawn
+        left : bool, optional
+            parameter specifying which side triangle will be pointed (default is True - left side)
+
+        Returns
+        -------
+        Dimensions
+            namedtuple with size of triangle - x values from and to, y values from and to
+        &#34;&#34;&#34;
+
+        dimensions = self.Dimensions(point[0] - 10, point[0], point[1] - 10, point[1] + 10)
+        coordinates = [(dimensions.x_to, point[1])]
+        x = &#39;x_from&#39;
+        if left:
+            dimensions = self.Dimensions(point[0], point[0] + 10, point[1] - 10, point[1] + 10)
+            x = &#39;x_to&#39;
+        coordinates.extend([(eval(&#39;dimensions.&#39; + x), dimensions.y_from), (eval(&#39;dimensions.&#39; + x), dimensions.y_to)])
+        pygame.draw.polygon(self.screen, color, coordinates)
+        return dimensions
+
+    def create_button(self, message, point, function, arguments=None, border=False):
+        &#34;&#34;&#34;Draws and animates button
+
+        Parameters
+        ----------
+        message : str
+            text displayed in button
+        point : tuple
+            a tuple with two int values - width, height specifies where button will be drawn
+        left : bool, optional
+            parameter specifying which side triangle will be pointed (default is True - left side)
+        function : function
+            function used when button is pressed
+        arguments : list, None, optional
+            a list with arguments passed to function if they are needed (default is None - function without arguments)
+        border : bool
+            specifies if button is surrounded by border (True) or is just a label (default False - label)
+        &#34;&#34;&#34;
+
+        if border:
+            button = self.draw_button(message, self.colors[0], point)
+        else:
+            button = self.create_label(message, point)
+        self.animate_element(point, button, function, arguments, border, message)
+
+    def draw_button(self, message, color, point):
+        &#34;&#34;&#34;Draws button on the screen
+
+         Parameters
+         ----------
+         message : str
+             text displayed in button
+         color : tuple
+             RGB color code in format (0-255, 0-255, 0-255)
+         point : tuple
+             a tuple with two int values - width, height specifies where button will be drawn
+
+         Returns
+         -------
+         Dimensions
+             namedtuple with size of button - x values from and to, y values from and to
+         &#34;&#34;&#34;
+
+        border = self.draw_border(color, point)
+        mid_point = ((border.x_from + border.x_to) // 2, (border.y_from + border.y_to) // 2)
+        self.create_label(message, mid_point, color, int(self.text_size * 1.5))
+        return border
+
+    def create_label(self, message, mid_point, color=None, size=None):
+        &#34;&#34;&#34;Displays text on the screen
+
+        Parameters
+        ----------
+        message : str
+            text displayed as label
+        mid_point : tuple
+            a tuple with two int values - width, height specifies middle point of text which will be displayed
+        color : tuple, None, optional
+             RGB color code in format (0-255, 0-255, 0-255) or None if inactive color from colors attribute [0] should
+             be used (default is None)
+        size : int, None, optional
+            size of displayed text or None if text should use text_size attribute (default is None)
+        &#34;&#34;&#34;
+
+        if color is None: color = self.colors[0]
+        if size is None: size = self.text_size
+        text = pygame.font.SysFont(&#39;carlito&#39;, size, True).render(message, True, color)
+        x_shift = text.get_width() // 2
+        y_shift = text.get_height() // 2
+        self.screen.blit(text, (mid_point[0] - x_shift, mid_point[1] - y_shift))
+        return self.Dimensions(mid_point[0] - x_shift, mid_point[0] + x_shift, mid_point[1] - y_shift,
+                               mid_point[1] + y_shift)
+
+    def draw_border(self, color, point):
+        &#34;&#34;&#34;Draws border surrounding set point
+
+         Parameters
+         ----------
+         color : tuple
+             RGB color code in format (0-255, 0-255, 0-255)
+         point : tuple
+             a tuple with two int values - width, height specifies where border will be drawn
+
+         Returns
+         -------
+         Dimensions
+             namedtuple with size of border - x values from and to, y values from and to
+         &#34;&#34;&#34;
+
+        width = self.text_size * 10
+        height = self.text_size * 2
+        border = pygame.Rect(point[0], point[1], width, height)
+        pygame.draw.rect(self.screen, color, border, self.text_size // 10)
+        return self.Dimensions(point[0], point[0] + width, point[1], point[1] + height)
+
+
+class Menu(Gui):
+    &#34;&#34;&#34;
+    A class responsible for displaying main menu of application. It is child of Gui class.
+
+    ...
+
+    Attributes
+    ----------
+    resolution : tuple
+        a tuple with two int values - width, height - size of display resolution
+    positions : dict
+        a dictionary with names of displayed buttons and corresponding to them classes or functions
+
+
+    Methods
+    -------
+    call()
+        draws and animates elements on screen - it is send to `pygame` event handler class to run in loop
+    close()
+        shuts down application
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        self.resolution = (pygame.display.Info().current_w, pygame.display.Info().current_h)
+        self.positions = {&#39;New game&#39;: Dynamic, &#39;Static game&#39;: Static, &#39;Settings&#39;: Settings, &#39;Exit&#39;: self.close}
+        super().__init__()
+        Handler(self)()
+
+    def __call__(self):
+        &#34;&#34;&#34;Draws and animates menu buttons
+
+        It chains to them proper classes or functions. Displays background used in application. This method is send to
+        `pygame` event handler class to run in loop
+        &#34;&#34;&#34;
+
+        self.blit_background()
+        point = tuple(x - 325 for x in self.display)
+
+        for gap, position in enumerate(self.positions):
+            gap *= 70
+            new_point = (point[0], point[1] + gap)
+            arguments = [self.resolution] if &#39;game&#39; in position else []
+            self.create_button(position, new_point, self.positions[position], arguments, True)
+
+    def close(self):
+        &#34;&#34;&#34;Shuts down application.&#34;&#34;&#34;
+
+        pygame.quit()
+        sys.exit()
+
+
+class Settings(Gui):
+    &#34;&#34;&#34;
+    A class responsible for displaying settings menu of application. It is child of Gui class.
+
+    ...
+
+    Attributes
+    ----------
+    config : Config
+        object from config module used to load and save settings
+    settings : dict
+        a dictionary with settings loaded from config
+    range : dict
+        a dictionary with allowed values for each setting
+    run : Handler
+        object from config module allowing for handling `pygame` events. Chained to run variable for communication.
+
+
+    Methods
+    -------
+    call()
+        draws and animates elements on screen - it is send to `pygame` event handler class to run in loop
+    change_setting(position, add)
+        method used to take and set next or previous value from range attribute. It is send to create_arrows method
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        super().__init__()
+        self.config = Config()
+        self.settings = self.config.get_settings()
+        self.range = self.config.get_values()
+        self.run = Handler(self)
+        self.run()
+
+    def __call__(self):
+        &#34;&#34;&#34;Draws and animates elements in settings menu
+
+         According to loaded settings it takes each name stored there and creates label, arrows for increasing or
+         decreasing setting value and displays in between them. This method is send to `pygame` event handler class to
+         run in loop
+         &#34;&#34;&#34;
+
+        self.blit_background()
+        point = (self.display[0] - 150, self.display[1] - 375)
+        for position in self.settings:
+            point = (point[0], point[1] + 50)
+            self.create_label(position.capitalize() + &#39;:&#39;, (point[0] - 150, point[1]))
+            text = str(self.settings[position])
+            self.create_label(text, point)
+            index = self.range[position].index(self.settings[position])
+            self.create_arrows(point, position, 150, index, 0, len(self.range[position]) - 1, self.change_setting)
+
+        point = (self.display[0] - 75, self.display[1] - 50)
+        self.create_button(&#39;Back&#39;, point, lambda: self.run.stop(), self.config.save(self.settings))
+
+    def change_setting(self, position, add=True):
+        &#34;&#34;&#34;Sets displayed setting to lower or higher value
+
+        According to specified position (name of setting) and operation: addition or subtraction - it takes next or
+        previous setting from range attribute.
+
+        Parameters
+        ----------
+        position : str
+            name of setting which will be increased or decreased
+        add : bool, optional
+            True if value will be increased, False when decreased (default is True)
+        &#34;&#34;&#34;
+
+        index = self.range[position].index(self.settings[position])
+        index = index + 1 if add else index - 1
+        self.settings[position] = self.range[position][index]
+
+
+class Summary(Gui):
+    &#34;&#34;&#34;
+    A class responsible for displaying summary menu of gameplay. It is child of Gui class.
+
+    ...
+
+    Attributes
+    ----------
+    result : dict
+       a dictionary with names and numbers of elements spawned during game
+    counted : dict
+       a dictionary with values filled by user
+    submitted : bool
+       value specifying if user pressed submit button to check his result
+    run : Handler
+       object from config module allowing for handling `pygame` events. Chained to run variable for communication.
+
+
+    Methods
+    -------
+    call()
+        draws and animates elements on screen - it is send to `pygame` event handler class to run in loop
+    change_counter(position, add)
+        method used to increase or decrease number of element filled by user. It is send to create_arrows method
+    submit()
+        changes submitted attribute to False which changes menu and highlight correct values
+    &#34;&#34;&#34;
+
+    def __init__(self, result):
+        &#34;&#34;&#34;
+        Parameters
+        ----------
+        result : dict
+            a dictionary with names and numbers of elements spawned during game
+        &#34;&#34;&#34;
+
+        super().__init__()
+        self.result = result
+        self.counted = {key: 0 for key in result}
+        self.submitted = False
+        self.run = Handler(self)
+        self.run()
+
+    def __call__(self):
+        &#34;&#34;&#34;Draws and animates elements on screen
+
+        Responsible for interaction with user - allows to enter his results and compare them with correct ones.
+        Colors module is used to verify numbers - it marks wrong values with red color and good with green. This method
+        is send to `pygame` event handler class to run in loop.
+        &#34;&#34;&#34;
+
+        self.screen.fill(colors.get_background_color())
+        self.create_label(&#39;Check your result:&#39;, (self.display[0] // 2, 75), size=50)
+        point = (self.display[0] // 2, 100)
+        for position in self.counted:
+            point = (point[0], point[1] + 50)
+            self.create_label(position.capitalize() + &#39;s:&#39;, (point[0] - 125, point[1]))
+            text = str(self.counted[position])
+
+            if self.submitted:
+                color = colors.get_rate_colors()
+                if self.result[position] == self.counted[position]:
+                    color = color[1]
+                else:
+                    self.create_label(str(self.result[position]), (point[0] + 175, point[1]), color[1])
+                    color = color[0]
+
+                self.create_label(text, (point[0] + 100, point[1]), color)
+            else:
+                self.create_label(text, (point[0] + 100, point[1]))
+                self.create_arrows((point[0] + 100, point[1]), position, 150, self.counted[position], 0, 99,
+                                   self.change_counter)
+
+        point = [self.display[0] - 175, self.display[1] - 50]
+        if not self.submitted:
+            self.create_button(&#39;Submit&#39;, point, self.submit)
+        point[0] += 100
+        self.create_button(&#39;Back&#39;, point, self.run.stop)
+
+    def change_counter(self, position, add=True):
+        &#34;&#34;&#34;Sets displayed occurrence of element to lower or higher value
+
+        Parameters
+        ----------
+        position : str
+            name of element which number will be changed
+        add : bool, optional
+            True if value will be increased, False when decreased (default is True)
+        &#34;&#34;&#34;
+
+        self.counted[position] += 1 if add else -1
+
+    def submit(self):
+        &#34;&#34;&#34;Used when user accepts his answer and proceed to check&#34;&#34;&#34;
+
+        self.submitted = True</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="MemorizeIT.gui.Gui"><code class="flex name class">
+<span>class <span class="ident">Gui</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>A class collecting general methods which are used in different menus. Responsible for drawing buttons, displaying
+labels and background. It also controls interaction between mouse and elements on the screen.</p>
+<p>&hellip;</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>display</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>a tuple with two int values - width, height - size of application</dd>
+<dt><strong><code>screen</code></strong> :&ensp;<code>pygame.Surface</code></dt>
+<dd><code>pygame.Surface</code> where we draw or bind displayed elements in each menu</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>contains two color codes in RGB (0-255, 0-255, 0-255) format. On place 0 is inactive color for interactive
+elements away of mouse cursor. On place 1 is active color for interactive elements under mouse cursor.</dd>
+<dt><strong><code>Dimensions</code></strong> :&ensp;<code>namedtuple</code></dt>
+<dd>allows to created namedtuple with size of element - x values from and to, y values from and to.</dd>
+<dt><strong><code>text_size</code></strong> :&ensp;<code>int</code></dt>
+<dd>specifies size of text used in buttons and labels</dd>
+</dl>
+<h2 id="methods">Methods</h2>
+<p>blit_background()
+sets menu color to default (from color module), displays logo and application name
+adjust_image()
+converts logo image to appropriate size
+animate_element(point, dimensions, function, arguments=False, button=False, message='')
+ensures that area passed as arguments can be clicked and uses specified function when it happens
+is_mouse_over(dimensions)
+returns True when mouse cursor is over passed dimensions
+use_on_click(function, arguments)
+when mouse button is pressed passed function is used
+create_arrows(point, position, gap, value, left_condition, right_condition, function, argument=None)
+creates and animates arrows buttons based on side conditions (till when they will be highlighted)
+draw_triangle(color, point, left=True)
+draws triangle used to create arrows buttons
+create_button(message, point, function, arguments=False, border=False)
+creates button with function chained to it (bordered buttons as option)
+draw_button(message, color, point)
+puts label on screen and draws border around it
+create_label(message, mid_point, color=None, size=None)
+displays text on the screen
+draw_border(color, point)
+draws border around point passed as argument</p>
+<p>Sets basic information used in each menu</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Gui:
+    &#34;&#34;&#34;
+    A class collecting general methods which are used in different menus. Responsible for drawing buttons, displaying
+    labels and background. It also controls interaction between mouse and elements on the screen.
+
+    ...
+
+    Attributes
+    ----------
+    display : tuple
+        a tuple with two int values - width, height - size of application
+    screen : pygame.Surface
+        `pygame.Surface` where we draw or bind displayed elements in each menu
+    colors : tuple
+        contains two color codes in RGB (0-255, 0-255, 0-255) format. On place 0 is inactive color for interactive
+        elements away of mouse cursor. On place 1 is active color for interactive elements under mouse cursor.
+    Dimensions : namedtuple
+        allows to created namedtuple with size of element - x values from and to, y values from and to.
+    text_size : int
+        specifies size of text used in buttons and labels
+
+
+    Methods
+    -------
+    blit_background()
+        sets menu color to default (from color module), displays logo and application name
+    adjust_image()
+        converts logo image to appropriate size
+    animate_element(point, dimensions, function, arguments=False, button=False, message=&#39;&#39;)
+        ensures that area passed as arguments can be clicked and uses specified function when it happens
+    is_mouse_over(dimensions)
+        returns True when mouse cursor is over passed dimensions
+    use_on_click(function, arguments)
+        when mouse button is pressed passed function is used
+    create_arrows(point, position, gap, value, left_condition, right_condition, function, argument=None)
+        creates and animates arrows buttons based on side conditions (till when they will be highlighted)
+    draw_triangle(color, point, left=True)
+        draws triangle used to create arrows buttons
+    create_button(message, point, function, arguments=False, border=False)
+        creates button with function chained to it (bordered buttons as option)
+    draw_button(message, color, point)
+        puts label on screen and draws border around it
+    create_label(message, mid_point, color=None, size=None)
+        displays text on the screen
+    draw_border(color, point)
+        draws border around point passed as argument
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        &#34;&#34;&#34;Sets basic information used in each menu&#34;&#34;&#34;
+
+        self.display = (800, 600)
+        self.screen = pygame.display.set_mode(self.display)
+        self.colors = colors.get_menu_colors()
+        self.Dimensions = namedtuple(&#39;Dimensions&#39;, (&#39;x_from&#39;, &#39;x_to&#39;, &#39;y_from&#39;, &#39;y_to&#39;))
+        self.text_size = 25
+        self.blit_background()
+
+    def blit_background(self):
+        &#34;Sets menu color to default (from color module), displays logo and application name&#34;
+
+        self.screen.fill(colors.get_background_color())
+        size = self.text_size * 5
+        size = size if self.display[0] &gt;= 800 else int(size * self.display[0] / 1000)
+        self.create_label(&#39;MemorizeIT&#39;, (self.display[0] // 2, size), colors.get_logo_color(), size)
+        try:
+            image = self.adjust_image()
+            size = image.get_size()
+            self.screen.blit(image, (0, self.display[1] - size[1]))
+        except pygame.error:
+            pass
+
+    def adjust_image(self):
+        &#34;&#34;&#34;Converts logo image to appropriate size&#34;&#34;&#34;
+
+        image = pygame.image.load(&#39;images/brain.png&#39;)
+        size = image.get_size()[0]
+        display = min(self.display)
+        if display - size - 180 &lt; 0:
+            size = [int(display * 0.7)] * 2
+            image = pygame.transform.scale(image, size)
+        return image
+
+    def animate_element(self, point, dimensions, function, arguments=None, button=False, message=&#39;&#39;):
+        &#34;&#34;&#34;Highlights element when mouse is over (uses active color [1] from colors attribute)
+
+        Parameters
+        ----------
+        point : tuple
+            a tuple with two int values - width, height allowing to draw animated element
+        dimensions : namedtuple
+            namedtuple with size of area - x values from and to, y values from and to. Moving cursor over this area will
+            animate element and clicking will run passed function
+        function : function
+            function used during mouse click in set area
+        arguments : list, None, optional
+            a list with arguments passed to function if they are needed (default is None - function without arguments)
+        button : str, bool, optional
+            specifies what type of button will be animated (True - with border, False - only label, left or right -
+            arrow with set direction (default is False - label)
+        message : str, optional
+            text used in animated button (default is &#39;&#39; which means empty - no text at all, used with arrow buttons)
+        &#34;&#34;&#34;
+
+        if self.is_mouse_over(dimensions):
+            if button:
+                if button == &#39;left&#39;:
+                    self.draw_triangle(self.colors[1], point)
+                elif button == &#39;right&#39;:
+                    self.draw_triangle(self.colors[1], point, left=False)
+                else:
+                    self.draw_button(message, self.colors[1], point)
+            else:
+                self.create_label(message, point, self.colors[1])
+            self.use_on_click(function, arguments)
+
+    @staticmethod
+    def is_mouse_over(dimensions):
+        &#34;&#34;&#34;Specifies if mouse is over area
+
+        Parameters
+        ----------
+        dimensions : namedtuple
+            namedtuple with size of area - x values from and to, y values from and to
+
+        Returns
+        -------
+        bool
+            True when mouse cursor is over set area else False
+        &#34;&#34;&#34;
+
+        mouse = pygame.mouse.get_pos()
+        if dimensions.x_from &lt; mouse[0] &lt; dimensions.x_to and dimensions.y_from &lt; mouse[1] &lt; dimensions.y_to:
+            return True
+        return False
+
+    @staticmethod
+    def use_on_click(function, arguments):
+        &#34;&#34;&#34;Uses function when mouse button is pressed
+
+        Parameters
+        ----------
+        function : function
+            function used when mouse button is pressed
+        arguments : list, None, optional
+            a list with arguments passed to function or None if function doesn&#39;t require arguments
+        &#34;&#34;&#34;
+
+        if pygame.mouse.get_pressed()[0]:
+            function(*arguments) if arguments else function()
+            pygame.time.delay(100)
+
+    def create_arrows(self, point, position, gap, value, left_condition, right_condition, function):
+        &#34;&#34;&#34;Draws and animates arrows buttons according to set conditions
+
+        Parameters
+        ----------
+        point : tuple
+            a tuple with two int values - width, height allowing to draw and animate element
+        position : str
+            name of setting which arrows are chained to (to decrease, increase proper value)
+        gap : int
+            distance between arrows
+        value : int
+            index of showed option - compared with conditions to animate arrow or not
+        left_condition : int
+            index of side option on the left - until which left arrow will be animated
+        right_condition : int
+            index of side option on the right - until which right arrow will be animated
+        function : function
+            function used during mouse click on animated element
+        &#34;&#34;&#34;
+
+        new_point = [point[0] - gap // 2, point[1]]
+        left = self.draw_triangle(self.colors[0], new_point)
+        if value &gt; left_condition:
+            self.animate_element(new_point, left, function, [position, False], &#39;left&#39;)
+
+        new_point[0] += gap
+        right = self.draw_triangle(self.colors[0], new_point, False)
+        if value &lt; right_condition:
+            self.animate_element(new_point, right, function, [position], &#39;right&#39;)
+
+    def draw_triangle(self, color, point, left=True):
+        &#34;&#34;&#34;Draws triangle on the screen
+
+        Parameters
+        ----------
+        color : tuple
+            RGB color code in format (0-255, 0-255, 0-255)
+        point : tuple
+            a tuple with two int values - width, height specifies where triangle will be drawn
+        left : bool, optional
+            parameter specifying which side triangle will be pointed (default is True - left side)
+
+        Returns
+        -------
+        Dimensions
+            namedtuple with size of triangle - x values from and to, y values from and to
+        &#34;&#34;&#34;
+
+        dimensions = self.Dimensions(point[0] - 10, point[0], point[1] - 10, point[1] + 10)
+        coordinates = [(dimensions.x_to, point[1])]
+        x = &#39;x_from&#39;
+        if left:
+            dimensions = self.Dimensions(point[0], point[0] + 10, point[1] - 10, point[1] + 10)
+            x = &#39;x_to&#39;
+        coordinates.extend([(eval(&#39;dimensions.&#39; + x), dimensions.y_from), (eval(&#39;dimensions.&#39; + x), dimensions.y_to)])
+        pygame.draw.polygon(self.screen, color, coordinates)
+        return dimensions
+
+    def create_button(self, message, point, function, arguments=None, border=False):
+        &#34;&#34;&#34;Draws and animates button
+
+        Parameters
+        ----------
+        message : str
+            text displayed in button
+        point : tuple
+            a tuple with two int values - width, height specifies where button will be drawn
+        left : bool, optional
+            parameter specifying which side triangle will be pointed (default is True - left side)
+        function : function
+            function used when button is pressed
+        arguments : list, None, optional
+            a list with arguments passed to function if they are needed (default is None - function without arguments)
+        border : bool
+            specifies if button is surrounded by border (True) or is just a label (default False - label)
+        &#34;&#34;&#34;
+
+        if border:
+            button = self.draw_button(message, self.colors[0], point)
+        else:
+            button = self.create_label(message, point)
+        self.animate_element(point, button, function, arguments, border, message)
+
+    def draw_button(self, message, color, point):
+        &#34;&#34;&#34;Draws button on the screen
+
+         Parameters
+         ----------
+         message : str
+             text displayed in button
+         color : tuple
+             RGB color code in format (0-255, 0-255, 0-255)
+         point : tuple
+             a tuple with two int values - width, height specifies where button will be drawn
+
+         Returns
+         -------
+         Dimensions
+             namedtuple with size of button - x values from and to, y values from and to
+         &#34;&#34;&#34;
+
+        border = self.draw_border(color, point)
+        mid_point = ((border.x_from + border.x_to) // 2, (border.y_from + border.y_to) // 2)
+        self.create_label(message, mid_point, color, int(self.text_size * 1.5))
+        return border
+
+    def create_label(self, message, mid_point, color=None, size=None):
+        &#34;&#34;&#34;Displays text on the screen
+
+        Parameters
+        ----------
+        message : str
+            text displayed as label
+        mid_point : tuple
+            a tuple with two int values - width, height specifies middle point of text which will be displayed
+        color : tuple, None, optional
+             RGB color code in format (0-255, 0-255, 0-255) or None if inactive color from colors attribute [0] should
+             be used (default is None)
+        size : int, None, optional
+            size of displayed text or None if text should use text_size attribute (default is None)
+        &#34;&#34;&#34;
+
+        if color is None: color = self.colors[0]
+        if size is None: size = self.text_size
+        text = pygame.font.SysFont(&#39;carlito&#39;, size, True).render(message, True, color)
+        x_shift = text.get_width() // 2
+        y_shift = text.get_height() // 2
+        self.screen.blit(text, (mid_point[0] - x_shift, mid_point[1] - y_shift))
+        return self.Dimensions(mid_point[0] - x_shift, mid_point[0] + x_shift, mid_point[1] - y_shift,
+                               mid_point[1] + y_shift)
+
+    def draw_border(self, color, point):
+        &#34;&#34;&#34;Draws border surrounding set point
+
+         Parameters
+         ----------
+         color : tuple
+             RGB color code in format (0-255, 0-255, 0-255)
+         point : tuple
+             a tuple with two int values - width, height specifies where border will be drawn
+
+         Returns
+         -------
+         Dimensions
+             namedtuple with size of border - x values from and to, y values from and to
+         &#34;&#34;&#34;
+
+        width = self.text_size * 10
+        height = self.text_size * 2
+        border = pygame.Rect(point[0], point[1], width, height)
+        pygame.draw.rect(self.screen, color, border, self.text_size // 10)
+        return self.Dimensions(point[0], point[0] + width, point[1], point[1] + height)</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="MemorizeIT.gui.Menu" href="#MemorizeIT.gui.Menu">Menu</a></li>
+<li><a title="MemorizeIT.gui.Settings" href="#MemorizeIT.gui.Settings">Settings</a></li>
+<li><a title="MemorizeIT.gui.Summary" href="#MemorizeIT.gui.Summary">Summary</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="MemorizeIT.gui.Gui.is_mouse_over"><code class="name flex">
+<span>def <span class="ident">is_mouse_over</span></span>(<span>dimensions)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Specifies if mouse is over area</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>dimensions</code></strong> :&ensp;<code>namedtuple</code></dt>
+<dd>namedtuple with size of area - x values from and to, y values from and to</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True when mouse cursor is over set area else False</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def is_mouse_over(dimensions):
+    &#34;&#34;&#34;Specifies if mouse is over area
+
+    Parameters
+    ----------
+    dimensions : namedtuple
+        namedtuple with size of area - x values from and to, y values from and to
+
+    Returns
+    -------
+    bool
+        True when mouse cursor is over set area else False
+    &#34;&#34;&#34;
+
+    mouse = pygame.mouse.get_pos()
+    if dimensions.x_from &lt; mouse[0] &lt; dimensions.x_to and dimensions.y_from &lt; mouse[1] &lt; dimensions.y_to:
+        return True
+    return False</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.gui.Gui.use_on_click"><code class="name flex">
+<span>def <span class="ident">use_on_click</span></span>(<span>function, arguments)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Uses function when mouse button is pressed</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>function</code></strong> :&ensp;<code>function</code></dt>
+<dd>function used when mouse button is pressed</dd>
+<dt><strong><code>arguments</code></strong> :&ensp;<code>list</code>, <code>None</code>, optional</dt>
+<dd>a list with arguments passed to function or None if function doesn't require arguments</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def use_on_click(function, arguments):
+    &#34;&#34;&#34;Uses function when mouse button is pressed
+
+    Parameters
+    ----------
+    function : function
+        function used when mouse button is pressed
+    arguments : list, None, optional
+        a list with arguments passed to function or None if function doesn&#39;t require arguments
+    &#34;&#34;&#34;
+
+    if pygame.mouse.get_pressed()[0]:
+        function(*arguments) if arguments else function()
+        pygame.time.delay(100)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="MemorizeIT.gui.Gui.adjust_image"><code class="name flex">
+<span>def <span class="ident">adjust_image</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Converts logo image to appropriate size</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def adjust_image(self):
+    &#34;&#34;&#34;Converts logo image to appropriate size&#34;&#34;&#34;
+
+    image = pygame.image.load(&#39;images/brain.png&#39;)
+    size = image.get_size()[0]
+    display = min(self.display)
+    if display - size - 180 &lt; 0:
+        size = [int(display * 0.7)] * 2
+        image = pygame.transform.scale(image, size)
+    return image</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.gui.Gui.animate_element"><code class="name flex">
+<span>def <span class="ident">animate_element</span></span>(<span>self, point, dimensions, function, arguments=None, button=False, message='')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Highlights element when mouse is over (uses active color [1] from colors attribute)</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>point</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>a tuple with two int values - width, height allowing to draw animated element</dd>
+<dt><strong><code>dimensions</code></strong> :&ensp;<code>namedtuple</code></dt>
+<dd>namedtuple with size of area - x values from and to, y values from and to. Moving cursor over this area will
+animate element and clicking will run passed function</dd>
+<dt><strong><code>function</code></strong> :&ensp;<code>function</code></dt>
+<dd>function used during mouse click in set area</dd>
+<dt><strong><code>arguments</code></strong> :&ensp;<code>list</code>, <code>None</code>, optional</dt>
+<dd>a list with arguments passed to function if they are needed (default is None - function without arguments)</dd>
+<dt><strong><code>button</code></strong> :&ensp;<code>str</code>, <code>bool</code>, optional</dt>
+<dd>specifies what type of button will be animated (True - with border, False - only label, left or right -
+arrow with set direction (default is False - label)</dd>
+<dt><strong><code>message</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>text used in animated button (default is '' which means empty - no text at all, used with arrow buttons)</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def animate_element(self, point, dimensions, function, arguments=None, button=False, message=&#39;&#39;):
+    &#34;&#34;&#34;Highlights element when mouse is over (uses active color [1] from colors attribute)
+
+    Parameters
+    ----------
+    point : tuple
+        a tuple with two int values - width, height allowing to draw animated element
+    dimensions : namedtuple
+        namedtuple with size of area - x values from and to, y values from and to. Moving cursor over this area will
+        animate element and clicking will run passed function
+    function : function
+        function used during mouse click in set area
+    arguments : list, None, optional
+        a list with arguments passed to function if they are needed (default is None - function without arguments)
+    button : str, bool, optional
+        specifies what type of button will be animated (True - with border, False - only label, left or right -
+        arrow with set direction (default is False - label)
+    message : str, optional
+        text used in animated button (default is &#39;&#39; which means empty - no text at all, used with arrow buttons)
+    &#34;&#34;&#34;
+
+    if self.is_mouse_over(dimensions):
+        if button:
+            if button == &#39;left&#39;:
+                self.draw_triangle(self.colors[1], point)
+            elif button == &#39;right&#39;:
+                self.draw_triangle(self.colors[1], point, left=False)
+            else:
+                self.draw_button(message, self.colors[1], point)
+        else:
+            self.create_label(message, point, self.colors[1])
+        self.use_on_click(function, arguments)</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.gui.Gui.blit_background"><code class="name flex">
+<span>def <span class="ident">blit_background</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Sets menu color to default (from color module), displays logo and application name</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def blit_background(self):
+    &#34;Sets menu color to default (from color module), displays logo and application name&#34;
+
+    self.screen.fill(colors.get_background_color())
+    size = self.text_size * 5
+    size = size if self.display[0] &gt;= 800 else int(size * self.display[0] / 1000)
+    self.create_label(&#39;MemorizeIT&#39;, (self.display[0] // 2, size), colors.get_logo_color(), size)
+    try:
+        image = self.adjust_image()
+        size = image.get_size()
+        self.screen.blit(image, (0, self.display[1] - size[1]))
+    except pygame.error:
+        pass</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.gui.Gui.create_arrows"><code class="name flex">
+<span>def <span class="ident">create_arrows</span></span>(<span>self, point, position, gap, value, left_condition, right_condition, function)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Draws and animates arrows buttons according to set conditions</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>point</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>a tuple with two int values - width, height allowing to draw and animate element</dd>
+<dt><strong><code>position</code></strong> :&ensp;<code>str</code></dt>
+<dd>name of setting which arrows are chained to (to decrease, increase proper value)</dd>
+<dt><strong><code>gap</code></strong> :&ensp;<code>int</code></dt>
+<dd>distance between arrows</dd>
+<dt><strong><code>value</code></strong> :&ensp;<code>int</code></dt>
+<dd>index of showed option - compared with conditions to animate arrow or not</dd>
+<dt><strong><code>left_condition</code></strong> :&ensp;<code>int</code></dt>
+<dd>index of side option on the left - until which left arrow will be animated</dd>
+<dt><strong><code>right_condition</code></strong> :&ensp;<code>int</code></dt>
+<dd>index of side option on the right - until which right arrow will be animated</dd>
+<dt><strong><code>function</code></strong> :&ensp;<code>function</code></dt>
+<dd>function used during mouse click on animated element</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_arrows(self, point, position, gap, value, left_condition, right_condition, function):
+    &#34;&#34;&#34;Draws and animates arrows buttons according to set conditions
+
+    Parameters
+    ----------
+    point : tuple
+        a tuple with two int values - width, height allowing to draw and animate element
+    position : str
+        name of setting which arrows are chained to (to decrease, increase proper value)
+    gap : int
+        distance between arrows
+    value : int
+        index of showed option - compared with conditions to animate arrow or not
+    left_condition : int
+        index of side option on the left - until which left arrow will be animated
+    right_condition : int
+        index of side option on the right - until which right arrow will be animated
+    function : function
+        function used during mouse click on animated element
+    &#34;&#34;&#34;
+
+    new_point = [point[0] - gap // 2, point[1]]
+    left = self.draw_triangle(self.colors[0], new_point)
+    if value &gt; left_condition:
+        self.animate_element(new_point, left, function, [position, False], &#39;left&#39;)
+
+    new_point[0] += gap
+    right = self.draw_triangle(self.colors[0], new_point, False)
+    if value &lt; right_condition:
+        self.animate_element(new_point, right, function, [position], &#39;right&#39;)</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.gui.Gui.create_button"><code class="name flex">
+<span>def <span class="ident">create_button</span></span>(<span>self, message, point, function, arguments=None, border=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Draws and animates button</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>message</code></strong> :&ensp;<code>str</code></dt>
+<dd>text displayed in button</dd>
+<dt><strong><code>point</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>a tuple with two int values - width, height specifies where button will be drawn</dd>
+<dt><strong><code>left</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>parameter specifying which side triangle will be pointed (default is True - left side)</dd>
+<dt><strong><code>function</code></strong> :&ensp;<code>function</code></dt>
+<dd>function used when button is pressed</dd>
+<dt><strong><code>arguments</code></strong> :&ensp;<code>list</code>, <code>None</code>, optional</dt>
+<dd>a list with arguments passed to function if they are needed (default is None - function without arguments)</dd>
+<dt><strong><code>border</code></strong> :&ensp;<code>bool</code></dt>
+<dd>specifies if button is surrounded by border (True) or is just a label (default False - label)</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_button(self, message, point, function, arguments=None, border=False):
+    &#34;&#34;&#34;Draws and animates button
+
+    Parameters
+    ----------
+    message : str
+        text displayed in button
+    point : tuple
+        a tuple with two int values - width, height specifies where button will be drawn
+    left : bool, optional
+        parameter specifying which side triangle will be pointed (default is True - left side)
+    function : function
+        function used when button is pressed
+    arguments : list, None, optional
+        a list with arguments passed to function if they are needed (default is None - function without arguments)
+    border : bool
+        specifies if button is surrounded by border (True) or is just a label (default False - label)
+    &#34;&#34;&#34;
+
+    if border:
+        button = self.draw_button(message, self.colors[0], point)
+    else:
+        button = self.create_label(message, point)
+    self.animate_element(point, button, function, arguments, border, message)</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.gui.Gui.create_label"><code class="name flex">
+<span>def <span class="ident">create_label</span></span>(<span>self, message, mid_point, color=None, size=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Displays text on the screen</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>message</code></strong> :&ensp;<code>str</code></dt>
+<dd>text displayed as label</dd>
+<dt><strong><code>mid_point</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>a tuple with two int values - width, height specifies middle point of text which will be displayed</dd>
+<dt><strong><code>color</code></strong> :&ensp;<code>tuple</code>, <code>None</code>, optional</dt>
+<dd>RGB color code in format (0-255, 0-255, 0-255) or None if inactive color from colors attribute [0] should
+be used (default is None)</dd>
+<dt><strong><code>size</code></strong> :&ensp;<code>int</code>, <code>None</code>, optional</dt>
+<dd>size of displayed text or None if text should use text_size attribute (default is None)</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_label(self, message, mid_point, color=None, size=None):
+    &#34;&#34;&#34;Displays text on the screen
+
+    Parameters
+    ----------
+    message : str
+        text displayed as label
+    mid_point : tuple
+        a tuple with two int values - width, height specifies middle point of text which will be displayed
+    color : tuple, None, optional
+         RGB color code in format (0-255, 0-255, 0-255) or None if inactive color from colors attribute [0] should
+         be used (default is None)
+    size : int, None, optional
+        size of displayed text or None if text should use text_size attribute (default is None)
+    &#34;&#34;&#34;
+
+    if color is None: color = self.colors[0]
+    if size is None: size = self.text_size
+    text = pygame.font.SysFont(&#39;carlito&#39;, size, True).render(message, True, color)
+    x_shift = text.get_width() // 2
+    y_shift = text.get_height() // 2
+    self.screen.blit(text, (mid_point[0] - x_shift, mid_point[1] - y_shift))
+    return self.Dimensions(mid_point[0] - x_shift, mid_point[0] + x_shift, mid_point[1] - y_shift,
+                           mid_point[1] + y_shift)</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.gui.Gui.draw_border"><code class="name flex">
+<span>def <span class="ident">draw_border</span></span>(<span>self, color, point)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Draws border surrounding set point</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>color</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>RGB color code in format (0-255, 0-255, 0-255)</dd>
+<dt><strong><code>point</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>a tuple with two int values - width, height specifies where border will be drawn</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dimensions</code></dt>
+<dd>namedtuple with size of border - x values from and to, y values from and to</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def draw_border(self, color, point):
+    &#34;&#34;&#34;Draws border surrounding set point
+
+     Parameters
+     ----------
+     color : tuple
+         RGB color code in format (0-255, 0-255, 0-255)
+     point : tuple
+         a tuple with two int values - width, height specifies where border will be drawn
+
+     Returns
+     -------
+     Dimensions
+         namedtuple with size of border - x values from and to, y values from and to
+     &#34;&#34;&#34;
+
+    width = self.text_size * 10
+    height = self.text_size * 2
+    border = pygame.Rect(point[0], point[1], width, height)
+    pygame.draw.rect(self.screen, color, border, self.text_size // 10)
+    return self.Dimensions(point[0], point[0] + width, point[1], point[1] + height)</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.gui.Gui.draw_button"><code class="name flex">
+<span>def <span class="ident">draw_button</span></span>(<span>self, message, color, point)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Draws button on the screen</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>message</code></strong> :&ensp;<code>str</code></dt>
+<dd>text displayed in button</dd>
+<dt><strong><code>color</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>RGB color code in format (0-255, 0-255, 0-255)</dd>
+<dt><strong><code>point</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>a tuple with two int values - width, height specifies where button will be drawn</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dimensions</code></dt>
+<dd>namedtuple with size of button - x values from and to, y values from and to</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def draw_button(self, message, color, point):
+    &#34;&#34;&#34;Draws button on the screen
+
+     Parameters
+     ----------
+     message : str
+         text displayed in button
+     color : tuple
+         RGB color code in format (0-255, 0-255, 0-255)
+     point : tuple
+         a tuple with two int values - width, height specifies where button will be drawn
+
+     Returns
+     -------
+     Dimensions
+         namedtuple with size of button - x values from and to, y values from and to
+     &#34;&#34;&#34;
+
+    border = self.draw_border(color, point)
+    mid_point = ((border.x_from + border.x_to) // 2, (border.y_from + border.y_to) // 2)
+    self.create_label(message, mid_point, color, int(self.text_size * 1.5))
+    return border</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.gui.Gui.draw_triangle"><code class="name flex">
+<span>def <span class="ident">draw_triangle</span></span>(<span>self, color, point, left=True)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Draws triangle on the screen</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>color</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>RGB color code in format (0-255, 0-255, 0-255)</dd>
+<dt><strong><code>point</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>a tuple with two int values - width, height specifies where triangle will be drawn</dd>
+<dt><strong><code>left</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>parameter specifying which side triangle will be pointed (default is True - left side)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Dimensions</code></dt>
+<dd>namedtuple with size of triangle - x values from and to, y values from and to</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def draw_triangle(self, color, point, left=True):
+    &#34;&#34;&#34;Draws triangle on the screen
+
+    Parameters
+    ----------
+    color : tuple
+        RGB color code in format (0-255, 0-255, 0-255)
+    point : tuple
+        a tuple with two int values - width, height specifies where triangle will be drawn
+    left : bool, optional
+        parameter specifying which side triangle will be pointed (default is True - left side)
+
+    Returns
+    -------
+    Dimensions
+        namedtuple with size of triangle - x values from and to, y values from and to
+    &#34;&#34;&#34;
+
+    dimensions = self.Dimensions(point[0] - 10, point[0], point[1] - 10, point[1] + 10)
+    coordinates = [(dimensions.x_to, point[1])]
+    x = &#39;x_from&#39;
+    if left:
+        dimensions = self.Dimensions(point[0], point[0] + 10, point[1] - 10, point[1] + 10)
+        x = &#39;x_to&#39;
+    coordinates.extend([(eval(&#39;dimensions.&#39; + x), dimensions.y_from), (eval(&#39;dimensions.&#39; + x), dimensions.y_to)])
+    pygame.draw.polygon(self.screen, color, coordinates)
+    return dimensions</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="MemorizeIT.gui.Menu"><code class="flex name class">
+<span>class <span class="ident">Menu</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>A class responsible for displaying main menu of application. It is child of Gui class.</p>
+<p>&hellip;</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>resolution</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>a tuple with two int values - width, height - size of display resolution</dd>
+<dt><strong><code>positions</code></strong> :&ensp;<code>dict</code></dt>
+<dd>a dictionary with names of displayed buttons and corresponding to them classes or functions</dd>
+</dl>
+<h2 id="methods">Methods</h2>
+<p>call()
+draws and animates elements on screen - it is send to <code>pygame</code> event handler class to run in loop
+close()
+shuts down application</p>
+<p>Sets basic information used in each menu</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Menu(Gui):
+    &#34;&#34;&#34;
+    A class responsible for displaying main menu of application. It is child of Gui class.
+
+    ...
+
+    Attributes
+    ----------
+    resolution : tuple
+        a tuple with two int values - width, height - size of display resolution
+    positions : dict
+        a dictionary with names of displayed buttons and corresponding to them classes or functions
+
+
+    Methods
+    -------
+    call()
+        draws and animates elements on screen - it is send to `pygame` event handler class to run in loop
+    close()
+        shuts down application
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        self.resolution = (pygame.display.Info().current_w, pygame.display.Info().current_h)
+        self.positions = {&#39;New game&#39;: Dynamic, &#39;Static game&#39;: Static, &#39;Settings&#39;: Settings, &#39;Exit&#39;: self.close}
+        super().__init__()
+        Handler(self)()
+
+    def __call__(self):
+        &#34;&#34;&#34;Draws and animates menu buttons
+
+        It chains to them proper classes or functions. Displays background used in application. This method is send to
+        `pygame` event handler class to run in loop
+        &#34;&#34;&#34;
+
+        self.blit_background()
+        point = tuple(x - 325 for x in self.display)
+
+        for gap, position in enumerate(self.positions):
+            gap *= 70
+            new_point = (point[0], point[1] + gap)
+            arguments = [self.resolution] if &#39;game&#39; in position else []
+            self.create_button(position, new_point, self.positions[position], arguments, True)
+
+    def close(self):
+        &#34;&#34;&#34;Shuts down application.&#34;&#34;&#34;
+
+        pygame.quit()
+        sys.exit()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="MemorizeIT.gui.Gui" href="#MemorizeIT.gui.Gui">Gui</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="MemorizeIT.gui.Menu.close"><code class="name flex">
+<span>def <span class="ident">close</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Shuts down application.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def close(self):
+    &#34;&#34;&#34;Shuts down application.&#34;&#34;&#34;
+
+    pygame.quit()
+    sys.exit()</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="MemorizeIT.gui.Gui" href="#MemorizeIT.gui.Gui">Gui</a></b></code>:
+<ul class="hlist">
+<li><code><a title="MemorizeIT.gui.Gui.adjust_image" href="#MemorizeIT.gui.Gui.adjust_image">adjust_image</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.animate_element" href="#MemorizeIT.gui.Gui.animate_element">animate_element</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.blit_background" href="#MemorizeIT.gui.Gui.blit_background">blit_background</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.create_arrows" href="#MemorizeIT.gui.Gui.create_arrows">create_arrows</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.create_button" href="#MemorizeIT.gui.Gui.create_button">create_button</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.create_label" href="#MemorizeIT.gui.Gui.create_label">create_label</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.draw_border" href="#MemorizeIT.gui.Gui.draw_border">draw_border</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.draw_button" href="#MemorizeIT.gui.Gui.draw_button">draw_button</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.draw_triangle" href="#MemorizeIT.gui.Gui.draw_triangle">draw_triangle</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.is_mouse_over" href="#MemorizeIT.gui.Gui.is_mouse_over">is_mouse_over</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.use_on_click" href="#MemorizeIT.gui.Gui.use_on_click">use_on_click</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="MemorizeIT.gui.Settings"><code class="flex name class">
+<span>class <span class="ident">Settings</span></span>
+</code></dt>
+<dd>
+<section class="desc"><p>A class responsible for displaying settings menu of application. It is child of Gui class.</p>
+<p>&hellip;</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>config</code></strong> :&ensp;<code>Config</code></dt>
+<dd>object from config module used to load and save settings</dd>
+<dt><strong><code>settings</code></strong> :&ensp;<code>dict</code></dt>
+<dd>a dictionary with settings loaded from config</dd>
+<dt><strong><code>range</code></strong> :&ensp;<code>dict</code></dt>
+<dd>a dictionary with allowed values for each setting</dd>
+<dt><strong><code>run</code></strong> :&ensp;<code>Handler</code></dt>
+<dd>object from config module allowing for handling <code>pygame</code> events. Chained to run variable for communication.</dd>
+</dl>
+<h2 id="methods">Methods</h2>
+<p>call()
+draws and animates elements on screen - it is send to <code>pygame</code> event handler class to run in loop
+change_setting(position, add)
+method used to take and set next or previous value from range attribute. It is send to create_arrows method</p>
+<p>Sets basic information used in each menu</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Settings(Gui):
+    &#34;&#34;&#34;
+    A class responsible for displaying settings menu of application. It is child of Gui class.
+
+    ...
+
+    Attributes
+    ----------
+    config : Config
+        object from config module used to load and save settings
+    settings : dict
+        a dictionary with settings loaded from config
+    range : dict
+        a dictionary with allowed values for each setting
+    run : Handler
+        object from config module allowing for handling `pygame` events. Chained to run variable for communication.
+
+
+    Methods
+    -------
+    call()
+        draws and animates elements on screen - it is send to `pygame` event handler class to run in loop
+    change_setting(position, add)
+        method used to take and set next or previous value from range attribute. It is send to create_arrows method
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        super().__init__()
+        self.config = Config()
+        self.settings = self.config.get_settings()
+        self.range = self.config.get_values()
+        self.run = Handler(self)
+        self.run()
+
+    def __call__(self):
+        &#34;&#34;&#34;Draws and animates elements in settings menu
+
+         According to loaded settings it takes each name stored there and creates label, arrows for increasing or
+         decreasing setting value and displays in between them. This method is send to `pygame` event handler class to
+         run in loop
+         &#34;&#34;&#34;
+
+        self.blit_background()
+        point = (self.display[0] - 150, self.display[1] - 375)
+        for position in self.settings:
+            point = (point[0], point[1] + 50)
+            self.create_label(position.capitalize() + &#39;:&#39;, (point[0] - 150, point[1]))
+            text = str(self.settings[position])
+            self.create_label(text, point)
+            index = self.range[position].index(self.settings[position])
+            self.create_arrows(point, position, 150, index, 0, len(self.range[position]) - 1, self.change_setting)
+
+        point = (self.display[0] - 75, self.display[1] - 50)
+        self.create_button(&#39;Back&#39;, point, lambda: self.run.stop(), self.config.save(self.settings))
+
+    def change_setting(self, position, add=True):
+        &#34;&#34;&#34;Sets displayed setting to lower or higher value
+
+        According to specified position (name of setting) and operation: addition or subtraction - it takes next or
+        previous setting from range attribute.
+
+        Parameters
+        ----------
+        position : str
+            name of setting which will be increased or decreased
+        add : bool, optional
+            True if value will be increased, False when decreased (default is True)
+        &#34;&#34;&#34;
+
+        index = self.range[position].index(self.settings[position])
+        index = index + 1 if add else index - 1
+        self.settings[position] = self.range[position][index]</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="MemorizeIT.gui.Gui" href="#MemorizeIT.gui.Gui">Gui</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="MemorizeIT.gui.Settings.change_setting"><code class="name flex">
+<span>def <span class="ident">change_setting</span></span>(<span>self, position, add=True)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Sets displayed setting to lower or higher value</p>
+<p>According to specified position (name of setting) and operation: addition or subtraction - it takes next or
+previous setting from range attribute.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>position</code></strong> :&ensp;<code>str</code></dt>
+<dd>name of setting which will be increased or decreased</dd>
+<dt><strong><code>add</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>True if value will be increased, False when decreased (default is True)</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def change_setting(self, position, add=True):
+    &#34;&#34;&#34;Sets displayed setting to lower or higher value
+
+    According to specified position (name of setting) and operation: addition or subtraction - it takes next or
+    previous setting from range attribute.
+
+    Parameters
+    ----------
+    position : str
+        name of setting which will be increased or decreased
+    add : bool, optional
+        True if value will be increased, False when decreased (default is True)
+    &#34;&#34;&#34;
+
+    index = self.range[position].index(self.settings[position])
+    index = index + 1 if add else index - 1
+    self.settings[position] = self.range[position][index]</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="MemorizeIT.gui.Gui" href="#MemorizeIT.gui.Gui">Gui</a></b></code>:
+<ul class="hlist">
+<li><code><a title="MemorizeIT.gui.Gui.adjust_image" href="#MemorizeIT.gui.Gui.adjust_image">adjust_image</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.animate_element" href="#MemorizeIT.gui.Gui.animate_element">animate_element</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.blit_background" href="#MemorizeIT.gui.Gui.blit_background">blit_background</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.create_arrows" href="#MemorizeIT.gui.Gui.create_arrows">create_arrows</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.create_button" href="#MemorizeIT.gui.Gui.create_button">create_button</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.create_label" href="#MemorizeIT.gui.Gui.create_label">create_label</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.draw_border" href="#MemorizeIT.gui.Gui.draw_border">draw_border</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.draw_button" href="#MemorizeIT.gui.Gui.draw_button">draw_button</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.draw_triangle" href="#MemorizeIT.gui.Gui.draw_triangle">draw_triangle</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.is_mouse_over" href="#MemorizeIT.gui.Gui.is_mouse_over">is_mouse_over</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.use_on_click" href="#MemorizeIT.gui.Gui.use_on_click">use_on_click</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="MemorizeIT.gui.Summary"><code class="flex name class">
+<span>class <span class="ident">Summary</span></span>
+<span>(</span><span>result)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>A class responsible for displaying summary menu of gameplay. It is child of Gui class.</p>
+<p>&hellip;</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>result</code></strong> :&ensp;<code>dict</code></dt>
+<dd>&nbsp;</dd>
+<dt>a dictionary with names and numbers of elements spawned during game</dt>
+<dt><strong><code>counted</code></strong> :&ensp;<code>dict</code></dt>
+<dd>&nbsp;</dd>
+<dt>a dictionary with values filled by user</dt>
+<dt><strong><code>submitted</code></strong> :&ensp;<code>bool</code></dt>
+<dd>&nbsp;</dd>
+<dt>value specifying if user pressed submit button to check his result</dt>
+<dt><strong><code>run</code></strong> :&ensp;<code>Handler</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<p>object from config module allowing for handling <code>pygame</code> events. Chained to run variable for communication.</p>
+<h2 id="methods">Methods</h2>
+<p>call()
+draws and animates elements on screen - it is send to <code>pygame</code> event handler class to run in loop
+change_counter(position, add)
+method used to increase or decrease number of element filled by user. It is send to create_arrows method
+submit()
+changes submitted attribute to False which changes menu and highlight correct values</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>result</code></strong> :&ensp;<code>dict</code></dt>
+<dd>a dictionary with names and numbers of elements spawned during game</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Summary(Gui):
+    &#34;&#34;&#34;
+    A class responsible for displaying summary menu of gameplay. It is child of Gui class.
+
+    ...
+
+    Attributes
+    ----------
+    result : dict
+       a dictionary with names and numbers of elements spawned during game
+    counted : dict
+       a dictionary with values filled by user
+    submitted : bool
+       value specifying if user pressed submit button to check his result
+    run : Handler
+       object from config module allowing for handling `pygame` events. Chained to run variable for communication.
+
+
+    Methods
+    -------
+    call()
+        draws and animates elements on screen - it is send to `pygame` event handler class to run in loop
+    change_counter(position, add)
+        method used to increase or decrease number of element filled by user. It is send to create_arrows method
+    submit()
+        changes submitted attribute to False which changes menu and highlight correct values
+    &#34;&#34;&#34;
+
+    def __init__(self, result):
+        &#34;&#34;&#34;
+        Parameters
+        ----------
+        result : dict
+            a dictionary with names and numbers of elements spawned during game
+        &#34;&#34;&#34;
+
+        super().__init__()
+        self.result = result
+        self.counted = {key: 0 for key in result}
+        self.submitted = False
+        self.run = Handler(self)
+        self.run()
+
+    def __call__(self):
+        &#34;&#34;&#34;Draws and animates elements on screen
+
+        Responsible for interaction with user - allows to enter his results and compare them with correct ones.
+        Colors module is used to verify numbers - it marks wrong values with red color and good with green. This method
+        is send to `pygame` event handler class to run in loop.
+        &#34;&#34;&#34;
+
+        self.screen.fill(colors.get_background_color())
+        self.create_label(&#39;Check your result:&#39;, (self.display[0] // 2, 75), size=50)
+        point = (self.display[0] // 2, 100)
+        for position in self.counted:
+            point = (point[0], point[1] + 50)
+            self.create_label(position.capitalize() + &#39;s:&#39;, (point[0] - 125, point[1]))
+            text = str(self.counted[position])
+
+            if self.submitted:
+                color = colors.get_rate_colors()
+                if self.result[position] == self.counted[position]:
+                    color = color[1]
+                else:
+                    self.create_label(str(self.result[position]), (point[0] + 175, point[1]), color[1])
+                    color = color[0]
+
+                self.create_label(text, (point[0] + 100, point[1]), color)
+            else:
+                self.create_label(text, (point[0] + 100, point[1]))
+                self.create_arrows((point[0] + 100, point[1]), position, 150, self.counted[position], 0, 99,
+                                   self.change_counter)
+
+        point = [self.display[0] - 175, self.display[1] - 50]
+        if not self.submitted:
+            self.create_button(&#39;Submit&#39;, point, self.submit)
+        point[0] += 100
+        self.create_button(&#39;Back&#39;, point, self.run.stop)
+
+    def change_counter(self, position, add=True):
+        &#34;&#34;&#34;Sets displayed occurrence of element to lower or higher value
+
+        Parameters
+        ----------
+        position : str
+            name of element which number will be changed
+        add : bool, optional
+            True if value will be increased, False when decreased (default is True)
+        &#34;&#34;&#34;
+
+        self.counted[position] += 1 if add else -1
+
+    def submit(self):
+        &#34;&#34;&#34;Used when user accepts his answer and proceed to check&#34;&#34;&#34;
+
+        self.submitted = True</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="MemorizeIT.gui.Gui" href="#MemorizeIT.gui.Gui">Gui</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="MemorizeIT.gui.Summary.change_counter"><code class="name flex">
+<span>def <span class="ident">change_counter</span></span>(<span>self, position, add=True)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Sets displayed occurrence of element to lower or higher value</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>position</code></strong> :&ensp;<code>str</code></dt>
+<dd>name of element which number will be changed</dd>
+<dt><strong><code>add</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>True if value will be increased, False when decreased (default is True)</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def change_counter(self, position, add=True):
+    &#34;&#34;&#34;Sets displayed occurrence of element to lower or higher value
+
+    Parameters
+    ----------
+    position : str
+        name of element which number will be changed
+    add : bool, optional
+        True if value will be increased, False when decreased (default is True)
+    &#34;&#34;&#34;
+
+    self.counted[position] += 1 if add else -1</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.gui.Summary.submit"><code class="name flex">
+<span>def <span class="ident">submit</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Used when user accepts his answer and proceed to check</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def submit(self):
+    &#34;&#34;&#34;Used when user accepts his answer and proceed to check&#34;&#34;&#34;
+
+    self.submitted = True</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="MemorizeIT.gui.Gui" href="#MemorizeIT.gui.Gui">Gui</a></b></code>:
+<ul class="hlist">
+<li><code><a title="MemorizeIT.gui.Gui.adjust_image" href="#MemorizeIT.gui.Gui.adjust_image">adjust_image</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.animate_element" href="#MemorizeIT.gui.Gui.animate_element">animate_element</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.blit_background" href="#MemorizeIT.gui.Gui.blit_background">blit_background</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.create_arrows" href="#MemorizeIT.gui.Gui.create_arrows">create_arrows</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.create_button" href="#MemorizeIT.gui.Gui.create_button">create_button</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.create_label" href="#MemorizeIT.gui.Gui.create_label">create_label</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.draw_border" href="#MemorizeIT.gui.Gui.draw_border">draw_border</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.draw_button" href="#MemorizeIT.gui.Gui.draw_button">draw_button</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.draw_triangle" href="#MemorizeIT.gui.Gui.draw_triangle">draw_triangle</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.is_mouse_over" href="#MemorizeIT.gui.Gui.is_mouse_over">is_mouse_over</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.use_on_click" href="#MemorizeIT.gui.Gui.use_on_click">use_on_click</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="MemorizeIT" href="index.html">MemorizeIT</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="MemorizeIT.gui.Gui" href="#MemorizeIT.gui.Gui">Gui</a></code></h4>
+<ul class="two-column">
+<li><code><a title="MemorizeIT.gui.Gui.adjust_image" href="#MemorizeIT.gui.Gui.adjust_image">adjust_image</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.animate_element" href="#MemorizeIT.gui.Gui.animate_element">animate_element</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.blit_background" href="#MemorizeIT.gui.Gui.blit_background">blit_background</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.create_arrows" href="#MemorizeIT.gui.Gui.create_arrows">create_arrows</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.create_button" href="#MemorizeIT.gui.Gui.create_button">create_button</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.create_label" href="#MemorizeIT.gui.Gui.create_label">create_label</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.draw_border" href="#MemorizeIT.gui.Gui.draw_border">draw_border</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.draw_button" href="#MemorizeIT.gui.Gui.draw_button">draw_button</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.draw_triangle" href="#MemorizeIT.gui.Gui.draw_triangle">draw_triangle</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.is_mouse_over" href="#MemorizeIT.gui.Gui.is_mouse_over">is_mouse_over</a></code></li>
+<li><code><a title="MemorizeIT.gui.Gui.use_on_click" href="#MemorizeIT.gui.Gui.use_on_click">use_on_click</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="MemorizeIT.gui.Menu" href="#MemorizeIT.gui.Menu">Menu</a></code></h4>
+<ul class="">
+<li><code><a title="MemorizeIT.gui.Menu.close" href="#MemorizeIT.gui.Menu.close">close</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="MemorizeIT.gui.Settings" href="#MemorizeIT.gui.Settings">Settings</a></code></h4>
+<ul class="">
+<li><code><a title="MemorizeIT.gui.Settings.change_setting" href="#MemorizeIT.gui.Settings.change_setting">change_setting</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="MemorizeIT.gui.Summary" href="#MemorizeIT.gui.Summary">Summary</a></code></h4>
+<ul class="">
+<li><code><a title="MemorizeIT.gui.Summary.change_counter" href="#MemorizeIT.gui.Summary.change_counter">change_counter</a></code></li>
+<li><code><a title="MemorizeIT.gui.Summary.submit" href="#MemorizeIT.gui.Summary.submit">submit</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

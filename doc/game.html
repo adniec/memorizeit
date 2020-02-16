@@ -1,0 +1,1587 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>MemorizeIT.game API documentation</title>
+<meta name="description" content="Game Module …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>MemorizeIT.game</code></h1>
+</header>
+<section id="section-intro">
+<p>Game Module</p>
+<p>This module contains classes responsible for launching game in preferred mode - static (2D) or dynamic (3D). It sets
+appropriate environment for game based on <code>pygame</code> or <code>OpenGL</code>. It covers methods which pick proper elements, count
+them, adjust speed and time of a game.</p>
+<p>Modules used are: <code>pygame</code>, <code>pygame.locals</code>, <code>OpenGL.GL</code>, <code>OpenGL.GLU</code>, <code>time</code>, <code>random</code>, <code>pathlib</code>, <code>PIL</code>, <code>sys</code>,
+<code>figure</code>, <code>gui</code>, <code>colors</code>, <code>config</code>. It is required to provide them before running application.</p>
+<p>It contains classes:</p>
+<pre><code>* Game - general methods used both in dynamic and static mode, showing how game game is processed
+* Dynamic - specified methods allowing to run game in 3D mode. `OpenGL` in use. Responsible for camera movement.
+* Static - methods needed to run 2D game mode. Responsible for loading and processing images.
+</code></pre>
+<p>License:
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Game Module
+
+This module contains classes responsible for launching game in preferred mode - static (2D) or dynamic (3D). It sets
+appropriate environment for game based on `pygame` or `OpenGL`. It covers methods which pick proper elements, count
+them, adjust speed and time of a game.
+
+Modules used are: `pygame`, `pygame.locals`, `OpenGL.GL`, `OpenGL.GLU`, `time`, `random`, `pathlib`, `PIL`, `sys`,
+`figure`, `gui`, `colors`, `config`. It is required to provide them before running application.
+
+It contains classes:
+
+    * Game - general methods used both in dynamic and static mode, showing how game game is processed
+    * Dynamic - specified methods allowing to run game in 3D mode. `OpenGL` in use. Responsible for camera movement.
+    * Static - methods needed to run 2D game mode. Responsible for loading and processing images.
+
+License:
+THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+&#34;&#34;&#34;
+
+import pygame
+from pygame.locals import DOUBLEBUF, OPENGL
+import OpenGL.GL as gl
+from OpenGL.GLU import gluPerspective
+from time import time
+from random import sample, choice
+from pathlib import Path
+from PIL import Image
+from sys import platform
+from figure import Wave3D, Wave2D
+import gui
+import colors
+import config
+
+
+class Game:
+    &#34;&#34;&#34;
+    A class with collection of the same methods needed both in Dynamic and Static class. It is base, responsible for
+    processing game, adjusting its settings, launching summarization afterwards.
+
+    ...
+
+    Attributes
+    ----------
+    resolution : tuple
+        a tuple with two int values - width, height - according to resolution of used monitor
+    settings : dict
+        dictionary with loaded from file settings which will be used in a game
+    timer : dict
+        dictionary with information about beginning of a game, its length, single and last wave time
+    colors : colors.Random
+        object responsible for generating random color codes in RGB (0-1, 0-1, 0-1) format
+    elements : dict
+        dictionary filled with names of elements used in game and corresponding them color
+    counter : dictionary
+        dictionary containing names of elements and their occurrence in game
+    wave : figure.Wave2D or figure.Wave3D
+        object responsible for creating wave of elements on the screen
+
+    Methods
+    -------
+    has_time_left()
+        returns True in case when game is still running - according to set time else False
+    create_timer()
+        creates dictionary with information about beginning of a game, its length, single and last wave time
+    play_sound()
+        if sound is turned on in game settings this method plays it
+    adjust_elements(figures, amount)
+        returns dictionary with randomly picked elements from list and corresponding them color in length of set amount
+    pick_element()
+        randomly picks one element from elements attribute and returns it with proper color (if nothing is set picks
+        random color)
+    create_wave(function, *args)
+        picks figure, creates from it wave which will be displayed on screen. It updates counter and play sound if it is
+        set to on. Function says which type of wave will be created - 2D or 3D. *args passed depends on this type - to
+        see more check documentation for Wave class in module figure
+    is_wave_finished()
+        returns True if currently displayed wave should be replaced with new one else False
+    &#34;&#34;&#34;
+
+    def __init__(self, resolution):
+        &#34;&#34;&#34;Shows steps how game is processed.
+
+        Parameters
+        ----------
+        resolution : tuple
+            a tuple with two int values - width, height - according to resolution of used monitor
+        &#34;&#34;&#34;
+
+        self.resolution = resolution
+        pygame.mouse.set_visible(False)
+        self.settings = config.Config().get_settings()
+        self.timer = self.create_timer()
+        self.color = colors.Random()
+        self.elements = self.set_elements()
+        self.counter = {x: 0 for x in list(self.elements)}
+        self.wave = None
+        self.prepare_environment()
+        config.Handler(self.run_game, self.has_time_left)()
+        pygame.mouse.set_visible(True)
+        gui.Summary(self.counter)
+
+    def has_time_left(self):
+        &#34;&#34;&#34;Returns True in case when game is still running - according to set time else False&#34;&#34;&#34;
+
+        return self.timer[&#39;total&#39;] &gt; time() - self.timer[&#39;start&#39;]
+
+    def create_timer(self):
+        &#34;&#34;&#34;Creates dictionary with information about beginning of a game, its length, single and last wave time&#34;&#34;&#34;
+
+        total = self.settings[&#39;time&#39;]
+        wave = 7 / self.settings[&#39;speed&#39;]
+        return {&#39;start&#39;: time(), &#39;total&#39;: total, &#39;wave&#39;: wave * 2, &#39;last&#39;: total - wave}
+
+    def play_sound(self):
+        &#34;&#34;&#34;If sound is turned on in game settings this method plays it&#34;&#34;&#34;
+
+        if self.settings[&#39;sound&#39;] == &#39;On&#39;:
+            try:
+                pygame.mixer.init()
+                pygame.mixer.Sound(&#34;sound.ogg&#34;).play()
+            except (pygame.error, FileNotFoundError):
+                pass
+
+    def adjust_elements(self, figures, amount):
+        &#34;&#34;&#34;Sets elements used in game
+
+        Parameters
+        ----------
+        figures : list
+            a list with figures names from which will be picked figures taking part in a game
+        amount : int
+            number of elements taking part in a game - loaded from settings
+
+        Returns
+        -------
+        dict
+            dictionary with randomly picked elements and corresponding them color according to color difficulty setting
+        &#34;&#34;&#34;
+
+        picked = sample(figures, amount)
+        color = colors.pick(self.settings[&#39;colors&#39;], amount)
+        if type(color) is bool: color = [color] * amount
+        return {figure: color[index] for index, figure in enumerate(picked)}
+
+    def pick_element(self):
+        &#34;&#34;&#34;returns one randomly picked element with its color (if nothing is set picks random color)&#34;&#34;&#34;
+
+        figure = choice(list(self.elements))
+        color = self.elements[figure]
+        if not isinstance(color, (pygame.Surface, tuple)):
+            color = self.color.get_color() if color else False
+        return figure, color
+
+    def create_wave(self, function, *args):
+        &#34;&#34;&#34;Create wave of randomly picked element
+
+        Picks figure, creates from it wave which will be displayed on screen. It updates counter and play sound if it is
+        set to on. Function says which type of wave will be created - 2D or 3D. *args passed depends on this type.
+
+        Parameters
+        ----------
+        function : Wave2D or Wave3D
+            used to create proper wave object depending on launched game mode
+        *args
+            values needed to create specified Wave type - 2D (screen, resolution) or 3D (positionZ). To see more check
+            documentation for proper Wave class in module figure
+
+        Returns
+        -------
+        figure.Wave2D or figure.Wave3D
+            object with created wave, used to display it - 2D or 3D type according to passed function
+        &#34;&#34;&#34;
+
+        figure = self.pick_element()
+        wave = function(*figure, *args)
+        self.counter[figure[0]] = self.counter[figure[0]] + len(wave)
+        self.play_sound()
+        return wave
+
+    def is_wave_finished(self, condition):
+        &#34;&#34;&#34;returns True if currently displayed wave should be replaced with new one else False&#34;&#34;&#34;
+
+        if condition:
+            if self.timer[&#39;last&#39;] &gt; time() - self.timer[&#39;start&#39;]:
+                return True
+        return False
+
+
+class Static(Game):
+    &#34;&#34;&#34;
+    A class containing methods used in static game mode. Sets environment for binding 2D figures or images to game
+    screen represented by `pygame.Surface`. It is child of Game class.
+
+    ...
+
+    Attributes
+    ----------
+    screen: pygame.Surface
+        object representing game screen where created 2D figures or images will be binded
+
+
+    Methods
+    -------
+    prepare_environment()
+        sets basics needed to launch 2D game mode. Specifies attribute used only in static game mode - screen. Extends
+        attribute timer by interval allowing to control spawning new 2D waves on screen.
+    run_game()
+        function (game base) which is sent to `pygame` event handler - it will be run in loop. Responsible for spawning
+        waves of 2D figures based on time interval
+    spawn_new_wave()
+        clears screen and spawns new wave of figures or images
+    get_images()
+        returns dictionary with images names and their representation as `pygame.Surface`
+    load_image(path)
+        returns image representation as `pygame.Surface` loading it from set path
+    fit_image(image)
+        scales set image to size appropriate to display it during game
+    set_elements()
+        contains list of allowed elements in game. At first loads images from their directory then fill missing elements
+        by drawing 2D figures picked from elements list according to game settings.
+    &#34;&#34;&#34;
+
+    def prepare_environment(self):
+        &#34;&#34;&#34;Sets basics needed to launch 2D game mode
+
+        Specifies attribute used only in static game mode - screen. Extends attribute timer by interval allowing to
+        control spawning new 2D waves on screen.
+        &#34;&#34;&#34;
+
+        self.screen = pygame.display.set_mode(self.resolution, pygame.FULLSCREEN)
+        self.timer[&#39;interval&#39;] = self.timer[&#39;start&#39;]
+        self.wave = self.create_wave(Wave2D, self.screen, self.resolution)
+
+    def run_game(self):
+        &#34;&#34;&#34;Spawns waves of 2D figures based on time interval&#34;&#34;&#34;
+
+        if self.is_wave_finished(time() &gt; self.timer[&#39;interval&#39;] + self.timer[&#39;wave&#39;]):
+            self.timer[&#39;interval&#39;] += self.timer[&#39;wave&#39;]
+            self.spawn_new_wave()
+        else:
+            self.wave()
+
+    def spawn_new_wave(self):
+        &#34;&#34;&#34;Clears screen and spawns new wave of figures or images&#34;&#34;&#34;
+
+        self.screen.fill((0, 0, 0))
+        self.wave = self.create_wave(Wave2D, self.screen, self.resolution)
+
+    def get_images(self):
+        &#34;&#34;&#34;Loads images from their directory (&#39;images/elements&#39;)
+
+        Returns
+        -------
+        dict
+            dictionary with image name and its representation as `pygame.Surface`
+        &#34;&#34;&#34;
+
+        images = {}
+        try:
+            for image in Path(&#34;images/elements&#34;).iterdir():
+                images[image.stem] = self.load_image(image)
+        except OSError:
+            pass
+        return images
+
+    def load_image(self, path):
+        &#34;&#34;&#34;Loads image from set path and scales it
+
+        Parameters
+        ----------
+        path : pathlib.Path
+            location of image to load
+
+        Returns
+        -------
+        pygame.Surface
+            information about loaded and scaled image represented as `pygame.Surface`
+        &#34;&#34;&#34;
+
+        image = Image.open(path)
+        image = self.fit_image(image)
+        return pygame.image.fromstring(image.tobytes(), image.size, image.mode)
+
+    def fit_image(self, image):
+        &#34;&#34;&#34;Scales image
+
+        Lowers width or height of image as long as it will fit dedicated place on screen (calculated from monitor
+        resolution).
+
+        Parameters
+        ----------
+        image : PIL.Image
+            image representation from PIL library
+
+        Returns
+        -------
+        PIL.Image
+            scaled image represented by PIL
+        &#34;&#34;&#34;
+
+        x, y = [x / 5 for x in self.resolution]
+        w, h = image.size
+        ratio = x / w if x &lt; w else y / h if y &lt; h else False
+        if ratio:
+            size = [int(x * ratio) for x in image.size]
+            image = image.resize(size, Image.ANTIALIAS)
+            return self.fit_image(image)
+        return image
+
+    def set_elements(self):
+        &#34;&#34;&#34;Returns elements used in game
+
+        It contains list of allowed elements in game. At first loads images from their directory then fill missing
+        elements by drawing 2D figures picked from elements list according to game settings (amount). Returned elements
+        are gathered in dictionary with their names and color code or image.
+        &#34;&#34;&#34;
+
+        amount = self.settings[&#39;figures&#39;]
+        images = self.get_images()
+        if len(images) &lt; amount:
+            figures = self.adjust_elements([&#39;square&#39;, &#39;triangle&#39;, &#39;octagon&#39;, &#39;diamond&#39;], amount - len(images))
+            return {**images, **figures}
+        else:
+            picked = sample(list(images), amount)
+            return {x: images[x] for x in picked}
+
+
+class Dynamic(Game):
+    &#34;&#34;&#34;
+    A class containing methods used in dynamic game mode. Sets environment for creating 3D figures and moves camera
+    during gameplay. It is child of Game class.
+
+    ...
+
+    Attributes
+    ----------
+    spawned_at : int
+        camera Z value (how far from beginning it moved) - needed to create figures and make them visible
+
+
+    Methods
+    -------
+    prepare_environment()
+        sets basics needed to launch 3D game mode. Specifies attribute used only in dynamic game mode - spawned_at
+    run_game()
+        function (game base) which is sent to `pygame` event handler - it will be run in loop. Responsible for spawning
+        waves of 3D figures based on length of camera Z movement
+    spawn_new_wave(positionZ)
+        removes old wave and spawns new one according to set position of camera
+    move_view()
+        responsible for camera movement, returns Z position needed to create figures waves
+    get_speed()
+        according to used platform adjust speed for moving camera
+    set_elements()
+        contains list of allowed elements in game and returns those which are picked by method adjust_elements
+    &#34;&#34;&#34;
+
+    def prepare_environment(self):
+        &#34;&#34;&#34;sets basics needed to launch 3D game mode&#34;&#34;&#34;
+
+        pygame.display.set_mode(self.resolution, DOUBLEBUF | OPENGL | pygame.FULLSCREEN)
+        gluPerspective(45, (self.resolution[0] / self.resolution[1]), 0.1, 50)
+        self.spawned_at = -10
+        self.wave = self.create_wave(Wave3D, self.spawned_at)
+
+    def run_game(self):
+        &#34;&#34;&#34;Spawns waves of 3D figures based on length of camera Z movement&#34;&#34;&#34;
+
+        cameraZ = self.move_view()
+        if self.is_wave_finished(cameraZ &lt; self.spawned_at - 100):
+            self.spawn_new_wave(cameraZ)
+        else:
+            self.wave()
+
+    def spawn_new_wave(self, positionZ):
+        &#34;&#34;&#34;Removes old wave and spawns new one according to set position of camera
+
+        Parameters
+        ----------
+        positionZ : int
+            value of camera Z - where it is moved
+        &#34;&#34;&#34;
+
+        del self.wave
+        self.wave = self.create_wave(Wave3D, positionZ)
+        self.spawned_at = positionZ
+
+    def move_view(self):
+        &#34;&#34;&#34;Responsible for camera movement, returns Z position&#34;&#34;&#34;
+
+        gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+        gl.glTranslatef(0, 0, self.get_speed())
+        cameraZ = gl.glGetDoublev(gl.GL_MODELVIEW_MATRIX)[3][2]
+        return int(cameraZ)
+
+    def get_speed(self):
+        &#34;&#34;&#34;According to used platform adjust speed for moving camera.&#34;&#34;&#34;
+
+        s = self.settings[&#39;speed&#39;]
+        return s / 5 - 0.15 * s if &#39;win&#39; in platform else s / 5
+
+    def set_elements(self):
+        &#34;&#34;&#34;From allowed figures returns those which are picked to game&#34;&#34;&#34;
+
+        return self.adjust_elements([&#39;Cube&#39;, &#39;Pyramid&#39;, &#39;Octahedron&#39;, &#39;Octagon&#39;], self.settings[&#39;figures&#39;])</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="MemorizeIT.game.Dynamic"><code class="flex name class">
+<span>class <span class="ident">Dynamic</span></span>
+<span>(</span><span>resolution)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>A class containing methods used in dynamic game mode. Sets environment for creating 3D figures and moves camera
+during gameplay. It is child of Game class.</p>
+<p>&hellip;</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>spawned_at</code></strong> :&ensp;<code>int</code></dt>
+<dd>camera Z value (how far from beginning it moved) - needed to create figures and make them visible</dd>
+</dl>
+<h2 id="methods">Methods</h2>
+<p>prepare_environment()
+sets basics needed to launch 3D game mode. Specifies attribute used only in dynamic game mode - spawned_at
+run_game()
+function (game base) which is sent to <code>pygame</code> event handler - it will be run in loop. Responsible for spawning
+waves of 3D figures based on length of camera Z movement
+spawn_new_wave(positionZ)
+removes old wave and spawns new one according to set position of camera
+move_view()
+responsible for camera movement, returns Z position needed to create figures waves
+get_speed()
+according to used platform adjust speed for moving camera
+set_elements()
+contains list of allowed elements in game and returns those which are picked by method adjust_elements</p>
+<p>Shows steps how game is processed.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>resolution</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>a tuple with two int values - width, height - according to resolution of used monitor</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Dynamic(Game):
+    &#34;&#34;&#34;
+    A class containing methods used in dynamic game mode. Sets environment for creating 3D figures and moves camera
+    during gameplay. It is child of Game class.
+
+    ...
+
+    Attributes
+    ----------
+    spawned_at : int
+        camera Z value (how far from beginning it moved) - needed to create figures and make them visible
+
+
+    Methods
+    -------
+    prepare_environment()
+        sets basics needed to launch 3D game mode. Specifies attribute used only in dynamic game mode - spawned_at
+    run_game()
+        function (game base) which is sent to `pygame` event handler - it will be run in loop. Responsible for spawning
+        waves of 3D figures based on length of camera Z movement
+    spawn_new_wave(positionZ)
+        removes old wave and spawns new one according to set position of camera
+    move_view()
+        responsible for camera movement, returns Z position needed to create figures waves
+    get_speed()
+        according to used platform adjust speed for moving camera
+    set_elements()
+        contains list of allowed elements in game and returns those which are picked by method adjust_elements
+    &#34;&#34;&#34;
+
+    def prepare_environment(self):
+        &#34;&#34;&#34;sets basics needed to launch 3D game mode&#34;&#34;&#34;
+
+        pygame.display.set_mode(self.resolution, DOUBLEBUF | OPENGL | pygame.FULLSCREEN)
+        gluPerspective(45, (self.resolution[0] / self.resolution[1]), 0.1, 50)
+        self.spawned_at = -10
+        self.wave = self.create_wave(Wave3D, self.spawned_at)
+
+    def run_game(self):
+        &#34;&#34;&#34;Spawns waves of 3D figures based on length of camera Z movement&#34;&#34;&#34;
+
+        cameraZ = self.move_view()
+        if self.is_wave_finished(cameraZ &lt; self.spawned_at - 100):
+            self.spawn_new_wave(cameraZ)
+        else:
+            self.wave()
+
+    def spawn_new_wave(self, positionZ):
+        &#34;&#34;&#34;Removes old wave and spawns new one according to set position of camera
+
+        Parameters
+        ----------
+        positionZ : int
+            value of camera Z - where it is moved
+        &#34;&#34;&#34;
+
+        del self.wave
+        self.wave = self.create_wave(Wave3D, positionZ)
+        self.spawned_at = positionZ
+
+    def move_view(self):
+        &#34;&#34;&#34;Responsible for camera movement, returns Z position&#34;&#34;&#34;
+
+        gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+        gl.glTranslatef(0, 0, self.get_speed())
+        cameraZ = gl.glGetDoublev(gl.GL_MODELVIEW_MATRIX)[3][2]
+        return int(cameraZ)
+
+    def get_speed(self):
+        &#34;&#34;&#34;According to used platform adjust speed for moving camera.&#34;&#34;&#34;
+
+        s = self.settings[&#39;speed&#39;]
+        return s / 5 - 0.15 * s if &#39;win&#39; in platform else s / 5
+
+    def set_elements(self):
+        &#34;&#34;&#34;From allowed figures returns those which are picked to game&#34;&#34;&#34;
+
+        return self.adjust_elements([&#39;Cube&#39;, &#39;Pyramid&#39;, &#39;Octahedron&#39;, &#39;Octagon&#39;], self.settings[&#39;figures&#39;])</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="MemorizeIT.game.Game" href="#MemorizeIT.game.Game">Game</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="MemorizeIT.game.Dynamic.get_speed"><code class="name flex">
+<span>def <span class="ident">get_speed</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>According to used platform adjust speed for moving camera.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_speed(self):
+    &#34;&#34;&#34;According to used platform adjust speed for moving camera.&#34;&#34;&#34;
+
+    s = self.settings[&#39;speed&#39;]
+    return s / 5 - 0.15 * s if &#39;win&#39; in platform else s / 5</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Dynamic.move_view"><code class="name flex">
+<span>def <span class="ident">move_view</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Responsible for camera movement, returns Z position</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def move_view(self):
+    &#34;&#34;&#34;Responsible for camera movement, returns Z position&#34;&#34;&#34;
+
+    gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+    gl.glTranslatef(0, 0, self.get_speed())
+    cameraZ = gl.glGetDoublev(gl.GL_MODELVIEW_MATRIX)[3][2]
+    return int(cameraZ)</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Dynamic.prepare_environment"><code class="name flex">
+<span>def <span class="ident">prepare_environment</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>sets basics needed to launch 3D game mode</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def prepare_environment(self):
+    &#34;&#34;&#34;sets basics needed to launch 3D game mode&#34;&#34;&#34;
+
+    pygame.display.set_mode(self.resolution, DOUBLEBUF | OPENGL | pygame.FULLSCREEN)
+    gluPerspective(45, (self.resolution[0] / self.resolution[1]), 0.1, 50)
+    self.spawned_at = -10
+    self.wave = self.create_wave(Wave3D, self.spawned_at)</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Dynamic.run_game"><code class="name flex">
+<span>def <span class="ident">run_game</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Spawns waves of 3D figures based on length of camera Z movement</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run_game(self):
+    &#34;&#34;&#34;Spawns waves of 3D figures based on length of camera Z movement&#34;&#34;&#34;
+
+    cameraZ = self.move_view()
+    if self.is_wave_finished(cameraZ &lt; self.spawned_at - 100):
+        self.spawn_new_wave(cameraZ)
+    else:
+        self.wave()</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Dynamic.set_elements"><code class="name flex">
+<span>def <span class="ident">set_elements</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>From allowed figures returns those which are picked to game</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_elements(self):
+    &#34;&#34;&#34;From allowed figures returns those which are picked to game&#34;&#34;&#34;
+
+    return self.adjust_elements([&#39;Cube&#39;, &#39;Pyramid&#39;, &#39;Octahedron&#39;, &#39;Octagon&#39;], self.settings[&#39;figures&#39;])</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Dynamic.spawn_new_wave"><code class="name flex">
+<span>def <span class="ident">spawn_new_wave</span></span>(<span>self, positionZ)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Removes old wave and spawns new one according to set position of camera</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>positionZ</code></strong> :&ensp;<code>int</code></dt>
+<dd>value of camera Z - where it is moved</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def spawn_new_wave(self, positionZ):
+    &#34;&#34;&#34;Removes old wave and spawns new one according to set position of camera
+
+    Parameters
+    ----------
+    positionZ : int
+        value of camera Z - where it is moved
+    &#34;&#34;&#34;
+
+    del self.wave
+    self.wave = self.create_wave(Wave3D, positionZ)
+    self.spawned_at = positionZ</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="MemorizeIT.game.Game" href="#MemorizeIT.game.Game">Game</a></b></code>:
+<ul class="hlist">
+<li><code><a title="MemorizeIT.game.Game.adjust_elements" href="#MemorizeIT.game.Game.adjust_elements">adjust_elements</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.create_timer" href="#MemorizeIT.game.Game.create_timer">create_timer</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.create_wave" href="#MemorizeIT.game.Game.create_wave">create_wave</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.has_time_left" href="#MemorizeIT.game.Game.has_time_left">has_time_left</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.is_wave_finished" href="#MemorizeIT.game.Game.is_wave_finished">is_wave_finished</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.pick_element" href="#MemorizeIT.game.Game.pick_element">pick_element</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.play_sound" href="#MemorizeIT.game.Game.play_sound">play_sound</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="MemorizeIT.game.Game"><code class="flex name class">
+<span>class <span class="ident">Game</span></span>
+<span>(</span><span>resolution)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>A class with collection of the same methods needed both in Dynamic and Static class. It is base, responsible for
+processing game, adjusting its settings, launching summarization afterwards.</p>
+<p>&hellip;</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>resolution</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>a tuple with two int values - width, height - according to resolution of used monitor</dd>
+<dt><strong><code>settings</code></strong> :&ensp;<code>dict</code></dt>
+<dd>dictionary with loaded from file settings which will be used in a game</dd>
+<dt><strong><code>timer</code></strong> :&ensp;<code>dict</code></dt>
+<dd>dictionary with information about beginning of a game, its length, single and last wave time</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>colors.Random</code></dt>
+<dd>object responsible for generating random color codes in RGB (0-1, 0-1, 0-1) format</dd>
+<dt><strong><code>elements</code></strong> :&ensp;<code>dict</code></dt>
+<dd>dictionary filled with names of elements used in game and corresponding them color</dd>
+<dt><strong><code>counter</code></strong> :&ensp;<code>dictionary</code></dt>
+<dd>dictionary containing names of elements and their occurrence in game</dd>
+<dt><strong><code>wave</code></strong> :&ensp;<code>figure.Wave2D</code> or <code>figure.Wave3D</code></dt>
+<dd>object responsible for creating wave of elements on the screen</dd>
+</dl>
+<h2 id="methods">Methods</h2>
+<p>has_time_left()
+returns True in case when game is still running - according to set time else False
+create_timer()
+creates dictionary with information about beginning of a game, its length, single and last wave time
+play_sound()
+if sound is turned on in game settings this method plays it
+adjust_elements(figures, amount)
+returns dictionary with randomly picked elements from list and corresponding them color in length of set amount
+pick_element()
+randomly picks one element from elements attribute and returns it with proper color (if nothing is set picks
+random color)
+create_wave(function, <em>args)
+picks figure, creates from it wave which will be displayed on screen. It updates counter and play sound if it is
+set to on. Function says which type of wave will be created - 2D or 3D. </em>args passed depends on this type - to
+see more check documentation for Wave class in module figure
+is_wave_finished()
+returns True if currently displayed wave should be replaced with new one else False</p>
+<p>Shows steps how game is processed.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>resolution</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>a tuple with two int values - width, height - according to resolution of used monitor</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Game:
+    &#34;&#34;&#34;
+    A class with collection of the same methods needed both in Dynamic and Static class. It is base, responsible for
+    processing game, adjusting its settings, launching summarization afterwards.
+
+    ...
+
+    Attributes
+    ----------
+    resolution : tuple
+        a tuple with two int values - width, height - according to resolution of used monitor
+    settings : dict
+        dictionary with loaded from file settings which will be used in a game
+    timer : dict
+        dictionary with information about beginning of a game, its length, single and last wave time
+    colors : colors.Random
+        object responsible for generating random color codes in RGB (0-1, 0-1, 0-1) format
+    elements : dict
+        dictionary filled with names of elements used in game and corresponding them color
+    counter : dictionary
+        dictionary containing names of elements and their occurrence in game
+    wave : figure.Wave2D or figure.Wave3D
+        object responsible for creating wave of elements on the screen
+
+    Methods
+    -------
+    has_time_left()
+        returns True in case when game is still running - according to set time else False
+    create_timer()
+        creates dictionary with information about beginning of a game, its length, single and last wave time
+    play_sound()
+        if sound is turned on in game settings this method plays it
+    adjust_elements(figures, amount)
+        returns dictionary with randomly picked elements from list and corresponding them color in length of set amount
+    pick_element()
+        randomly picks one element from elements attribute and returns it with proper color (if nothing is set picks
+        random color)
+    create_wave(function, *args)
+        picks figure, creates from it wave which will be displayed on screen. It updates counter and play sound if it is
+        set to on. Function says which type of wave will be created - 2D or 3D. *args passed depends on this type - to
+        see more check documentation for Wave class in module figure
+    is_wave_finished()
+        returns True if currently displayed wave should be replaced with new one else False
+    &#34;&#34;&#34;
+
+    def __init__(self, resolution):
+        &#34;&#34;&#34;Shows steps how game is processed.
+
+        Parameters
+        ----------
+        resolution : tuple
+            a tuple with two int values - width, height - according to resolution of used monitor
+        &#34;&#34;&#34;
+
+        self.resolution = resolution
+        pygame.mouse.set_visible(False)
+        self.settings = config.Config().get_settings()
+        self.timer = self.create_timer()
+        self.color = colors.Random()
+        self.elements = self.set_elements()
+        self.counter = {x: 0 for x in list(self.elements)}
+        self.wave = None
+        self.prepare_environment()
+        config.Handler(self.run_game, self.has_time_left)()
+        pygame.mouse.set_visible(True)
+        gui.Summary(self.counter)
+
+    def has_time_left(self):
+        &#34;&#34;&#34;Returns True in case when game is still running - according to set time else False&#34;&#34;&#34;
+
+        return self.timer[&#39;total&#39;] &gt; time() - self.timer[&#39;start&#39;]
+
+    def create_timer(self):
+        &#34;&#34;&#34;Creates dictionary with information about beginning of a game, its length, single and last wave time&#34;&#34;&#34;
+
+        total = self.settings[&#39;time&#39;]
+        wave = 7 / self.settings[&#39;speed&#39;]
+        return {&#39;start&#39;: time(), &#39;total&#39;: total, &#39;wave&#39;: wave * 2, &#39;last&#39;: total - wave}
+
+    def play_sound(self):
+        &#34;&#34;&#34;If sound is turned on in game settings this method plays it&#34;&#34;&#34;
+
+        if self.settings[&#39;sound&#39;] == &#39;On&#39;:
+            try:
+                pygame.mixer.init()
+                pygame.mixer.Sound(&#34;sound.ogg&#34;).play()
+            except (pygame.error, FileNotFoundError):
+                pass
+
+    def adjust_elements(self, figures, amount):
+        &#34;&#34;&#34;Sets elements used in game
+
+        Parameters
+        ----------
+        figures : list
+            a list with figures names from which will be picked figures taking part in a game
+        amount : int
+            number of elements taking part in a game - loaded from settings
+
+        Returns
+        -------
+        dict
+            dictionary with randomly picked elements and corresponding them color according to color difficulty setting
+        &#34;&#34;&#34;
+
+        picked = sample(figures, amount)
+        color = colors.pick(self.settings[&#39;colors&#39;], amount)
+        if type(color) is bool: color = [color] * amount
+        return {figure: color[index] for index, figure in enumerate(picked)}
+
+    def pick_element(self):
+        &#34;&#34;&#34;returns one randomly picked element with its color (if nothing is set picks random color)&#34;&#34;&#34;
+
+        figure = choice(list(self.elements))
+        color = self.elements[figure]
+        if not isinstance(color, (pygame.Surface, tuple)):
+            color = self.color.get_color() if color else False
+        return figure, color
+
+    def create_wave(self, function, *args):
+        &#34;&#34;&#34;Create wave of randomly picked element
+
+        Picks figure, creates from it wave which will be displayed on screen. It updates counter and play sound if it is
+        set to on. Function says which type of wave will be created - 2D or 3D. *args passed depends on this type.
+
+        Parameters
+        ----------
+        function : Wave2D or Wave3D
+            used to create proper wave object depending on launched game mode
+        *args
+            values needed to create specified Wave type - 2D (screen, resolution) or 3D (positionZ). To see more check
+            documentation for proper Wave class in module figure
+
+        Returns
+        -------
+        figure.Wave2D or figure.Wave3D
+            object with created wave, used to display it - 2D or 3D type according to passed function
+        &#34;&#34;&#34;
+
+        figure = self.pick_element()
+        wave = function(*figure, *args)
+        self.counter[figure[0]] = self.counter[figure[0]] + len(wave)
+        self.play_sound()
+        return wave
+
+    def is_wave_finished(self, condition):
+        &#34;&#34;&#34;returns True if currently displayed wave should be replaced with new one else False&#34;&#34;&#34;
+
+        if condition:
+            if self.timer[&#39;last&#39;] &gt; time() - self.timer[&#39;start&#39;]:
+                return True
+        return False</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="MemorizeIT.game.Static" href="#MemorizeIT.game.Static">Static</a></li>
+<li><a title="MemorizeIT.game.Dynamic" href="#MemorizeIT.game.Dynamic">Dynamic</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="MemorizeIT.game.Game.adjust_elements"><code class="name flex">
+<span>def <span class="ident">adjust_elements</span></span>(<span>self, figures, amount)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Sets elements used in game</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>figures</code></strong> :&ensp;<code>list</code></dt>
+<dd>a list with figures names from which will be picked figures taking part in a game</dd>
+<dt><strong><code>amount</code></strong> :&ensp;<code>int</code></dt>
+<dd>number of elements taking part in a game - loaded from settings</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>dictionary with randomly picked elements and corresponding them color according to color difficulty setting</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def adjust_elements(self, figures, amount):
+    &#34;&#34;&#34;Sets elements used in game
+
+    Parameters
+    ----------
+    figures : list
+        a list with figures names from which will be picked figures taking part in a game
+    amount : int
+        number of elements taking part in a game - loaded from settings
+
+    Returns
+    -------
+    dict
+        dictionary with randomly picked elements and corresponding them color according to color difficulty setting
+    &#34;&#34;&#34;
+
+    picked = sample(figures, amount)
+    color = colors.pick(self.settings[&#39;colors&#39;], amount)
+    if type(color) is bool: color = [color] * amount
+    return {figure: color[index] for index, figure in enumerate(picked)}</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Game.create_timer"><code class="name flex">
+<span>def <span class="ident">create_timer</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Creates dictionary with information about beginning of a game, its length, single and last wave time</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_timer(self):
+    &#34;&#34;&#34;Creates dictionary with information about beginning of a game, its length, single and last wave time&#34;&#34;&#34;
+
+    total = self.settings[&#39;time&#39;]
+    wave = 7 / self.settings[&#39;speed&#39;]
+    return {&#39;start&#39;: time(), &#39;total&#39;: total, &#39;wave&#39;: wave * 2, &#39;last&#39;: total - wave}</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Game.create_wave"><code class="name flex">
+<span>def <span class="ident">create_wave</span></span>(<span>self, function, *args)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create wave of randomly picked element</p>
+<p>Picks figure, creates from it wave which will be displayed on screen. It updates counter and play sound if it is
+set to on. Function says which type of wave will be created - 2D or 3D. *args passed depends on this type.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>function</code></strong> :&ensp;<code>Wave2D</code> or <code>Wave3D</code></dt>
+<dd>used to create proper wave object depending on launched game mode</dd>
+<dt><strong><code>*args</code></strong></dt>
+<dd>values needed to create specified Wave type - 2D (screen, resolution) or 3D (positionZ). To see more check
+documentation for proper Wave class in module figure</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>figure.Wave2D</code> or <code>figure.Wave3D</code></dt>
+<dd>object with created wave, used to display it - 2D or 3D type according to passed function</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_wave(self, function, *args):
+    &#34;&#34;&#34;Create wave of randomly picked element
+
+    Picks figure, creates from it wave which will be displayed on screen. It updates counter and play sound if it is
+    set to on. Function says which type of wave will be created - 2D or 3D. *args passed depends on this type.
+
+    Parameters
+    ----------
+    function : Wave2D or Wave3D
+        used to create proper wave object depending on launched game mode
+    *args
+        values needed to create specified Wave type - 2D (screen, resolution) or 3D (positionZ). To see more check
+        documentation for proper Wave class in module figure
+
+    Returns
+    -------
+    figure.Wave2D or figure.Wave3D
+        object with created wave, used to display it - 2D or 3D type according to passed function
+    &#34;&#34;&#34;
+
+    figure = self.pick_element()
+    wave = function(*figure, *args)
+    self.counter[figure[0]] = self.counter[figure[0]] + len(wave)
+    self.play_sound()
+    return wave</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Game.has_time_left"><code class="name flex">
+<span>def <span class="ident">has_time_left</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns True in case when game is still running - according to set time else False</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_time_left(self):
+    &#34;&#34;&#34;Returns True in case when game is still running - according to set time else False&#34;&#34;&#34;
+
+    return self.timer[&#39;total&#39;] &gt; time() - self.timer[&#39;start&#39;]</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Game.is_wave_finished"><code class="name flex">
+<span>def <span class="ident">is_wave_finished</span></span>(<span>self, condition)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>returns True if currently displayed wave should be replaced with new one else False</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_wave_finished(self, condition):
+    &#34;&#34;&#34;returns True if currently displayed wave should be replaced with new one else False&#34;&#34;&#34;
+
+    if condition:
+        if self.timer[&#39;last&#39;] &gt; time() - self.timer[&#39;start&#39;]:
+            return True
+    return False</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Game.pick_element"><code class="name flex">
+<span>def <span class="ident">pick_element</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>returns one randomly picked element with its color (if nothing is set picks random color)</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pick_element(self):
+    &#34;&#34;&#34;returns one randomly picked element with its color (if nothing is set picks random color)&#34;&#34;&#34;
+
+    figure = choice(list(self.elements))
+    color = self.elements[figure]
+    if not isinstance(color, (pygame.Surface, tuple)):
+        color = self.color.get_color() if color else False
+    return figure, color</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Game.play_sound"><code class="name flex">
+<span>def <span class="ident">play_sound</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>If sound is turned on in game settings this method plays it</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def play_sound(self):
+    &#34;&#34;&#34;If sound is turned on in game settings this method plays it&#34;&#34;&#34;
+
+    if self.settings[&#39;sound&#39;] == &#39;On&#39;:
+        try:
+            pygame.mixer.init()
+            pygame.mixer.Sound(&#34;sound.ogg&#34;).play()
+        except (pygame.error, FileNotFoundError):
+            pass</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="MemorizeIT.game.Static"><code class="flex name class">
+<span>class <span class="ident">Static</span></span>
+<span>(</span><span>resolution)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>A class containing methods used in static game mode. Sets environment for binding 2D figures or images to game
+screen represented by <code>pygame.Surface</code>. It is child of Game class.</p>
+<p>&hellip;</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>screen</code></strong> :&ensp;<code>pygame.Surface</code></dt>
+<dd>object representing game screen where created 2D figures or images will be binded</dd>
+</dl>
+<h2 id="methods">Methods</h2>
+<p>prepare_environment()
+sets basics needed to launch 2D game mode. Specifies attribute used only in static game mode - screen. Extends
+attribute timer by interval allowing to control spawning new 2D waves on screen.
+run_game()
+function (game base) which is sent to <code>pygame</code> event handler - it will be run in loop. Responsible for spawning
+waves of 2D figures based on time interval
+spawn_new_wave()
+clears screen and spawns new wave of figures or images
+get_images()
+returns dictionary with images names and their representation as <code>pygame.Surface</code>
+load_image(path)
+returns image representation as <code>pygame.Surface</code> loading it from set path
+fit_image(image)
+scales set image to size appropriate to display it during game
+set_elements()
+contains list of allowed elements in game. At first loads images from their directory then fill missing elements
+by drawing 2D figures picked from elements list according to game settings.</p>
+<p>Shows steps how game is processed.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>resolution</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>a tuple with two int values - width, height - according to resolution of used monitor</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Static(Game):
+    &#34;&#34;&#34;
+    A class containing methods used in static game mode. Sets environment for binding 2D figures or images to game
+    screen represented by `pygame.Surface`. It is child of Game class.
+
+    ...
+
+    Attributes
+    ----------
+    screen: pygame.Surface
+        object representing game screen where created 2D figures or images will be binded
+
+
+    Methods
+    -------
+    prepare_environment()
+        sets basics needed to launch 2D game mode. Specifies attribute used only in static game mode - screen. Extends
+        attribute timer by interval allowing to control spawning new 2D waves on screen.
+    run_game()
+        function (game base) which is sent to `pygame` event handler - it will be run in loop. Responsible for spawning
+        waves of 2D figures based on time interval
+    spawn_new_wave()
+        clears screen and spawns new wave of figures or images
+    get_images()
+        returns dictionary with images names and their representation as `pygame.Surface`
+    load_image(path)
+        returns image representation as `pygame.Surface` loading it from set path
+    fit_image(image)
+        scales set image to size appropriate to display it during game
+    set_elements()
+        contains list of allowed elements in game. At first loads images from their directory then fill missing elements
+        by drawing 2D figures picked from elements list according to game settings.
+    &#34;&#34;&#34;
+
+    def prepare_environment(self):
+        &#34;&#34;&#34;Sets basics needed to launch 2D game mode
+
+        Specifies attribute used only in static game mode - screen. Extends attribute timer by interval allowing to
+        control spawning new 2D waves on screen.
+        &#34;&#34;&#34;
+
+        self.screen = pygame.display.set_mode(self.resolution, pygame.FULLSCREEN)
+        self.timer[&#39;interval&#39;] = self.timer[&#39;start&#39;]
+        self.wave = self.create_wave(Wave2D, self.screen, self.resolution)
+
+    def run_game(self):
+        &#34;&#34;&#34;Spawns waves of 2D figures based on time interval&#34;&#34;&#34;
+
+        if self.is_wave_finished(time() &gt; self.timer[&#39;interval&#39;] + self.timer[&#39;wave&#39;]):
+            self.timer[&#39;interval&#39;] += self.timer[&#39;wave&#39;]
+            self.spawn_new_wave()
+        else:
+            self.wave()
+
+    def spawn_new_wave(self):
+        &#34;&#34;&#34;Clears screen and spawns new wave of figures or images&#34;&#34;&#34;
+
+        self.screen.fill((0, 0, 0))
+        self.wave = self.create_wave(Wave2D, self.screen, self.resolution)
+
+    def get_images(self):
+        &#34;&#34;&#34;Loads images from their directory (&#39;images/elements&#39;)
+
+        Returns
+        -------
+        dict
+            dictionary with image name and its representation as `pygame.Surface`
+        &#34;&#34;&#34;
+
+        images = {}
+        try:
+            for image in Path(&#34;images/elements&#34;).iterdir():
+                images[image.stem] = self.load_image(image)
+        except OSError:
+            pass
+        return images
+
+    def load_image(self, path):
+        &#34;&#34;&#34;Loads image from set path and scales it
+
+        Parameters
+        ----------
+        path : pathlib.Path
+            location of image to load
+
+        Returns
+        -------
+        pygame.Surface
+            information about loaded and scaled image represented as `pygame.Surface`
+        &#34;&#34;&#34;
+
+        image = Image.open(path)
+        image = self.fit_image(image)
+        return pygame.image.fromstring(image.tobytes(), image.size, image.mode)
+
+    def fit_image(self, image):
+        &#34;&#34;&#34;Scales image
+
+        Lowers width or height of image as long as it will fit dedicated place on screen (calculated from monitor
+        resolution).
+
+        Parameters
+        ----------
+        image : PIL.Image
+            image representation from PIL library
+
+        Returns
+        -------
+        PIL.Image
+            scaled image represented by PIL
+        &#34;&#34;&#34;
+
+        x, y = [x / 5 for x in self.resolution]
+        w, h = image.size
+        ratio = x / w if x &lt; w else y / h if y &lt; h else False
+        if ratio:
+            size = [int(x * ratio) for x in image.size]
+            image = image.resize(size, Image.ANTIALIAS)
+            return self.fit_image(image)
+        return image
+
+    def set_elements(self):
+        &#34;&#34;&#34;Returns elements used in game
+
+        It contains list of allowed elements in game. At first loads images from their directory then fill missing
+        elements by drawing 2D figures picked from elements list according to game settings (amount). Returned elements
+        are gathered in dictionary with their names and color code or image.
+        &#34;&#34;&#34;
+
+        amount = self.settings[&#39;figures&#39;]
+        images = self.get_images()
+        if len(images) &lt; amount:
+            figures = self.adjust_elements([&#39;square&#39;, &#39;triangle&#39;, &#39;octagon&#39;, &#39;diamond&#39;], amount - len(images))
+            return {**images, **figures}
+        else:
+            picked = sample(list(images), amount)
+            return {x: images[x] for x in picked}</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="MemorizeIT.game.Game" href="#MemorizeIT.game.Game">Game</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="MemorizeIT.game.Static.fit_image"><code class="name flex">
+<span>def <span class="ident">fit_image</span></span>(<span>self, image)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Scales image</p>
+<p>Lowers width or height of image as long as it will fit dedicated place on screen (calculated from monitor
+resolution).</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>image</code></strong> :&ensp;<code>PIL.Image</code></dt>
+<dd>image representation from PIL library</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>PIL.Image</code></dt>
+<dd>scaled image represented by PIL</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fit_image(self, image):
+    &#34;&#34;&#34;Scales image
+
+    Lowers width or height of image as long as it will fit dedicated place on screen (calculated from monitor
+    resolution).
+
+    Parameters
+    ----------
+    image : PIL.Image
+        image representation from PIL library
+
+    Returns
+    -------
+    PIL.Image
+        scaled image represented by PIL
+    &#34;&#34;&#34;
+
+    x, y = [x / 5 for x in self.resolution]
+    w, h = image.size
+    ratio = x / w if x &lt; w else y / h if y &lt; h else False
+    if ratio:
+        size = [int(x * ratio) for x in image.size]
+        image = image.resize(size, Image.ANTIALIAS)
+        return self.fit_image(image)
+    return image</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Static.get_images"><code class="name flex">
+<span>def <span class="ident">get_images</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Loads images from their directory ('images/elements')</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>dictionary with image name and its representation as <code>pygame.Surface</code></dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_images(self):
+    &#34;&#34;&#34;Loads images from their directory (&#39;images/elements&#39;)
+
+    Returns
+    -------
+    dict
+        dictionary with image name and its representation as `pygame.Surface`
+    &#34;&#34;&#34;
+
+    images = {}
+    try:
+        for image in Path(&#34;images/elements&#34;).iterdir():
+            images[image.stem] = self.load_image(image)
+    except OSError:
+        pass
+    return images</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Static.load_image"><code class="name flex">
+<span>def <span class="ident">load_image</span></span>(<span>self, path)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Loads image from set path and scales it</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>pathlib.Path</code></dt>
+<dd>location of image to load</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pygame.Surface</code></dt>
+<dd>information about loaded and scaled image represented as <code>pygame.Surface</code></dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_image(self, path):
+    &#34;&#34;&#34;Loads image from set path and scales it
+
+    Parameters
+    ----------
+    path : pathlib.Path
+        location of image to load
+
+    Returns
+    -------
+    pygame.Surface
+        information about loaded and scaled image represented as `pygame.Surface`
+    &#34;&#34;&#34;
+
+    image = Image.open(path)
+    image = self.fit_image(image)
+    return pygame.image.fromstring(image.tobytes(), image.size, image.mode)</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Static.prepare_environment"><code class="name flex">
+<span>def <span class="ident">prepare_environment</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Sets basics needed to launch 2D game mode</p>
+<p>Specifies attribute used only in static game mode - screen. Extends attribute timer by interval allowing to
+control spawning new 2D waves on screen.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def prepare_environment(self):
+    &#34;&#34;&#34;Sets basics needed to launch 2D game mode
+
+    Specifies attribute used only in static game mode - screen. Extends attribute timer by interval allowing to
+    control spawning new 2D waves on screen.
+    &#34;&#34;&#34;
+
+    self.screen = pygame.display.set_mode(self.resolution, pygame.FULLSCREEN)
+    self.timer[&#39;interval&#39;] = self.timer[&#39;start&#39;]
+    self.wave = self.create_wave(Wave2D, self.screen, self.resolution)</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Static.run_game"><code class="name flex">
+<span>def <span class="ident">run_game</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Spawns waves of 2D figures based on time interval</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run_game(self):
+    &#34;&#34;&#34;Spawns waves of 2D figures based on time interval&#34;&#34;&#34;
+
+    if self.is_wave_finished(time() &gt; self.timer[&#39;interval&#39;] + self.timer[&#39;wave&#39;]):
+        self.timer[&#39;interval&#39;] += self.timer[&#39;wave&#39;]
+        self.spawn_new_wave()
+    else:
+        self.wave()</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Static.set_elements"><code class="name flex">
+<span>def <span class="ident">set_elements</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns elements used in game</p>
+<p>It contains list of allowed elements in game. At first loads images from their directory then fill missing
+elements by drawing 2D figures picked from elements list according to game settings (amount). Returned elements
+are gathered in dictionary with their names and color code or image.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_elements(self):
+    &#34;&#34;&#34;Returns elements used in game
+
+    It contains list of allowed elements in game. At first loads images from their directory then fill missing
+    elements by drawing 2D figures picked from elements list according to game settings (amount). Returned elements
+    are gathered in dictionary with their names and color code or image.
+    &#34;&#34;&#34;
+
+    amount = self.settings[&#39;figures&#39;]
+    images = self.get_images()
+    if len(images) &lt; amount:
+        figures = self.adjust_elements([&#39;square&#39;, &#39;triangle&#39;, &#39;octagon&#39;, &#39;diamond&#39;], amount - len(images))
+        return {**images, **figures}
+    else:
+        picked = sample(list(images), amount)
+        return {x: images[x] for x in picked}</code></pre>
+</details>
+</dd>
+<dt id="MemorizeIT.game.Static.spawn_new_wave"><code class="name flex">
+<span>def <span class="ident">spawn_new_wave</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Clears screen and spawns new wave of figures or images</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def spawn_new_wave(self):
+    &#34;&#34;&#34;Clears screen and spawns new wave of figures or images&#34;&#34;&#34;
+
+    self.screen.fill((0, 0, 0))
+    self.wave = self.create_wave(Wave2D, self.screen, self.resolution)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="MemorizeIT.game.Game" href="#MemorizeIT.game.Game">Game</a></b></code>:
+<ul class="hlist">
+<li><code><a title="MemorizeIT.game.Game.adjust_elements" href="#MemorizeIT.game.Game.adjust_elements">adjust_elements</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.create_timer" href="#MemorizeIT.game.Game.create_timer">create_timer</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.create_wave" href="#MemorizeIT.game.Game.create_wave">create_wave</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.has_time_left" href="#MemorizeIT.game.Game.has_time_left">has_time_left</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.is_wave_finished" href="#MemorizeIT.game.Game.is_wave_finished">is_wave_finished</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.pick_element" href="#MemorizeIT.game.Game.pick_element">pick_element</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.play_sound" href="#MemorizeIT.game.Game.play_sound">play_sound</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="MemorizeIT" href="index.html">MemorizeIT</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="MemorizeIT.game.Dynamic" href="#MemorizeIT.game.Dynamic">Dynamic</a></code></h4>
+<ul class="two-column">
+<li><code><a title="MemorizeIT.game.Dynamic.get_speed" href="#MemorizeIT.game.Dynamic.get_speed">get_speed</a></code></li>
+<li><code><a title="MemorizeIT.game.Dynamic.move_view" href="#MemorizeIT.game.Dynamic.move_view">move_view</a></code></li>
+<li><code><a title="MemorizeIT.game.Dynamic.prepare_environment" href="#MemorizeIT.game.Dynamic.prepare_environment">prepare_environment</a></code></li>
+<li><code><a title="MemorizeIT.game.Dynamic.run_game" href="#MemorizeIT.game.Dynamic.run_game">run_game</a></code></li>
+<li><code><a title="MemorizeIT.game.Dynamic.set_elements" href="#MemorizeIT.game.Dynamic.set_elements">set_elements</a></code></li>
+<li><code><a title="MemorizeIT.game.Dynamic.spawn_new_wave" href="#MemorizeIT.game.Dynamic.spawn_new_wave">spawn_new_wave</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="MemorizeIT.game.Game" href="#MemorizeIT.game.Game">Game</a></code></h4>
+<ul class="two-column">
+<li><code><a title="MemorizeIT.game.Game.adjust_elements" href="#MemorizeIT.game.Game.adjust_elements">adjust_elements</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.create_timer" href="#MemorizeIT.game.Game.create_timer">create_timer</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.create_wave" href="#MemorizeIT.game.Game.create_wave">create_wave</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.has_time_left" href="#MemorizeIT.game.Game.has_time_left">has_time_left</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.is_wave_finished" href="#MemorizeIT.game.Game.is_wave_finished">is_wave_finished</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.pick_element" href="#MemorizeIT.game.Game.pick_element">pick_element</a></code></li>
+<li><code><a title="MemorizeIT.game.Game.play_sound" href="#MemorizeIT.game.Game.play_sound">play_sound</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="MemorizeIT.game.Static" href="#MemorizeIT.game.Static">Static</a></code></h4>
+<ul class="two-column">
+<li><code><a title="MemorizeIT.game.Static.fit_image" href="#MemorizeIT.game.Static.fit_image">fit_image</a></code></li>
+<li><code><a title="MemorizeIT.game.Static.get_images" href="#MemorizeIT.game.Static.get_images">get_images</a></code></li>
+<li><code><a title="MemorizeIT.game.Static.load_image" href="#MemorizeIT.game.Static.load_image">load_image</a></code></li>
+<li><code><a title="MemorizeIT.game.Static.prepare_environment" href="#MemorizeIT.game.Static.prepare_environment">prepare_environment</a></code></li>
+<li><code><a title="MemorizeIT.game.Static.run_game" href="#MemorizeIT.game.Static.run_game">run_game</a></code></li>
+<li><code><a title="MemorizeIT.game.Static.set_elements" href="#MemorizeIT.game.Static.set_elements">set_elements</a></code></li>
+<li><code><a title="MemorizeIT.game.Static.spawn_new_wave" href="#MemorizeIT.game.Static.spawn_new_wave">spawn_new_wave</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
