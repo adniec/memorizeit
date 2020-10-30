@@ -10,6 +10,19 @@ wish you enjoyable experience with game and best results in memory training. Goo
 
 ![Menu](https://raw.githubusercontent.com/ethru/memorizeit/master/img/menu.png)
 
+## Installation
+
+```
+$ git clone https://github.com/ethru/memorizeit.git
+$ pip install memorizeit/.
+```
+**Beware:** Application was developed and tested on **Fedora**. Some functions may not work or behave in different way 
+on other systems.
+
+## Run
+
+Open terminal and type: `$ memorizeit` or `$ python -m memorizeit`
+
 ## How to configure game:
 - settings are stored in game directory - *settings.json* file
 	![Config file](https://raw.githubusercontent.com/ethru/memorizeit/master/img/config.png)

@@ -5,7 +5,7 @@ menus. It contains methods responsible for making button or displaying label,
 animating them. Here is defined size (width, height) of application. It chains
 elements showed to user with proper functions from other modules. On general
 class Gui are based: main, settings and summary menus. Modules used:
-`collections`, `pygame`, `sys`.
+`collections`, `pathlib`, `pygame`, `sys`.
 
 License:
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -18,6 +18,7 @@ SOFTWARE.
 """
 
 from collections import namedtuple
+from pathlib import Path
 import sys
 
 import pygame
@@ -86,7 +87,8 @@ class Gui:
 
     def adjust_image(self):
         """Convert logo image to appropriate size."""
-        image = pygame.image.load('memorizeit/img/logo.png')
+        path = Path(__file__).parent.absolute() / 'img' / 'logo.png'
+        image = pygame.image.load(str(path))
         size = image.get_size()[0]
         display = min(self.display)
 

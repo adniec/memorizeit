@@ -3,7 +3,7 @@
 This module allows to load and store game settings in file. It is responsible
 for checking if stored data was correct and eventually replace it with default
 value. It also handles `pygame` events and executes passed code in proper loop
-based on condition. Modules used: `json`, `pygame` and `sys`.
+based on condition. Modules used: `json`, `pathlib`, `pygame` and `sys`.
 
 License:
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -16,6 +16,7 @@ SOFTWARE.
 """
 
 from json import dumps, loads
+from pathlib import Path
 import sys
 
 import pygame
@@ -44,7 +45,7 @@ class Config:
         in variable and saved to file (to replace corrupted data if there were
         any wrong values).
         """
-        self.config_file = 'memorizeit/settings.json'
+        self.config_file = Path(__file__).parent.absolute() / 'settings.json'
         self.range = {
             'figures': (2, 3, 4),
             'time': tuple((x for x in range(5, 61, 5))),

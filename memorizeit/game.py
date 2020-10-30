@@ -109,8 +109,9 @@ class Game:
         """Play sound if setting is turned on."""
         if self.settings['sound'] == 'On':
             try:
+                path = Path(__file__).parent.absolute() / 'sound.ogg'
                 pygame.mixer.init()
-                pygame.mixer.Sound('memorizeit/sound.ogg').play()
+                pygame.mixer.Sound(str(path)).play()
             except (pygame.error, FileNotFoundError):
                 pass
 
@@ -242,7 +243,8 @@ class Static(Game):
         """
         images = {}
         try:
-            for image in Path('memorizeit/img/elements').iterdir():
+            path = Path(__file__).parent.absolute() / 'img' / 'elements'
+            for image in path.iterdir():
                 images[image.stem] = self.load_image(image)
         except OSError:
             pass
