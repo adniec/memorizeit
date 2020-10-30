@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.7.2" />
-<title>MemorizeIT.config API documentation</title>
-<meta name="description" content="Configuration Module …" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>memorizeit.config API documentation</title>
+<meta name="description" content="Config …" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -17,20 +17,14 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>MemorizeIT.config</code></h1>
+<h1 class="title">Module <code>memorizeit.config</code></h1>
 </header>
 <section id="section-intro">
-<p>Configuration Module</p>
-<p>This module allows to load and store game settings in file. It is responsible for checking if stored data was correct
-and eventually replace it with default value. It also handles <code>pygame</code> events and executes passed code in proper loop
-based on condition.</p>
-<p>Module uses functions <code>dumps</code>, <code>loads</code> from <code>json</code> module. <code>KEYDOWN</code>, <code>K_ESCAPE</code> from <code>pygame.locals</code> and modules
-<code>pygame</code>, <code>sys</code>. It is required to provide them before running application.</p>
-<p>It contains classes:</p>
-<pre><code>* Config - covers information about allowed settings, default values. Responsible for loading, checking and storing
-them in file.
-* Handler - responsible for proper `pygame` loop and handling events inside it.
-</code></pre>
+<h4 id="config">Config</h4>
+<p>This module allows to load and store game settings in file. It is responsible
+for checking if stored data was correct and eventually replace it with default
+value. It also handles <code>pygame</code> events and executes passed code in proper loop
+based on condition. Modules used: <code>json</code>, <code>pathlib</code>, <code>pygame</code> and <code>sys</code>.</p>
 <p>License:
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -42,21 +36,14 @@ SOFTWARE.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/config.py#L0-L185" class="git-link">Browse git</a>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;Configuration Module
+<pre><code class="python">&#34;&#34;&#34;#### Config
 
-This module allows to load and store game settings in file. It is responsible for checking if stored data was correct
-and eventually replace it with default value. It also handles `pygame` events and executes passed code in proper loop
-based on condition.
-
-Module uses functions `dumps`, `loads` from `json` module. `KEYDOWN`, `K_ESCAPE` from `pygame.locals` and modules
-`pygame`, `sys`. It is required to provide them before running application.
-
-It contains classes:
-
-    * Config - covers information about allowed settings, default values. Responsible for loading, checking and storing
-    them in file.
-    * Handler - responsible for proper `pygame` loop and handling events inside it.
+This module allows to load and store game settings in file. It is responsible
+for checking if stored data was correct and eventually replace it with default
+value. It also handles `pygame` events and executes passed code in proper loop
+based on condition. Modules used: `json`, `pathlib`, `pygame` and `sys`.
 
 License:
 THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -69,7 +56,9 @@ SOFTWARE.
 &#34;&#34;&#34;
 
 from json import dumps, loads
+from pathlib import Path
 import sys
+
 import pygame
 from pygame.locals import KEYDOWN, K_ESCAPE
 
@@ -86,41 +75,37 @@ class Config:
         string containing configuration file path
     settings : dict
         dictionary with loaded and checked settings
-
-    Methods
-    -------
-    check_content(content)
-        Contains default values and replace them one by one with values passed in content parameter if they are correct.
-    get_content()
-        Returns content loaded from file or False in case of error.
-    save(settings)
-        Saves passed settings to configuration file.
-    get_settings()
-        Returns settings (which were previously loaded and checked).
-    get_values()
-        Returns allowed options for each setting.
     &#34;&#34;&#34;
 
     def __init__(self):
-        &#34;&#34;&#34;Loads, checks and stores settings
+        &#34;&#34;&#34;Load, check and store settings.
 
-        It has defined config_file name. Settings are loaded from this file. Then they are checked with default values.
-        Correct settings are kept in variable and saved to file (to replace corrupted data if there were any wrong
-        values).
+        It has defined config_file name. Settings are loaded from this file.
+        Then they are checked with default values. Correct settings are kept
+        in variable and saved to file (to replace corrupted data if there were
+        any wrong values).
         &#34;&#34;&#34;
-
-        self.config_file = &#39;settings.txt&#39;
+        self.config_file = Path(__file__).parent.absolute() / &#39;settings.json&#39;
+        self.range = {
+            &#39;figures&#39;: (2, 3, 4),
+            &#39;time&#39;: tuple((x for x in range(5, 61, 5))),
+            &#39;speed&#39;: (1, 2, 3, 4),
+            &#39;colors&#39;: (&#39;Easy&#39;, &#39;Medium&#39;, &#39;Hard&#39;),
+            &#39;sound&#39;: (&#39;Off&#39;, &#39;On&#39;)
+        }
         self.settings = self.check_content(self.get_content())
         self.save(self.settings)
 
     def __repr__(self):
+        &#34;&#34;&#34;Return `Config` class representation.&#34;&#34;&#34;
         return f&#39;&lt;Configuration with values: {self.settings}&gt;&#39;
 
     def check_content(self, content):
-        &#34;&#34;&#34;Returns dictionary with correct values of settings.
+        &#34;&#34;&#34;Return dictionary with correct values of settings.
 
-        It iterates through default dictionary and compares values passed in content with allowed values. If value is
-        accepted function replaces default value. Modified dictionary is returned.
+        It iterates through default dictionary and compares values passed in
+        content with allowed values. If value is accepted function replaces
+        default value. Modified dictionary is returned.
 
         Parameters
         ----------
@@ -132,20 +117,23 @@ class Config:
         dict
             a dictionary with correct settings
         &#34;&#34;&#34;
-
-        default = {&#39;figures&#39;: 3, &#39;time&#39;: 60, &#39;speed&#39;: 2, &#39;colors&#39;: &#39;Medium&#39;, &#39;sound&#39;: &#39;Off&#39;}
-        values = self.get_values()
+        default = {
+            &#39;figures&#39;: 3,
+            &#39;time&#39;: 60,
+            &#39;speed&#39;: 2,
+            &#39;colors&#39;: &#39;Medium&#39;,
+            &#39;sound&#39;: &#39;Off&#39;
+        }
         for key in default:
             try:
-                if content[key] in values[key]:
+                if content[key] in self.range[key]:
                     default[key] = content[key]
             except (KeyError, TypeError):
                 pass
         return default
 
     def get_content(self):
-        &#34;&#34;&#34;Returns content of configuration file or False in case of error.&#34;&#34;&#34;
-
+        &#34;&#34;&#34;Return content of configuration file or False in case of error.&#34;&#34;&#34;
         try:
             with open(self.config_file, &#39;r&#39;) as config:
                 return loads(config.read())
@@ -153,38 +141,30 @@ class Config:
             return False
 
     def save(self, settings):
-        &#34;&#34;&#34;Saves passed settings to configuration file.
+        &#34;&#34;&#34;Save passed settings to configuration file.
 
         Parameters
         ----------
         settings : dict
             dictionary settings which will be saved to configuration file
         &#34;&#34;&#34;
-
         self.settings = settings
         with open(self.config_file, &#39;w&#39;) as config:
             config.write(dumps(self.settings))
 
     def get_settings(self):
-        &#34;&#34;&#34;Returns correct settings in dictionary. Previously checked and loaded from configuration file.&#34;&#34;&#34;
+        &#34;&#34;&#34;Return correct settings in dictionary.
 
+        Which are previously checked and loaded from configuration file.
+        &#34;&#34;&#34;
         return self.settings
-
-    def get_values(self):
-        &#34;&#34;&#34;Returns dictionary with values allowed for each option.&#34;&#34;&#34;
-
-        return {
-            &#39;figures&#39;: (2, 3, 4),
-            &#39;time&#39;: tuple((x for x in range(5, 61, 5))),
-            &#39;speed&#39;: (1, 2, 3, 4),
-            &#39;colors&#39;: (&#39;Easy&#39;, &#39;Medium&#39;, &#39;Hard&#39;),
-            &#39;sound&#39;: (&#39;Off&#39;, &#39;On&#39;)
-        }
 
 
 class Handler:
     &#34;&#34;&#34;
-    A class responsible for handling `pygame` events. Running passed function in loop based on set condition.
+    A class responsible for handling `pygame` events.
+
+    Running passed function in loop based on set condition.
 
     ...
 
@@ -204,24 +184,25 @@ class Handler:
     &#34;&#34;&#34;
 
     def __init__(self, function, condition=lambda: True):
-        &#34;&#34;&#34;
+        &#34;&#34;&#34;Initialize event handler.
+
         Parameters
         ----------
         function : function
             function which will be run inside loop
         condition : function, optional
-            function which return True or False based on its condition (default is lambda: True)
+            function which return True or False based on its condition
+            (default is lambda: True)
         &#34;&#34;&#34;
-
         self.function = function
         self.condition = condition
 
     def __repr__(self):
+        &#34;&#34;&#34;Return `Handler` class representation.&#34;&#34;&#34;
         return f&#39;&lt;Pygame event handler with {self.function} in loop.&#39;
 
     def __call__(self):
         &#34;&#34;&#34;Loops passed functions and handles `pygame` events.&#34;&#34;&#34;
-
         while self.condition():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -241,8 +222,7 @@ class Handler:
                 pygame.display.flip()
 
     def stop(self):
-        &#34;&#34;&#34;Breaks loop and stops Handler from running.&#34;&#34;&#34;
-
+        &#34;&#34;&#34;Break loop and stop `Handler` from running.&#34;&#34;&#34;
         self.condition = lambda: False</code></pre>
 </details>
 </section>
@@ -251,11 +231,9 @@ class Handler:
 <section>
 </section>
 <section>
-</section>
-<section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="MemorizeIT.config.Config"><code class="flex name class">
+<dt id="memorizeit.config.Config"><code class="flex name class">
 <span>class <span class="ident">Config</span></span>
 </code></dt>
 <dd>
@@ -268,24 +246,15 @@ class Handler:
 <dt><strong><code>settings</code></strong> :&ensp;<code>dict</code></dt>
 <dd>dictionary with loaded and checked settings</dd>
 </dl>
-<h2 id="methods">Methods</h2>
-<p>check_content(content)
-Contains default values and replace them one by one with values passed in content parameter if they are correct.
-get_content()
-Returns content loaded from file or False in case of error.
-save(settings)
-Saves passed settings to configuration file.
-get_settings()
-Returns settings (which were previously loaded and checked).
-get_values()
-Returns allowed options for each setting.</p>
-<p>Loads, checks and stores settings</p>
-<p>It has defined config_file name. Settings are loaded from this file. Then they are checked with default values.
-Correct settings are kept in variable and saved to file (to replace corrupted data if there were any wrong
-values).</p></section>
+<p>Load, check and store settings.</p>
+<p>It has defined config_file name. Settings are loaded from this file.
+Then they are checked with default values. Correct settings are kept
+in variable and saved to file (to replace corrupted data if there were
+any wrong values).</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/config.py#L26-L120" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class Config:
     &#34;&#34;&#34;
@@ -299,41 +268,37 @@ values).</p></section>
         string containing configuration file path
     settings : dict
         dictionary with loaded and checked settings
-
-    Methods
-    -------
-    check_content(content)
-        Contains default values and replace them one by one with values passed in content parameter if they are correct.
-    get_content()
-        Returns content loaded from file or False in case of error.
-    save(settings)
-        Saves passed settings to configuration file.
-    get_settings()
-        Returns settings (which were previously loaded and checked).
-    get_values()
-        Returns allowed options for each setting.
     &#34;&#34;&#34;
 
     def __init__(self):
-        &#34;&#34;&#34;Loads, checks and stores settings
+        &#34;&#34;&#34;Load, check and store settings.
 
-        It has defined config_file name. Settings are loaded from this file. Then they are checked with default values.
-        Correct settings are kept in variable and saved to file (to replace corrupted data if there were any wrong
-        values).
+        It has defined config_file name. Settings are loaded from this file.
+        Then they are checked with default values. Correct settings are kept
+        in variable and saved to file (to replace corrupted data if there were
+        any wrong values).
         &#34;&#34;&#34;
-
-        self.config_file = &#39;settings.txt&#39;
+        self.config_file = Path(__file__).parent.absolute() / &#39;settings.json&#39;
+        self.range = {
+            &#39;figures&#39;: (2, 3, 4),
+            &#39;time&#39;: tuple((x for x in range(5, 61, 5))),
+            &#39;speed&#39;: (1, 2, 3, 4),
+            &#39;colors&#39;: (&#39;Easy&#39;, &#39;Medium&#39;, &#39;Hard&#39;),
+            &#39;sound&#39;: (&#39;Off&#39;, &#39;On&#39;)
+        }
         self.settings = self.check_content(self.get_content())
         self.save(self.settings)
 
     def __repr__(self):
+        &#34;&#34;&#34;Return `Config` class representation.&#34;&#34;&#34;
         return f&#39;&lt;Configuration with values: {self.settings}&gt;&#39;
 
     def check_content(self, content):
-        &#34;&#34;&#34;Returns dictionary with correct values of settings.
+        &#34;&#34;&#34;Return dictionary with correct values of settings.
 
-        It iterates through default dictionary and compares values passed in content with allowed values. If value is
-        accepted function replaces default value. Modified dictionary is returned.
+        It iterates through default dictionary and compares values passed in
+        content with allowed values. If value is accepted function replaces
+        default value. Modified dictionary is returned.
 
         Parameters
         ----------
@@ -345,20 +310,23 @@ values).</p></section>
         dict
             a dictionary with correct settings
         &#34;&#34;&#34;
-
-        default = {&#39;figures&#39;: 3, &#39;time&#39;: 60, &#39;speed&#39;: 2, &#39;colors&#39;: &#39;Medium&#39;, &#39;sound&#39;: &#39;Off&#39;}
-        values = self.get_values()
+        default = {
+            &#39;figures&#39;: 3,
+            &#39;time&#39;: 60,
+            &#39;speed&#39;: 2,
+            &#39;colors&#39;: &#39;Medium&#39;,
+            &#39;sound&#39;: &#39;Off&#39;
+        }
         for key in default:
             try:
-                if content[key] in values[key]:
+                if content[key] in self.range[key]:
                     default[key] = content[key]
             except (KeyError, TypeError):
                 pass
         return default
 
     def get_content(self):
-        &#34;&#34;&#34;Returns content of configuration file or False in case of error.&#34;&#34;&#34;
-
+        &#34;&#34;&#34;Return content of configuration file or False in case of error.&#34;&#34;&#34;
         try:
             with open(self.config_file, &#39;r&#39;) as config:
                 return loads(config.read())
@@ -366,43 +334,34 @@ values).</p></section>
             return False
 
     def save(self, settings):
-        &#34;&#34;&#34;Saves passed settings to configuration file.
+        &#34;&#34;&#34;Save passed settings to configuration file.
 
         Parameters
         ----------
         settings : dict
             dictionary settings which will be saved to configuration file
         &#34;&#34;&#34;
-
         self.settings = settings
         with open(self.config_file, &#39;w&#39;) as config:
             config.write(dumps(self.settings))
 
     def get_settings(self):
-        &#34;&#34;&#34;Returns correct settings in dictionary. Previously checked and loaded from configuration file.&#34;&#34;&#34;
+        &#34;&#34;&#34;Return correct settings in dictionary.
 
-        return self.settings
-
-    def get_values(self):
-        &#34;&#34;&#34;Returns dictionary with values allowed for each option.&#34;&#34;&#34;
-
-        return {
-            &#39;figures&#39;: (2, 3, 4),
-            &#39;time&#39;: tuple((x for x in range(5, 61, 5))),
-            &#39;speed&#39;: (1, 2, 3, 4),
-            &#39;colors&#39;: (&#39;Easy&#39;, &#39;Medium&#39;, &#39;Hard&#39;),
-            &#39;sound&#39;: (&#39;Off&#39;, &#39;On&#39;)
-        }</code></pre>
+        Which are previously checked and loaded from configuration file.
+        &#34;&#34;&#34;
+        return self.settings</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="MemorizeIT.config.Config.check_content"><code class="name flex">
+<dt id="memorizeit.config.Config.check_content"><code class="name flex">
 <span>def <span class="ident">check_content</span></span>(<span>self, content)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns dictionary with correct values of settings.</p>
-<p>It iterates through default dictionary and compares values passed in content with allowed values. If value is
-accepted function replaces default value. Modified dictionary is returned.</p>
+<section class="desc"><p>Return dictionary with correct values of settings.</p>
+<p>It iterates through default dictionary and compares values passed in
+content with allowed values. If value is accepted function replaces
+default value. Modified dictionary is returned.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>content</code></strong> :&ensp;<code>dict</code></dt>
@@ -416,12 +375,14 @@ accepted function replaces default value. Modified dictionary is returned.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/config.py#L63-L93" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def check_content(self, content):
-    &#34;&#34;&#34;Returns dictionary with correct values of settings.
+    &#34;&#34;&#34;Return dictionary with correct values of settings.
 
-    It iterates through default dictionary and compares values passed in content with allowed values. If value is
-    accepted function replaces default value. Modified dictionary is returned.
+    It iterates through default dictionary and compares values passed in
+    content with allowed values. If value is accepted function replaces
+    default value. Modified dictionary is returned.
 
     Parameters
     ----------
@@ -433,30 +394,34 @@ accepted function replaces default value. Modified dictionary is returned.</p>
     dict
         a dictionary with correct settings
     &#34;&#34;&#34;
-
-    default = {&#39;figures&#39;: 3, &#39;time&#39;: 60, &#39;speed&#39;: 2, &#39;colors&#39;: &#39;Medium&#39;, &#39;sound&#39;: &#39;Off&#39;}
-    values = self.get_values()
+    default = {
+        &#39;figures&#39;: 3,
+        &#39;time&#39;: 60,
+        &#39;speed&#39;: 2,
+        &#39;colors&#39;: &#39;Medium&#39;,
+        &#39;sound&#39;: &#39;Off&#39;
+    }
     for key in default:
         try:
-            if content[key] in values[key]:
+            if content[key] in self.range[key]:
                 default[key] = content[key]
         except (KeyError, TypeError):
             pass
     return default</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.config.Config.get_content"><code class="name flex">
+<dt id="memorizeit.config.Config.get_content"><code class="name flex">
 <span>def <span class="ident">get_content</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns content of configuration file or False in case of error.</p></section>
+<section class="desc"><p>Return content of configuration file or False in case of error.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/config.py#L95-L101" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def get_content(self):
-    &#34;&#34;&#34;Returns content of configuration file or False in case of error.&#34;&#34;&#34;
-
+    &#34;&#34;&#34;Return content of configuration file or False in case of error.&#34;&#34;&#34;
     try:
         with open(self.config_file, &#39;r&#39;) as config:
             return loads(config.read())
@@ -464,47 +429,30 @@ accepted function replaces default value. Modified dictionary is returned.</p>
         return False</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.config.Config.get_settings"><code class="name flex">
+<dt id="memorizeit.config.Config.get_settings"><code class="name flex">
 <span>def <span class="ident">get_settings</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns correct settings in dictionary. Previously checked and loaded from configuration file.</p></section>
+<section class="desc"><p>Return correct settings in dictionary.</p>
+<p>Which are previously checked and loaded from configuration file.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/config.py#L115-L120" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def get_settings(self):
-    &#34;&#34;&#34;Returns correct settings in dictionary. Previously checked and loaded from configuration file.&#34;&#34;&#34;
+    &#34;&#34;&#34;Return correct settings in dictionary.
 
+    Which are previously checked and loaded from configuration file.
+    &#34;&#34;&#34;
     return self.settings</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.config.Config.get_values"><code class="name flex">
-<span>def <span class="ident">get_values</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<section class="desc"><p>Returns dictionary with values allowed for each option.</p></section>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_values(self):
-    &#34;&#34;&#34;Returns dictionary with values allowed for each option.&#34;&#34;&#34;
-
-    return {
-        &#39;figures&#39;: (2, 3, 4),
-        &#39;time&#39;: tuple((x for x in range(5, 61, 5))),
-        &#39;speed&#39;: (1, 2, 3, 4),
-        &#39;colors&#39;: (&#39;Easy&#39;, &#39;Medium&#39;, &#39;Hard&#39;),
-        &#39;sound&#39;: (&#39;Off&#39;, &#39;On&#39;)
-    }</code></pre>
-</details>
-</dd>
-<dt id="MemorizeIT.config.Config.save"><code class="name flex">
+<dt id="memorizeit.config.Config.save"><code class="name flex">
 <span>def <span class="ident">save</span></span>(<span>self, settings)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Saves passed settings to configuration file.</p>
+<section class="desc"><p>Save passed settings to configuration file.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>settings</code></strong> :&ensp;<code>dict</code></dt>
@@ -513,16 +461,16 @@ accepted function replaces default value. Modified dictionary is returned.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/config.py#L103-L113" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def save(self, settings):
-    &#34;&#34;&#34;Saves passed settings to configuration file.
+    &#34;&#34;&#34;Save passed settings to configuration file.
 
     Parameters
     ----------
     settings : dict
         dictionary settings which will be saved to configuration file
     &#34;&#34;&#34;
-
     self.settings = settings
     with open(self.config_file, &#39;w&#39;) as config:
         config.write(dumps(self.settings))</code></pre>
@@ -530,12 +478,13 @@ accepted function replaces default value. Modified dictionary is returned.</p>
 </dd>
 </dl>
 </dd>
-<dt id="MemorizeIT.config.Handler"><code class="flex name class">
+<dt id="memorizeit.config.Handler"><code class="flex name class">
 <span>class <span class="ident">Handler</span></span>
 <span>(</span><span>function, condition=&lt;function Handler.&lt;lambda&gt;&gt;)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>A class responsible for handling <code>pygame</code> events. Running passed function in loop based on set condition.</p>
+<section class="desc"><p>A class responsible for handling <code>pygame</code> events.</p>
+<p>Running passed function in loop based on set condition.</p>
 <p>&hellip;</p>
 <h2 id="attributes">Attributes</h2>
 <dl>
@@ -549,20 +498,25 @@ accepted function replaces default value. Modified dictionary is returned.</p>
 loops passed functions and handles <code>pygame</code> events
 stop()
 breaks loop and stops Handler from running</p>
+<p>Initialize event handler.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>function</code></strong> :&ensp;<code>function</code></dt>
 <dd>function which will be run inside loop</dd>
 <dt><strong><code>condition</code></strong> :&ensp;<code>function</code>, optional</dt>
-<dd>function which return True or False based on its condition (default is lambda: True)</dd>
+<dd>function which return True or False based on its condition
+(default is lambda: True)</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/config.py#L123-L186" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class Handler:
     &#34;&#34;&#34;
-    A class responsible for handling `pygame` events. Running passed function in loop based on set condition.
+    A class responsible for handling `pygame` events.
+
+    Running passed function in loop based on set condition.
 
     ...
 
@@ -582,24 +536,25 @@ breaks loop and stops Handler from running</p>
     &#34;&#34;&#34;
 
     def __init__(self, function, condition=lambda: True):
-        &#34;&#34;&#34;
+        &#34;&#34;&#34;Initialize event handler.
+
         Parameters
         ----------
         function : function
             function which will be run inside loop
         condition : function, optional
-            function which return True or False based on its condition (default is lambda: True)
+            function which return True or False based on its condition
+            (default is lambda: True)
         &#34;&#34;&#34;
-
         self.function = function
         self.condition = condition
 
     def __repr__(self):
+        &#34;&#34;&#34;Return `Handler` class representation.&#34;&#34;&#34;
         return f&#39;&lt;Pygame event handler with {self.function} in loop.&#39;
 
     def __call__(self):
         &#34;&#34;&#34;Loops passed functions and handles `pygame` events.&#34;&#34;&#34;
-
         while self.condition():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -619,24 +574,23 @@ breaks loop and stops Handler from running</p>
                 pygame.display.flip()
 
     def stop(self):
-        &#34;&#34;&#34;Breaks loop and stops Handler from running.&#34;&#34;&#34;
-
+        &#34;&#34;&#34;Break loop and stop `Handler` from running.&#34;&#34;&#34;
         self.condition = lambda: False</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="MemorizeIT.config.Handler.stop"><code class="name flex">
+<dt id="memorizeit.config.Handler.stop"><code class="name flex">
 <span>def <span class="ident">stop</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Breaks loop and stops Handler from running.</p></section>
+<section class="desc"><p>Break loop and stop <code><a title="memorizeit.config.Handler" href="#memorizeit.config.Handler">Handler</a></code> from running.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/config.py#L184-L186" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def stop(self):
-    &#34;&#34;&#34;Breaks loop and stops Handler from running.&#34;&#34;&#34;
-
+    &#34;&#34;&#34;Break loop and stop `Handler` from running.&#34;&#34;&#34;
     self.condition = lambda: False</code></pre>
 </details>
 </dd>
@@ -646,32 +600,34 @@ breaks loop and stops Handler from running</p>
 </section>
 </article>
 <nav id="sidebar">
+<header><img src="https://raw.githubusercontent.com/ethru/memorizeit/master/img/brain.png" alt=""></header>
 <h1>Index</h1>
 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#config">Config</a></li>
+</ul>
 </div>
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="MemorizeIT" href="index.html">MemorizeIT</a></code></li>
+<li><code><a title="memorizeit" href="index.html">memorizeit</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="MemorizeIT.config.Config" href="#MemorizeIT.config.Config">Config</a></code></h4>
+<h4><code><a title="memorizeit.config.Config" href="#memorizeit.config.Config">Config</a></code></h4>
 <ul class="">
-<li><code><a title="MemorizeIT.config.Config.check_content" href="#MemorizeIT.config.Config.check_content">check_content</a></code></li>
-<li><code><a title="MemorizeIT.config.Config.get_content" href="#MemorizeIT.config.Config.get_content">get_content</a></code></li>
-<li><code><a title="MemorizeIT.config.Config.get_settings" href="#MemorizeIT.config.Config.get_settings">get_settings</a></code></li>
-<li><code><a title="MemorizeIT.config.Config.get_values" href="#MemorizeIT.config.Config.get_values">get_values</a></code></li>
-<li><code><a title="MemorizeIT.config.Config.save" href="#MemorizeIT.config.Config.save">save</a></code></li>
+<li><code><a title="memorizeit.config.Config.check_content" href="#memorizeit.config.Config.check_content">check_content</a></code></li>
+<li><code><a title="memorizeit.config.Config.get_content" href="#memorizeit.config.Config.get_content">get_content</a></code></li>
+<li><code><a title="memorizeit.config.Config.get_settings" href="#memorizeit.config.Config.get_settings">get_settings</a></code></li>
+<li><code><a title="memorizeit.config.Config.save" href="#memorizeit.config.Config.save">save</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="MemorizeIT.config.Handler" href="#MemorizeIT.config.Handler">Handler</a></code></h4>
+<h4><code><a title="memorizeit.config.Handler" href="#memorizeit.config.Handler">Handler</a></code></h4>
 <ul class="">
-<li><code><a title="MemorizeIT.config.Handler.stop" href="#MemorizeIT.config.Handler.stop">stop</a></code></li>
+<li><code><a title="memorizeit.config.Handler.stop" href="#memorizeit.config.Handler.stop">stop</a></code></li>
 </ul>
 </li>
 </ul>
@@ -680,7 +636,7 @@ breaks loop and stops Handler from running</p>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad()</script>

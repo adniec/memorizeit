@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.7.2" />
-<title>MemorizeIT.colors API documentation</title>
-<meta name="description" content="Application Color Module …" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>memorizeit.colors API documentation</title>
+<meta name="description" content="Colors …" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -17,32 +17,15 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>MemorizeIT.colors</code></h1>
+<h1 class="title">Module <code>memorizeit.colors</code></h1>
 </header>
 <section id="section-intro">
-<p>Application Color Module</p>
-<p>This module defines colors used in application. They are represented as (0-1, 0-1, 0-1) or (0-255, 0-255, 0-255)
-(r, g, b) values. Module allows for conversion from 0-1 color code to 0-255. 0-1 representation is used with 3D figures
-created via <code>OpenGL</code>. 0-255 is used by <code>pygame</code>.</p>
-<p>Module uses functions <code>choice</code> and <code>sample</code> from <code>random</code> module. It is required to provide them before running
-application.</p>
-<p>It contains data:</p>
-<pre><code>* COLORS - dictionary with colors names as keys and their RGB (0-1, 0-1, 0-1) representation
-</code></pre>
-<p>functions:</p>
-<pre><code>* pick - returns colors values based on game setting
-* convert - gets RGB (0-1, 0-1, 0-1) color code as parameter and returns this color in RGB (0-255, 0-255, 0-255)
-format.
-* get_menu_colors - returns tuple with colors codes for element which is inactive and active (mouse over element)
-* get_backround_color - returns color code of background used in menu of application
-* get_logo_color - returns color code for application logo
-* get_rate_color - returns tuple with incorrect and correct colors codes used in summary menu for counting
-occurrence of elements
-</code></pre>
-<p>and class:</p>
-<pre><code>* Random - stores last used color name (default grey) and method responsible for picking one random color
-(different than last used).
-</code></pre>
+<h4 id="colors">Colors</h4>
+<p>This module defines colors used in application. They are represented as (0-1,
+0-1, 0-1) or (0-255, 0-255, 0-255) (r, g, b) values. Module allows for
+conversion from 0-1 color code to 0-255. 0-1 representation is used with 3D
+figures created via <code>OpenGL</code>. 0-255 is used by <code>pygame</code>. It uses <code>random</code>
+module.</p>
 <p>License:
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -54,35 +37,15 @@ SOFTWARE.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/colors.py#L0-L150" class="git-link">Browse git</a>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;Application Color Module
+<pre><code class="python">&#34;&#34;&#34;#### Colors
 
-This module defines colors used in application. They are represented as (0-1, 0-1, 0-1) or (0-255, 0-255, 0-255)
-(r, g, b) values. Module allows for conversion from 0-1 color code to 0-255. 0-1 representation is used with 3D figures
-created via `OpenGL`. 0-255 is used by `pygame`.
-
-Module uses functions `choice` and `sample` from `random` module. It is required to provide them before running
-application.
-
-It contains data:
-
-    * COLORS - dictionary with colors names as keys and their RGB (0-1, 0-1, 0-1) representation
-
-functions:
-
-    * pick - returns colors values based on game setting
-    * convert - gets RGB (0-1, 0-1, 0-1) color code as parameter and returns this color in RGB (0-255, 0-255, 0-255)
-    format.
-    * get_menu_colors - returns tuple with colors codes for element which is inactive and active (mouse over element)
-    * get_backround_color - returns color code of background used in menu of application
-    * get_logo_color - returns color code for application logo
-    * get_rate_color - returns tuple with incorrect and correct colors codes used in summary menu for counting
-    occurrence of elements
-
-and class:
-
-    * Random - stores last used color name (default grey) and method responsible for picking one random color
-    (different than last used).
+This module defines colors used in application. They are represented as (0-1,
+0-1, 0-1) or (0-255, 0-255, 0-255) (r, g, b) values. Module allows for
+conversion from 0-1 color code to 0-255. 0-1 representation is used with 3D
+figures created via `OpenGL`. 0-255 is used by `pygame`. It uses `random`
+module.
 
 License:
 THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -108,7 +71,7 @@ COLORS = {
 
 
 def pick(setting, amount):
-    &#34;&#34;&#34;Returns colors values based on game setting
+    &#34;&#34;&#34;Return colors values based on game setting.
 
     Parameters
     ----------
@@ -120,14 +83,16 @@ def pick(setting, amount):
     Returns
     -------
     list
-        a list of unique colors codes in RGB format (0-1, 0-1, 0-1) with a length given in parameter amount when
-        setting is Easy. Ensures always the same color for wave made with elements of exact type.
+        a list of unique colors codes in RGB format (0-1, 0-1, 0-1) with a
+        length given in parameter amount when setting is Easy. Ensures always
+        the same color for wave made with elements of exact type.
     True
-        when setting is Medium. Ensures picking one random color for each wave of elements.
+        when setting is Medium. Ensures picking one random color for each wave
+        of elements.
     False
-        when setting is Hard. Ensures that each element in wave will have random color.
+        when setting is Hard. Ensures that each element in wave will have
+        random color.
     &#34;&#34;&#34;
-
     if setting == &#39;Easy&#39;:
         colors = sample(COLORS.keys(), amount)
         return [COLORS[x] for x in colors]
@@ -135,7 +100,7 @@ def pick(setting, amount):
 
 
 def convert(color):
-    &#34;&#34;&#34;Gets (0-1, 0-1, 0-1) RGB color code and converts it to (0-255, 0-255, 0-255).
+    &#34;&#34;&#34;Get (0-1, 0-1, 0-1) color code and converts it to (0-255, 0-255, 0-255).
 
     Parameters
     ----------
@@ -147,41 +112,44 @@ def convert(color):
     list
         a list representing RBG color code in format (0-255, 0-255, 0-255)
     &#34;&#34;&#34;
-
     return [int(x * 255) for x in color]
 
 
 def get_menu_colors():
-    &#34;&#34;&#34;Returns colors used in menu
+    &#34;&#34;&#34;Return colors used in menu.
 
-    Returns tuple with inactive [0] and active [1] color code in RGB format (0-255, 0-255, 0-255). Where active means
-    mouse over colored element in application menu. Those colors are used for creating labels and buttons. Dark and
-    Light yellow applied.
+    Returns tuple with inactive [0] and active [1] color code in RGB format
+    (0-255, 0-255, 0-255). Where active means mouse over colored element in
+    application menu. Those colors are used for creating labels and buttons.
+    Dark and light yellow applied.
     &#34;&#34;&#34;
-
     return (255, 204, 0), (255, 255, 0)
 
 
 def get_background_color():
-    &#34;&#34;&#34;Returns color of background used in application menu. RGB format (0-255, 0-255, 0-255). Grey applied.&#34;&#34;&#34;
+    &#34;&#34;&#34;Return color of background used in application menu.
 
+    RGB format (0-255, 0-255, 0-255). Grey applied.
+    &#34;&#34;&#34;
     return (50, 50, 50)
 
 
 def get_logo_color():
-    &#34;&#34;&#34;Returns color of logo used in application main menu. RGB format (0-255, 0-255, 0-255). Orange applied.&#34;&#34;&#34;
+    &#34;&#34;&#34;Return color of logo used in application main menu.
 
+    RGB format (0-255, 0-255, 0-255). Orange applied.
+    &#34;&#34;&#34;
     return (255, 128, 0)
 
 
 def get_rate_colors():
-    &#34;&#34;&#34;Returns colors of result check
+    &#34;&#34;&#34;Return colors of result check.
 
-    Returns tuple with incorrect [0] and correct [1] color code in RGB format (0-255, 0-255, 0-255). They are used to
-    highlight result of game filled by user with actual result. It occurs by pressing submit button in summary menu.
-    Red and green applied.
+    Return tuple with incorrect [0] and correct [1] color code in RGB format
+    (0-255, 0-255, 0-255). They are used to highlight result of game filled by
+    user with actual result. It occurs by pressing submit button in summary
+    menu. Red and green applied.
     &#34;&#34;&#34;
-
     return (220, 0, 0), (0, 180, 0)
 
 
@@ -199,24 +167,26 @@ class Random:
     Methods
     -------
     get_random_color()
-        Picks one random color (different than last choice) from dictionary and returns its RGB code.
+        Picks one random color (different than last choice) from dictionary
+        and return its RGB code.
     &#34;&#34;&#34;
 
     def __init__(self):
-        &#34;&#34;&#34;Sets attribute active_color to grey.&#34;&#34;&#34;
-
+        &#34;&#34;&#34;Set attribute active_color to grey.&#34;&#34;&#34;
         self.active_color = &#39;Grey&#39;
 
     def __repr__(self):
-        return f&#39;&lt;One color code of {[x for x in COLORS.keys() if not x == self.active_color]} picked randomly&gt;&#39;
+        &#34;&#34;&#34;Return `Random` class representation.&#34;&#34;&#34;
+        colors = [x for x in COLORS.keys() if not x == self.active_color]
+        return f&#39;&lt;One color code of {colors} picked randomly&gt;&#39;
 
     def get_color(self):
-        &#34;&#34;&#34;Returns random color
+        &#34;&#34;&#34;Return random color.
 
-        Picks one color from COLORS different than active_color (color chosen last time). Updates active_color
-        and returns picked color code in RGB format (0-1, 0-1, 0-1).
+        Pick one color from COLORS different than active_color (color chosen
+        last time). Updates active_color and return picked color code in RGB
+        format (0-1, 0-1, 0-1).
         &#34;&#34;&#34;
-
         colors = list(filter((lambda x: self.active_color not in x), COLORS))
         self.active_color = choice(colors)
         return COLORS[self.active_color]</code></pre>
@@ -225,15 +195,13 @@ class Random:
 <section>
 </section>
 <section>
-</section>
-<section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="MemorizeIT.colors.convert"><code class="name flex">
+<dt id="memorizeit.colors.convert"><code class="name flex">
 <span>def <span class="ident">convert</span></span>(<span>color)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Gets (0-1, 0-1, 0-1) RGB color code and converts it to (0-255, 0-255, 0-255).</p>
+<section class="desc"><p>Get (0-1, 0-1, 0-1) color code and converts it to (0-255, 0-255, 0-255).</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>color</code></strong> :&ensp;<code>tuple</code></dt>
@@ -247,9 +215,10 @@ class Random:
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/colors.py#L61-L74" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def convert(color):
-    &#34;&#34;&#34;Gets (0-1, 0-1, 0-1) RGB color code and converts it to (0-255, 0-255, 0-255).
+    &#34;&#34;&#34;Get (0-1, 0-1, 0-1) color code and converts it to (0-255, 0-255, 0-255).
 
     Parameters
     ----------
@@ -261,91 +230,102 @@ class Random:
     list
         a list representing RBG color code in format (0-255, 0-255, 0-255)
     &#34;&#34;&#34;
-
     return [int(x * 255) for x in color]</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.colors.get_background_color"><code class="name flex">
+<dt id="memorizeit.colors.get_background_color"><code class="name flex">
 <span>def <span class="ident">get_background_color</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns color of background used in application menu. RGB format (0-255, 0-255, 0-255). Grey applied.</p></section>
+<section class="desc"><p>Return color of background used in application menu.</p>
+<p>RGB format (0-255, 0-255, 0-255). Grey applied.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/colors.py#L88-L93" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def get_background_color():
-    &#34;&#34;&#34;Returns color of background used in application menu. RGB format (0-255, 0-255, 0-255). Grey applied.&#34;&#34;&#34;
+    &#34;&#34;&#34;Return color of background used in application menu.
 
+    RGB format (0-255, 0-255, 0-255). Grey applied.
+    &#34;&#34;&#34;
     return (50, 50, 50)</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.colors.get_logo_color"><code class="name flex">
+<dt id="memorizeit.colors.get_logo_color"><code class="name flex">
 <span>def <span class="ident">get_logo_color</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns color of logo used in application main menu. RGB format (0-255, 0-255, 0-255). Orange applied.</p></section>
+<section class="desc"><p>Return color of logo used in application main menu.</p>
+<p>RGB format (0-255, 0-255, 0-255). Orange applied.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/colors.py#L96-L101" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def get_logo_color():
-    &#34;&#34;&#34;Returns color of logo used in application main menu. RGB format (0-255, 0-255, 0-255). Orange applied.&#34;&#34;&#34;
+    &#34;&#34;&#34;Return color of logo used in application main menu.
 
+    RGB format (0-255, 0-255, 0-255). Orange applied.
+    &#34;&#34;&#34;
     return (255, 128, 0)</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.colors.get_menu_colors"><code class="name flex">
+<dt id="memorizeit.colors.get_menu_colors"><code class="name flex">
 <span>def <span class="ident">get_menu_colors</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns colors used in menu</p>
-<p>Returns tuple with inactive [0] and active [1] color code in RGB format (0-255, 0-255, 0-255). Where active means
-mouse over colored element in application menu. Those colors are used for creating labels and buttons. Dark and
-Light yellow applied.</p></section>
+<section class="desc"><p>Return colors used in menu.</p>
+<p>Returns tuple with inactive [0] and active [1] color code in RGB format
+(0-255, 0-255, 0-255). Where active means mouse over colored element in
+application menu. Those colors are used for creating labels and buttons.
+Dark and light yellow applied.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/colors.py#L77-L85" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def get_menu_colors():
-    &#34;&#34;&#34;Returns colors used in menu
+    &#34;&#34;&#34;Return colors used in menu.
 
-    Returns tuple with inactive [0] and active [1] color code in RGB format (0-255, 0-255, 0-255). Where active means
-    mouse over colored element in application menu. Those colors are used for creating labels and buttons. Dark and
-    Light yellow applied.
+    Returns tuple with inactive [0] and active [1] color code in RGB format
+    (0-255, 0-255, 0-255). Where active means mouse over colored element in
+    application menu. Those colors are used for creating labels and buttons.
+    Dark and light yellow applied.
     &#34;&#34;&#34;
-
     return (255, 204, 0), (255, 255, 0)</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.colors.get_rate_colors"><code class="name flex">
+<dt id="memorizeit.colors.get_rate_colors"><code class="name flex">
 <span>def <span class="ident">get_rate_colors</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns colors of result check</p>
-<p>Returns tuple with incorrect [0] and correct [1] color code in RGB format (0-255, 0-255, 0-255). They are used to
-highlight result of game filled by user with actual result. It occurs by pressing submit button in summary menu.
-Red and green applied.</p></section>
+<section class="desc"><p>Return colors of result check.</p>
+<p>Return tuple with incorrect [0] and correct [1] color code in RGB format
+(0-255, 0-255, 0-255). They are used to highlight result of game filled by
+user with actual result. It occurs by pressing submit button in summary
+menu. Red and green applied.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/colors.py#L104-L112" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def get_rate_colors():
-    &#34;&#34;&#34;Returns colors of result check
+    &#34;&#34;&#34;Return colors of result check.
 
-    Returns tuple with incorrect [0] and correct [1] color code in RGB format (0-255, 0-255, 0-255). They are used to
-    highlight result of game filled by user with actual result. It occurs by pressing submit button in summary menu.
-    Red and green applied.
+    Return tuple with incorrect [0] and correct [1] color code in RGB format
+    (0-255, 0-255, 0-255). They are used to highlight result of game filled by
+    user with actual result. It occurs by pressing submit button in summary
+    menu. Red and green applied.
     &#34;&#34;&#34;
-
     return (220, 0, 0), (0, 180, 0)</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.colors.pick"><code class="name flex">
+<dt id="memorizeit.colors.pick"><code class="name flex">
 <span>def <span class="ident">pick</span></span>(<span>setting, amount)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns colors values based on game setting</p>
+<section class="desc"><p>Return colors values based on game setting.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>setting</code></strong> :&ensp;<code>str</code></dt>
@@ -356,19 +336,23 @@ Red and green applied.</p></section>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>list</code></dt>
-<dd>a list of unique colors codes in RGB format (0-1, 0-1, 0-1) with a length given in parameter amount when
-setting is Easy. Ensures always the same color for wave made with elements of exact type.</dd>
+<dd>a list of unique colors codes in RGB format (0-1, 0-1, 0-1) with a
+length given in parameter amount when setting is Easy. Ensures always
+the same color for wave made with elements of exact type.</dd>
 <dt><code>True</code></dt>
-<dd>when setting is Medium. Ensures picking one random color for each wave of elements.</dd>
+<dd>when setting is Medium. Ensures picking one random color for each wave
+of elements.</dd>
 <dt><code>False</code></dt>
-<dd>when setting is Hard. Ensures that each element in wave will have random color.</dd>
+<dd>when setting is Hard. Ensures that each element in wave will have
+random color.</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/colors.py#L32-L58" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def pick(setting, amount):
-    &#34;&#34;&#34;Returns colors values based on game setting
+    &#34;&#34;&#34;Return colors values based on game setting.
 
     Parameters
     ----------
@@ -380,14 +364,16 @@ setting is Easy. Ensures always the same color for wave made with elements of ex
     Returns
     -------
     list
-        a list of unique colors codes in RGB format (0-1, 0-1, 0-1) with a length given in parameter amount when
-        setting is Easy. Ensures always the same color for wave made with elements of exact type.
+        a list of unique colors codes in RGB format (0-1, 0-1, 0-1) with a
+        length given in parameter amount when setting is Easy. Ensures always
+        the same color for wave made with elements of exact type.
     True
-        when setting is Medium. Ensures picking one random color for each wave of elements.
+        when setting is Medium. Ensures picking one random color for each wave
+        of elements.
     False
-        when setting is Hard. Ensures that each element in wave will have random color.
+        when setting is Hard. Ensures that each element in wave will have
+        random color.
     &#34;&#34;&#34;
-
     if setting == &#39;Easy&#39;:
         colors = sample(COLORS.keys(), amount)
         return [COLORS[x] for x in colors]
@@ -399,7 +385,7 @@ setting is Easy. Ensures always the same color for wave made with elements of ex
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="MemorizeIT.colors.Random"><code class="flex name class">
+<dt id="memorizeit.colors.Random"><code class="flex name class">
 <span>class <span class="ident">Random</span></span>
 </code></dt>
 <dd>
@@ -412,11 +398,13 @@ setting is Easy. Ensures always the same color for wave made with elements of ex
 </dl>
 <h2 id="methods">Methods</h2>
 <p>get_random_color()
-Picks one random color (different than last choice) from dictionary and returns its RGB code.</p>
-<p>Sets attribute active_color to grey.</p></section>
+Picks one random color (different than last choice) from dictionary
+and return its RGB code.</p>
+<p>Set attribute active_color to grey.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/colors.py#L115-L151" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class Random:
     &#34;&#34;&#34;
@@ -432,48 +420,52 @@ Picks one random color (different than last choice) from dictionary and returns 
     Methods
     -------
     get_random_color()
-        Picks one random color (different than last choice) from dictionary and returns its RGB code.
+        Picks one random color (different than last choice) from dictionary
+        and return its RGB code.
     &#34;&#34;&#34;
 
     def __init__(self):
-        &#34;&#34;&#34;Sets attribute active_color to grey.&#34;&#34;&#34;
-
+        &#34;&#34;&#34;Set attribute active_color to grey.&#34;&#34;&#34;
         self.active_color = &#39;Grey&#39;
 
     def __repr__(self):
-        return f&#39;&lt;One color code of {[x for x in COLORS.keys() if not x == self.active_color]} picked randomly&gt;&#39;
+        &#34;&#34;&#34;Return `Random` class representation.&#34;&#34;&#34;
+        colors = [x for x in COLORS.keys() if not x == self.active_color]
+        return f&#39;&lt;One color code of {colors} picked randomly&gt;&#39;
 
     def get_color(self):
-        &#34;&#34;&#34;Returns random color
+        &#34;&#34;&#34;Return random color.
 
-        Picks one color from COLORS different than active_color (color chosen last time). Updates active_color
-        and returns picked color code in RGB format (0-1, 0-1, 0-1).
+        Pick one color from COLORS different than active_color (color chosen
+        last time). Updates active_color and return picked color code in RGB
+        format (0-1, 0-1, 0-1).
         &#34;&#34;&#34;
-
         colors = list(filter((lambda x: self.active_color not in x), COLORS))
         self.active_color = choice(colors)
         return COLORS[self.active_color]</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="MemorizeIT.colors.Random.get_color"><code class="name flex">
+<dt id="memorizeit.colors.Random.get_color"><code class="name flex">
 <span>def <span class="ident">get_color</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns random color</p>
-<p>Picks one color from COLORS different than active_color (color chosen last time). Updates active_color
-and returns picked color code in RGB format (0-1, 0-1, 0-1).</p></section>
+<section class="desc"><p>Return random color.</p>
+<p>Pick one color from COLORS different than active_color (color chosen
+last time). Updates active_color and return picked color code in RGB
+format (0-1, 0-1, 0-1).</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/colors.py#L142-L151" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def get_color(self):
-    &#34;&#34;&#34;Returns random color
+    &#34;&#34;&#34;Return random color.
 
-    Picks one color from COLORS different than active_color (color chosen last time). Updates active_color
-    and returns picked color code in RGB format (0-1, 0-1, 0-1).
+    Pick one color from COLORS different than active_color (color chosen
+    last time). Updates active_color and return picked color code in RGB
+    format (0-1, 0-1, 0-1).
     &#34;&#34;&#34;
-
     colors = list(filter((lambda x: self.active_color not in x), COLORS))
     self.active_color = choice(colors)
     return COLORS[self.active_color]</code></pre>
@@ -485,32 +477,35 @@ and returns picked color code in RGB format (0-1, 0-1, 0-1).</p></section>
 </section>
 </article>
 <nav id="sidebar">
+<header><img src="https://raw.githubusercontent.com/ethru/memorizeit/master/img/brain.png" alt=""></header>
 <h1>Index</h1>
 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#colors">Colors</a></li>
+</ul>
 </div>
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="MemorizeIT" href="index.html">MemorizeIT</a></code></li>
+<li><code><a title="memorizeit" href="index.html">memorizeit</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="MemorizeIT.colors.convert" href="#MemorizeIT.colors.convert">convert</a></code></li>
-<li><code><a title="MemorizeIT.colors.get_background_color" href="#MemorizeIT.colors.get_background_color">get_background_color</a></code></li>
-<li><code><a title="MemorizeIT.colors.get_logo_color" href="#MemorizeIT.colors.get_logo_color">get_logo_color</a></code></li>
-<li><code><a title="MemorizeIT.colors.get_menu_colors" href="#MemorizeIT.colors.get_menu_colors">get_menu_colors</a></code></li>
-<li><code><a title="MemorizeIT.colors.get_rate_colors" href="#MemorizeIT.colors.get_rate_colors">get_rate_colors</a></code></li>
-<li><code><a title="MemorizeIT.colors.pick" href="#MemorizeIT.colors.pick">pick</a></code></li>
+<li><code><a title="memorizeit.colors.convert" href="#memorizeit.colors.convert">convert</a></code></li>
+<li><code><a title="memorizeit.colors.get_background_color" href="#memorizeit.colors.get_background_color">get_background_color</a></code></li>
+<li><code><a title="memorizeit.colors.get_logo_color" href="#memorizeit.colors.get_logo_color">get_logo_color</a></code></li>
+<li><code><a title="memorizeit.colors.get_menu_colors" href="#memorizeit.colors.get_menu_colors">get_menu_colors</a></code></li>
+<li><code><a title="memorizeit.colors.get_rate_colors" href="#memorizeit.colors.get_rate_colors">get_rate_colors</a></code></li>
+<li><code><a title="memorizeit.colors.pick" href="#memorizeit.colors.pick">pick</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="MemorizeIT.colors.Random" href="#MemorizeIT.colors.Random">Random</a></code></h4>
+<h4><code><a title="memorizeit.colors.Random" href="#memorizeit.colors.Random">Random</a></code></h4>
 <ul class="">
-<li><code><a title="MemorizeIT.colors.Random.get_color" href="#MemorizeIT.colors.Random.get_color">get_color</a></code></li>
+<li><code><a title="memorizeit.colors.Random.get_color" href="#memorizeit.colors.Random.get_color">get_color</a></code></li>
 </ul>
 </li>
 </ul>
@@ -519,7 +514,7 @@ and returns picked color code in RGB format (0-1, 0-1, 0-1).</p></section>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad()</script>

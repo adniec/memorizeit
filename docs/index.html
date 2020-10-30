@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.7.2" />
-<title>MemorizeIT API documentation</title>
-<meta name="description" content="" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>memorizeit API documentation</title>
+<meta name="description" content="MemorizeIT …" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -17,38 +17,97 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Namespace <code>MemorizeIT</code></h1>
+<h1 class="title">Package <code>memorizeit</code></h1>
 </header>
 <section id="section-intro">
-</section>
-<section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
-<dl>
-<dt><code class="name"><a title="MemorizeIT.colors" href="colors.html">MemorizeIT.colors</a></code></dt>
-<dd>
-<section class="desc"><p>Application Color Module …</p></section>
-</dd>
-<dt><code class="name"><a title="MemorizeIT.config" href="config.html">MemorizeIT.config</a></code></dt>
-<dd>
-<section class="desc"><p>Configuration Module …</p></section>
-</dd>
-<dt><code class="name"><a title="MemorizeIT.figure" href="figure.html">MemorizeIT.figure</a></code></dt>
-<dd>
-<section class="desc"><p>Figure Module …</p></section>
-</dd>
-<dt><code class="name"><a title="MemorizeIT.game" href="game.html">MemorizeIT.game</a></code></dt>
-<dd>
-<section class="desc"><p>Game Module …</p></section>
-</dd>
-<dt><code class="name"><a title="MemorizeIT.gui" href="gui.html">MemorizeIT.gui</a></code></dt>
-<dd>
-<section class="desc"><p>Graphical User Interface Module …</p></section>
-</dd>
-<dt><code class="name"><a title="MemorizeIT.main" href="main.html">MemorizeIT.main</a></code></dt>
-<dd>
-<section class="desc"><p>MemorizeIT …</p></section>
-</dd>
-</dl>
+<h1 id="memorizeit">MemorizeIT</h1>
+<p>Project is created to <strong>increase memory and focus</strong> among children or adults who would like to take part in training.
+Rules of game are quite simple. You just need to count elements displayed on screen and remember their type. At the end
+you will be asked to write down your results and confront them with exact ones. This will be verified by marking your
+answer with proper color (correct - green, not - red). Difficulty of game can be increased by adding more types of
+elements to count, mixing their colors, turning sound off or changing time dedicated to each wave. It is also more
+difficult to play normal game mode (instead of static), because figures are moving which is additional distraction. <em>I
+wish you enjoyable experience with game and best results in memory training. Good luck!</em></p>
+<p><img alt="Menu" src="https://raw.githubusercontent.com/ethru/memorizeit/master/img/menu.png"></p>
+<h2 id="installation">Installation</h2>
+<pre><code>$ git clone https://github.com/ethru/memorizeit.git
+$ pip install memorizeit/.
+</code></pre>
+<p><strong>Beware:</strong> Application was developed and tested on <strong>Fedora</strong>. Some functions may not work or behave in different way
+on other systems.</p>
+<h2 id="run">Run</h2>
+<p>Open terminal and type: <code>$ memorizeit</code> or <code>$ python -m memorizeit</code></p>
+<h2 id="how-to-configure-game">How to configure game:</h2>
+<ul>
+<li>settings are stored in game directory - <em>settings.json</em> file
+<img alt="Config file" src="https://raw.githubusercontent.com/ethru/memorizeit/master/img/config.png"><ul>
+<li>making changes in application settings menu updates this file</li>
+<li>removing it will restore default game settings</li>
+</ul>
+</li>
+<li>default images (displayed in static mode) are stored in game directory - <em>img/elements/</em><ul>
+<li>they can be removed (figures will be displayed instead)</li>
+<li>or replaced (application scales images automatically - user do not need to worry about it)
+<img alt="Static gameplay" src="https://raw.githubusercontent.com/ethru/memorizeit/master/img/static.gif"></li>
+</ul>
+</li>
+<li>sound of new elements appearing in game is stored in application directory - <em>sound.ogg</em><ul>
+<li>it can be replaced by any sound in ogg format (just make sure it won't be too long to avoid unpleasant experience)</li>
+</ul>
+</li>
+<li>game can be configured in applications settings menu, it contains options like:
+<img alt="Settings menu" src="https://raw.githubusercontent.com/ethru/memorizeit/master/img/settings.gif"><ul>
+<li>figures - number of unique types of the elements which may appear during game</li>
+<li>time - duration of game in seconds</li>
+<li>speed - level of speed difficulty from slowest to fastest</li>
+<li>colors - level of color difficulty (not used with images in static mode)<ul>
+<li>Easy - each type of elements displayed in same color
+<img alt="Easy mode" src="https://raw.githubusercontent.com/ethru/memorizeit/master/img/easy.gif"></li>
+<li>Medium - each wave of elements displayed in various color
+<img alt="Medium mode" src="https://raw.githubusercontent.com/ethru/memorizeit/master/img/medium.gif"></li>
+<li>Hard - every element displayed in various color
+<img alt="Hard mode" src="https://raw.githubusercontent.com/ethru/memorizeit/master/img/hard.gif"></li>
+</ul>
+</li>
+<li>sound - specifies if sound should be used with every new wave of elements</li>
+</ul>
+</li>
+<li><strong>spoiler alert</strong>: for hidden game mod take a look at <code>class Figure3D</code> and <code>class Wave3D</code> in <em>figure.py</em> module</li>
+</ul>
+<h2 id="how-to-play-game">How to play game:</h2>
+<ul>
+<li>adjust game settings</li>
+<li>pick mode: normal (new) or static game</li>
+<li>count elements of each type separately</li>
+<li>write down and submit your result</li>
+<li>compare it with exact values</li>
+<li>change game difficulty and make progress
+<img alt="Summary" src="https://raw.githubusercontent.com/ethru/memorizeit/master/img/result.gif"></li>
+</ul>
+<h2 id="project-information">Project Information</h2>
+<h5 id="documentation">Documentation</h5>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc/">pdoc3</a> and included in
+<a href="https://github.com/ethru/memorizeit/tree/master/docs">docs</a> directory. Open it
+<a href="https://ethru.github.io/memorizeit/">here</a>.</p>
+<h5 id="requirements">Requirements</h5>
+<ul>
+<li>Python3.7+</li>
+<li>Check <a href="https://raw.githubusercontent.com/ethru/memorizeit/master/requirements.txt">requirements.txt</a> file to see used
+modules and their version.</li>
+</ul>
+<h5 id="author">Author</h5>
+<p>Adrian Niec</p>
+<h5 id="license">License</h5>
+<p>This project is under the MIT <a href="https://raw.githubusercontent.com/ethru/bookmeister/master/LICENSE">License</a></p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/__init__.py#L0-L2" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;.. include:: ../README.md&#34;&#34;&#34;
+
+__version__ = &#39;2020.10.30&#39;</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -58,26 +117,41 @@
 </section>
 </article>
 <nav id="sidebar">
+<header><img src="https://raw.githubusercontent.com/ethru/memorizeit/master/img/brain.png" alt=""></header>
 <h1>Index</h1>
 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#memorizeit">MemorizeIT</a><ul>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#run">Run</a></li>
+<li><a href="#how-to-configure-game">How to configure game:</a></li>
+<li><a href="#how-to-play-game">How to play game:</a></li>
+<li><a href="#project-information">Project Information</a><ul>
+<li><a href="#documentation">Documentation</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#author">Author</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 </div>
 <ul id="index">
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
-<li><code><a title="MemorizeIT.colors" href="colors.html">MemorizeIT.colors</a></code></li>
-<li><code><a title="MemorizeIT.config" href="config.html">MemorizeIT.config</a></code></li>
-<li><code><a title="MemorizeIT.figure" href="figure.html">MemorizeIT.figure</a></code></li>
-<li><code><a title="MemorizeIT.game" href="game.html">MemorizeIT.game</a></code></li>
-<li><code><a title="MemorizeIT.gui" href="gui.html">MemorizeIT.gui</a></code></li>
-<li><code><a title="MemorizeIT.main" href="main.html">MemorizeIT.main</a></code></li>
+<li><code><a title="memorizeit.colors" href="colors.html">memorizeit.colors</a></code></li>
+<li><code><a title="memorizeit.config" href="config.html">memorizeit.config</a></code></li>
+<li><code><a title="memorizeit.figure" href="figure.html">memorizeit.figure</a></code></li>
+<li><code><a title="memorizeit.game" href="game.html">memorizeit.game</a></code></li>
+<li><code><a title="memorizeit.gui" href="gui.html">memorizeit.gui</a></code></li>
 </ul>
 </li>
 </ul>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad()</script>

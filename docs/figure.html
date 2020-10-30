@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.7.2" />
-<title>MemorizeIT.figure API documentation</title>
-<meta name="description" content="Figure Module …" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>memorizeit.figure API documentation</title>
+<meta name="description" content="Figure …" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -17,26 +17,14 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>MemorizeIT.figure</code></h1>
+<h1 class="title">Module <code>memorizeit.figure</code></h1>
 </header>
 <section id="section-intro">
-<p>Figure Module</p>
-<p>This module contains figures representation both 2D (<code>pygame</code>) and 3D (<code>OpenGL</code>). It covers all necessary information as
-points for 2D figures, edges, vertices, surfaces for 3D figures. It is also responsible for creating waves of elements
-based on <code>random</code> module.</p>
-<p>Module uses functions <code>choice</code>, <code>choices</code>, <code>randrange</code>, <code>randint</code>, <code>sample</code> from <code>random</code> module. <code>OpenGL.GL</code>, <code>pygame</code>,
-<code>colors</code> are also in use. It is required to provide them before running application.</p>
-<p>It contains classes:</p>
-<pre><code>* Wave - covers general methods used both in Wave2D and Wave3D
-* Wave2D - specifies methods mandatory to create wave of figures in 2D
-* Wave3D - includes method to create wave of figures in 3D
-* Figure2D - has methods responsible for drawing figure in 2D with use of `pygame`
-* Figure3D - covers methods for drawing 3D figures with `OpenGL`
-* Cube - contains methods allowing to draw Cube in 3D
-* Octagon - contains methods allowing to draw Octagon in 3D
-* Octahedron - contains methods allowing to draw Octahedron in 3D
-* Pyramid - contains methods allowing to draw Pyramid in 3D
-</code></pre>
+<h3 id="figure">Figure</h3>
+<p>This module contains figures representation both 2D (<code>pygame</code>) and 3D
+(<code>OpenGL</code>). It covers all necessary information as points for 2D figures,
+edges, vertices, surfaces for 3D figures. It is also responsible for creating
+waves of elements based on <code>random</code> module.</p>
 <p>License:
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -48,27 +36,14 @@ SOFTWARE.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L0-L720" class="git-link">Browse git</a>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;Figure Module
+<pre><code class="python">&#34;&#34;&#34;### Figure
 
-This module contains figures representation both 2D (`pygame`) and 3D (`OpenGL`). It covers all necessary information as
-points for 2D figures, edges, vertices, surfaces for 3D figures. It is also responsible for creating waves of elements
-based on `random` module.
-
-Module uses functions `choice`, `choices`, `randrange`, `randint`, `sample` from `random` module. `OpenGL.GL`, `pygame`,
-`colors` are also in use. It is required to provide them before running application.
-
-It contains classes:
-
-    * Wave - covers general methods used both in Wave2D and Wave3D
-    * Wave2D - specifies methods mandatory to create wave of figures in 2D
-    * Wave3D - includes method to create wave of figures in 3D
-    * Figure2D - has methods responsible for drawing figure in 2D with use of `pygame`
-    * Figure3D - covers methods for drawing 3D figures with `OpenGL`
-    * Cube - contains methods allowing to draw Cube in 3D
-    * Octagon - contains methods allowing to draw Octagon in 3D
-    * Octahedron - contains methods allowing to draw Octahedron in 3D
-    * Pyramid - contains methods allowing to draw Pyramid in 3D
+This module contains figures representation both 2D (`pygame`) and 3D
+(`OpenGL`). It covers all necessary information as points for 2D figures,
+edges, vertices, surfaces for 3D figures. It is also responsible for creating
+waves of elements based on `random` module.
 
 License:
 THE SOFTWARE IS PROVIDED &#34;AS IS&#34;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -80,16 +55,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 &#34;&#34;&#34;
 
+from OpenGL.GL import (glBegin, glColor3fv, glVertex3fv, glEnd,
+                       GL_LINES, GL_QUADS)
 import pygame
-from OpenGL.GL import *
 from random import choice, choices, randrange, randint, sample
-import colors
+
+from memorizeit import colors
 
 
 class Wave:
     &#34;&#34;&#34;
-    A class with collection of the same methods needed both in Wave2D and Wave3D. It is base, responsible for creating
-    wave of elements, iterating through its objects, counting and calling them (drawing).
+    A class with collection of the same methods both for Wave2D and Wave3D.
+
+    It is base, responsible for creating wave of elements, iterating through
+    its objects, counting and calling them (drawing).
 
     ...
 
@@ -98,52 +77,59 @@ class Wave:
     figure_type : str
         name of figures which will be in the wave
     color : tuple or pygame.Surface or False
-        RGB code of color for wave (0-1, 0-1, 0-1), False if each element in wave will have his own color or
-        pygame.Surface in case if photo will be used as displayed element
+        RGB code of color for wave (0-1, 0-1, 0-1), False if each element in
+        wave will have his own color or pygame.Surface in case if photo will
+        be used as displayed element
     *args
-        rest of parameters needed to create specified type of wave, see Wave2D and Wave3D
-
-    Methods
-    -------
-    call()
-        spawns (displays) wave on screen
+        rest of parameters needed to create specified type of wave, see Wave2D
+        and Wave3D
     &#34;&#34;&#34;
 
     def __init__(self, figure_type, color, *args):
-        &#34;&#34;&#34;
+        &#34;&#34;&#34;Initialize wave.
+
         Parameters
         ----------
         figure_type : str
             name of figures which will be in the wave
         color : tuple or pygame.Surface or False
-            RGB code of color for wave (0-1, 0-1, 0-1), False if each element in wave will have his own color or
-            pygame.Surface in case if photo will be used as displayed element
+            RGB code of color for wave (0-1, 0-1, 0-1), False if each element
+            in wave will have his own color or pygame.Surface in case if photo
+            will be used as displayed element
         *args
-            rest of parameters needed to create specified type of wave, see Wave2D and Wave3D
+            rest of parameters needed to create specified type of wave, see
+            Wave2D and Wave3D
         &#34;&#34;&#34;
         self.figure = figure_type
         self.figures = []
         self.fill(color, *args)
 
     def __repr__(self):
-        return f&#39;&lt;{self.__class__.__name__} of {self.__len__()} {self.figure.lower()}s&gt;&#39;
+        &#34;&#34;&#34;Return `Wave` class representation.&#34;&#34;&#34;
+        name = self.__class__.__name__
+        return f&#39;&lt;{name} of {self.__len__()} {self.figure.lower()}s&gt;&#39;
 
     def __iter__(self):
+        &#34;&#34;&#34;Iterate through wave figures.&#34;&#34;&#34;
         return (x for x in self.figures)
 
     def __len__(self):
+        &#34;&#34;&#34;Return number of wave figures.&#34;&#34;&#34;
         return len(self.figures)
 
     def __call__(self):
-        &#34;&#34;&#34;Spawns (displays) wave on screen&#34;&#34;&#34;
-
-        for figure in self: figure()
+        &#34;&#34;&#34;Spawn (display) wave on screen.&#34;&#34;&#34;
+        for figure in self:
+            figure()
 
 
 class Wave2D(Wave):
     &#34;&#34;&#34;
-    A class with methods needed to display 2D wave. It is responsible for calculating proper points on screen to display
-    objects, setting their size, pick amount. Has description how 2D wave should be created. It is child of class Wave.
+    A class with methods needed to display 2D wave.
+
+    It is responsible for calculating proper points on screen to display
+    objects, setting their size, pick amount. Has description how 2D wave
+    should be created. It is child of class Wave.
 
     ...
 
@@ -152,118 +138,148 @@ class Wave2D(Wave):
     get_amount()
         randomly pick number of elements from 1 to 9 according to their weights
     get_mid_points(resolution)
-        according to resolution of screen - tuple (width, height) divides screen into nine equal fields (net 3x3) and
-        returns list with their middle points (width, height)
+        according to resolution of screen - tuple (width, height) divides
+        screen into nine equal fields (net 3x3) and return list with their
+        middle points (width, height)
     get_figure_size(resolution)
-        according to resolution of screen - tuple (width, height) returns integer with size of figure
+        according to resolution of screen - tuple (width, height) return
+        integer with size of figure
     fill(color, screen, resolution)
-        populates figures list with 2D figures objects binded to screen (`pygame.Surface`). Use wave color or photo if
-        it is passed else pick random color for each element. Resolution is used to set figure size and region of screen
-        where it will be displayed
+        populates figures list with 2D figures objects binded to screen
+        (`pygame.Surface`). Use wave color or photo if it is passed else pick
+        random color for each element. Resolution is used to set figure size
+        and region of screen where it will be displayed
     &#34;&#34;&#34;
 
     @staticmethod
     def get_amount():
-        &#34;&#34;&#34;Randomly pick number of elements from 1 to 9 according to their weights.&#34;&#34;&#34;
-
-        return choices(range(1, 10), weights=[0.03, 0.1, 0.2, 0.2, 0.2, 0.15, 0.1, 0.01, 0.01])[0]
+        &#34;&#34;&#34;Pick random number of elements from 1 to 9 according to weights.&#34;&#34;&#34;
+        return choices(
+            range(1, 10),
+            weights=[0.03, 0.1, 0.2, 0.2, 0.2, 0.15, 0.1, 0.01, 0.01]
+        )[0]
 
     @staticmethod
     def get_mid_points(resolution):
-        &#34;&#34;&#34;Divides screen in nine fields (net 3x3) and returns middle point of each field
+        &#34;&#34;&#34;Divide screen in net 3x3 and return middle point of each field.
 
         Parameters
         ----------
         resolution : tuple
-            a tuple with two int values - width, height - according to resolution of used monitor
+            a tuple with two int values - width, height - according to
+            resolution of used monitor
 
         Returns
         -------
         list
-            a list with 9 positions (screen divided in net 3x3) - middle point of each part of divided screen
+            a list with 9 positions (screen divided in net 3x3) - middle point
+            of each part of divided screen
         &#34;&#34;&#34;
-
         w, h = resolution
-        return [(int(x), int(y)) for x in (w / 6, w / 2, w - w / 6) for y in (h / 6, h / 2, h - h / 6)]
+        return [(int(x), int(y))
+                for x in (w / 6, w / 2, w - w / 6)
+                for y in (h / 6, h / 2, h - h / 6)]
 
     @staticmethod
     def get_figure_size(resolution):
-        &#34;&#34;&#34;Returns size of figure (used in drawing).
+        &#34;&#34;&#34;Return size of figure (used in drawing).
 
         Parameters
         ----------
         resolution : tuple
-            a tuple with two int values - width, height - according to resolution of used monitor
+            a tuple with two int values - width, height - according to
+            resolution of used monitor
 
         Returns
         -------
         int
             size of figure which will be drawn
         &#34;&#34;&#34;
-
         w, h = resolution
         return int(min(w / 3, h / 3) / 4)
 
     def fill(self, color, screen, resolution):
-        &#34;&#34;&#34;Populates figures list
+        &#34;&#34;&#34;Populate figures list.
 
-        2D figures objects are created and binded to screen (`pygame.Surface`). It uses wave color (RGB code
-        (0-1, 0-1, 0-1) which is converted to (0-255, 0-255, 0-255)) or photo if it is passed else it picks random color
-        for each element. Resolution is used to set figure size and region of screen where it will be displayed. Amount
-        of elements in wave is picked randomly according to method get_amount().
+        2D figures objects are created and binded to screen
+        (`pygame.Surface`). It uses wave color (RGB code (0-1, 0-1, 0-1) which
+        is converted to (0-255, 0-255, 0-255)) or photo if it is passed else
+        it picks random color for each element. Resolution is used to set
+        figure size and region of screen where it will be displayed. Amount of
+        elements in wave is picked randomly according to method get_amount().
 
         Parameters
         ----------
         color : tuple or pygame.Surface or False
-            RGB color code represented as (0-1, 0-1, 0-1) values, pygame.Surface if each object will display photo or
-            False in case when we don&#39;t want to create wave in solid color, but use random color for each object
+            RGB color code represented as (0-1, 0-1, 0-1) values,
+            pygame.Surface if each object will display photo or False in case
+            when we don&#39;t want to create wave in solid color, but use random
+            color for each object
         screen: pygame.Surface
-            object representing game screen where created figures will be binded
+            object representing game screen where created figures will be
+            binded
         resolution : tuple
-            a tuple with two int values - width, height - according to resolution of used monitor
+            a tuple with two int values - width, height - according to
+            resolution of used monitor
         &#34;&#34;&#34;
-
-        for point in sample(self.get_mid_points(resolution), self.get_amount()):
+        for point in sample(
+                self.get_mid_points(resolution), self.get_amount()):
             figure_color = color if color else colors.Random().get_color()
+
             if not isinstance(color, pygame.Surface):
                 figure_color = colors.convert(figure_color)
-            self.figures.append(Figure2D(screen, self.figure, figure_color, point, self.get_figure_size(resolution)))
+
+            self.figures.append(
+                Figure2D(screen, self.figure, figure_color, point,
+                         self.get_figure_size(resolution))
+            )
 
 
 class Wave3D(Wave):
     &#34;&#34;&#34;
-    A class with method allowing to create 3D wave -it fills figure list with proper objects. It is child of class Wave.
+    A class with method allowing to create 3D wave.
+
+    It fills figure list with proper objects. It is child of class Wave.
 
     ...
 
     Methods
     -------
     fill(color, position)
-        populates figures list with 3D figures objects. Position Z of camera must be specified (how far from beginning
-        figure will be drawn). It uses wave color if it is passed else picks random color for each element.
+        populates figures list with 3D figures objects. Position Z of camera
+        must be specified (how far from beginning figure will be drawn). It
+        uses wave color if it is passed else picks random color for each
+        element.
     &#34;&#34;&#34;
 
-    def fill(self, color, positionZ):
-        &#34;&#34;&#34;Populates figures list
+    def fill(self, color, position_z):
+        &#34;&#34;&#34;Populate figures list.
 
-        3D figures objects are created according to randomly generated number in range 2-6. It uses wave color (RGB code
-        (0-1, 0-1, 0-1) if it is passed else it picks random color for each element. Figures are created in normal mode.
-        Easter egg (for those who like to read documentation as I do): there is also available fire mode (see Figure3D
-        fire @classmethod) which will simulate flames. Be aware that each object will be colored same way. Replace
-        .normal with .fire in loop below - where objects are created.
+        3D figures objects are created according to randomly generated number
+        in range 2-6. It uses wave color (RGB code (0-1, 0-1, 0-1) if it is
+        passed else it picks random color for each element. Figures are
+        created in normal mode. Easter egg (for those who like to read
+        documentation as I do): there is also available fire mode (see
+        Figure3D fire @classmethod) which will simulate flames. Be aware that
+        each object will be colored same way. Replace `.normal` with `.fire`
+        in loop below - where objects are created.
 
         Parameters
         ----------
         color : tuple or False
-            RGB color code represented as (0-1, 0-1, 0-1) or False in case when we don&#39;t want to create wave in solid
-            color, but use random color for each object
-        positionZ : int
-            position of camera Z where figure will be drawn (how far from beginning - where camera started to move)
+            RGB color code represented as (0-1, 0-1, 0-1) or False in case
+            when we don&#39;t want to create wave in solid color, but use random
+            color for each object
+        position_z : int
+            position of camera Z where figure will be drawn (how far from
+            beginning - where camera started to move)
         &#34;&#34;&#34;
-
         for _ in range(randint(2, 6)):
             figure_color = color if color else colors.Random().get_color()
-            self.figures.append(eval(self.figure).normal(positionZ, figure_color))
+
+            self.figures.append(
+                eval(self.figure).normal(position_z, figure_color)
+            )
 
 
 class Figure2D:
@@ -279,29 +295,15 @@ class Figure2D:
     figure : str
         name of created figure
     color : tuple or pygame.Surface
-        RGB color code represented as (0-255, 0-255, 0-255) values, pygame.Surface if photo is used
+        RGB color code represented as (0-255, 0-255, 0-255) values,
+        pygame.Surface if photo is used
     points : list
         list with points needed to draw figure
-
-    Methods
-    -------
-    call()
-        displays element on screen
-    adjust_points(mid_point, size)
-        according to type of created figure and its size adjusts points to draw it or returns proper point for placing
-        photo on the screen
-    get_diamond_points(mid_point, size)
-        according to passed mid_point and size returns points to draw diamond
-    get_square_points(mid_point, size)
-        according to passed mid_point and size returns points to draw square
-    get_triangle_points(mid_point, size)
-        according to passed mid_point and size returns points to draw triangle
-    get_octagon_points(mid_point, size)
-        according to passed mid_point and size returns points to draw octagon
     &#34;&#34;&#34;
 
     def __init__(self, screen, figure, color, mid_point, size):
-        &#34;&#34;&#34;
+        &#34;&#34;&#34;Initialize 2D figure.
+
         Parameters
         ----------
         screen: pygame.Surface
@@ -309,31 +311,31 @@ class Figure2D:
         figure : str
             name of created figure
         color : tuple or pygame.Surface
-            RGB color code represented as (0-255, 0-255, 0-255) values, pygame.Surface if photo is used
+            RGB color code represented as (0-255, 0-255, 0-255) values,
+            pygame.Surface if photo is used
         mid_point : tuple
             center of figure - tuple with two elements - width and height
         size : int
             size of figure which will be drawn
         &#34;&#34;&#34;
-
         self.screen = screen
         self.figure = figure
         self.color = color
         self.points = self.adjust_points(mid_point, size)
 
     def __repr__(self):
+        &#34;&#34;&#34;Return `Figure2D` class representation.&#34;&#34;&#34;
         return f&#39;&lt;{self.figure} with points: {self.points}&gt;&#39;
 
     def __call__(self):
-        &#34;&#34;&#34;Draws figure or displays photo on screen&#34;&#34;&#34;
-
+        &#34;&#34;&#34;Draw figure or displays photo on screen.&#34;&#34;&#34;
         if isinstance(self.color, pygame.Surface):
             self.screen.blit(self.color, self.points)
         else:
             pygame.draw.polygon(self.screen, self.color, self.points)
 
     def adjust_points(self, mid_point, size):
-        &#34;&#34;&#34;Returns points needed to display element
+        &#34;&#34;&#34;Return points needed to display element.
 
         Parameters
         ----------
@@ -345,9 +347,9 @@ class Figure2D:
         Returns
         -------
         list
-            list with points needed to draw or display element on screen (each has width and height value)
+            list with points needed to draw or display element on screen (each
+            has width and height value)
         &#34;&#34;&#34;
-
         if isinstance(self.color, pygame.Surface):
             w, h = self.color.get_size()
             return [int(mid_point[0] - w / 2), int(mid_point[1] - h / 2)]
@@ -355,7 +357,7 @@ class Figure2D:
 
     @staticmethod
     def get_diamond_points(mid_point, size):
-        &#34;&#34;&#34;Returns points needed to draw diamond
+        &#34;&#34;&#34;Return points needed to draw diamond.
 
         Parameters
         ----------
@@ -367,16 +369,16 @@ class Figure2D:
         Returns
         -------
         list
-            list with points needed to draw diamond on screen (each has width and height value)
+            list with points needed to draw diamond on screen (each has width
+            and height value)
         &#34;&#34;&#34;
-
         x, y = mid_point
         s = size
         return [(x, y - s), (x - s, y), (x, y + s), (x + s, y)]
 
     @staticmethod
     def get_square_points(mid_point, size):
-        &#34;&#34;&#34;Returns points needed to draw square
+        &#34;&#34;&#34;Return points needed to draw square.
 
         Parameters
         ----------
@@ -388,16 +390,16 @@ class Figure2D:
         Returns
         -------
         list
-            list with points needed to draw square on screen (each has width and height value)
+            list with points needed to draw square on screen (each has width
+            and height value)
         &#34;&#34;&#34;
-
         x, y = mid_point
         s = size
         return [(x - s, y - s), (x - s, y + s), (x + s, y + s), (x + s, y - s)]
 
     @staticmethod
     def get_triangle_points(mid_point, size):
-        &#34;&#34;&#34;Returns points needed to draw triangle
+        &#34;&#34;&#34;Return points needed to draw triangle.
 
         Parameters
         ----------
@@ -409,16 +411,16 @@ class Figure2D:
         Returns
         -------
         list
-            list with points needed to draw triangle on screen (each has width and height value)
+            list with points needed to draw triangle on screen (each has width
+            and height value)
         &#34;&#34;&#34;
-
         x, y = mid_point
         s = size
         return [(x - s, y + s), (x + s, y + s), (x, y - s)]
 
     @staticmethod
     def get_octagon_points(mid_point, size):
-        &#34;&#34;&#34;Returns points needed to draw octagon
+        &#34;&#34;&#34;Return points needed to draw octagon.
 
         Parameters
         ----------
@@ -430,13 +432,14 @@ class Figure2D:
         Returns
         -------
         list
-            list with points needed to draw octagon on screen (each has width and height value)
+            list with points needed to draw octagon on screen (each has width
+            and height value)
         &#34;&#34;&#34;
-
         x, y = mid_point
         s = size
-        return [(x - s, y + s / 2), (x - s, y - s / 2), (x - s / 2, y - s), (x + s / 2, y - s), (x + s, y - s / 2),
-                (x + s, y + s / 2), (x + s / 2, y + s), (x - s / 2, y + s)]
+        return [(x - s, y + s / 2), (x - s, y - s / 2), (x - s / 2, y - s),
+                (x + s / 2, y - s), (x + s, y - s / 2), (x + s, y + s / 2),
+                (x + s / 2, y + s), (x - s / 2, y + s)]
 
 
 class Figure3D:
@@ -452,92 +455,83 @@ class Figure3D:
     mode : OpenGL.constant.IntConstant
         mode used to draw figures in 3D - GL_LINES or GL_QUADS
     operation : function
-        method used in specified mode to provide values needed to draw figure - get_edges or get_surfaces
+        method used in specified mode to provide values needed to draw figure
+        - get_edges or get_surfaces
     vertices : list
         list filled with vertices needed to draw figure
-
-    Methods
-    -------
-    call()
-        displays figure on screen
-    normal(positionZ, color)
-        sets class parameters to draws contour of figure in set color
-    fire(positionZ)
-        sets class parameters to draws full figure with color movement imitating flame
-    get_random_shift(positionZ)
-        returns adjusted point according to moving camera
-    adjust_vertices(point)
-        returns adjusted figure vertices according to set point
     &#34;&#34;&#34;
 
-    def __init__(self, positionZ, color, mode, operation):
-        &#34;&#34;&#34;
+    def __init__(self, position_z, color, mode, operation):
+        &#34;&#34;&#34;Initialize 3D figure.
+
         Parameters
         ----------
-        positionZ : int
-            position of camera Z where figure will be drawn (how far from beginning - where camera started to move)
+        position_z : int
+            position of camera Z where figure will be drawn (how far from
+            beginning - where camera started to move)
         color : tuple
             RGB color code represented as (0-1, 0-1, 0-1) values
         mode : OpenGL.constant.IntConstant
             mode used to draw figures in 3D - GL_LINES or GL_QUADS
         operation : function
-            method used in specified mode to provide values needed to draw figure - get_edges or get_surfaces
+            method used in specified mode to provide values needed to draw
+            figure - get_edges or get_surfaces
         &#34;&#34;&#34;
-
         self.color = color
         self.mode = mode
         self.operation = operation
-        self.vertices = self.adjust_vertices(self.get_random_shift(positionZ))
+        self.vertices = self.adjust_vertices(self.get_random_shift(position_z))
 
     def __repr__(self):
+        &#34;&#34;&#34;Return `Figure3D` class representation.&#34;&#34;&#34;
         return f&#39;&lt;{self.__class__.__name__} with vertices: {self.vertices}&gt;&#39;
 
     def __call__(self):
-        &#34;&#34;&#34;Displays figure on screen&#34;&#34;&#34;
-
+        &#34;&#34;&#34;Display figure on screen.&#34;&#34;&#34;
         glBegin(self.mode)
         for element in self.operation():
             for vertex in element:
-                color = choice(self.color) if all([isinstance(x, tuple) for x in self.color]) else self.color
+                color = choice(self.color) if all(
+                    [isinstance(x, tuple) for x in self.color]
+                ) else self.color
                 glColor3fv(color)
                 glVertex3fv(self.vertices[vertex])
         glEnd()
 
     @classmethod
-    def normal(cls, positionZ, color, *args):
-        &#34;&#34;&#34;Sets class parameters to draws contour of figure in set color&#34;&#34;&#34;
-
-        return cls(positionZ, color, GL_LINES, cls.get_edges)
+    def normal(cls, position_z, color, *args):
+        &#34;&#34;&#34;Set class parameters to draw contour of figure in set color.&#34;&#34;&#34;
+        return cls(position_z, color, GL_LINES, cls.get_edges)
 
     @classmethod
-    def fire(cls, positionZ, *args):
-        &#34;&#34;&#34;Sets class parameters to draws full figure with color movement imitating flame&#34;&#34;&#34;
-
-        return cls(positionZ, ((0.5, 0, 0), (1, 0.5, 0)), GL_QUADS, cls.get_surfaces)
+    def fire(cls, position_z, *args):
+        &#34;&#34;&#34;Set class parameters to draws full figure imitating flame.&#34;&#34;&#34;
+        return cls(position_z, ((0.5, 0, 0), (1, 0.5, 0)),
+                   GL_QUADS, cls.get_surfaces)
 
     @staticmethod
-    def get_random_shift(positionZ):
-        &#34;&#34;&#34;Returns adjusted point according to moving camera
-
+    def get_random_shift(position_z):
+        &#34;&#34;&#34;Return adjusted point according to moving camera.
 
         Parameters
         ----------
-        positionZ : int
-            position of camera Z where figure will be drawn (how far from beginning - where camera started to move)
+        position_z : int
+            position of camera Z where figure will be drawn (how far from
+            beginning - where camera started to move)
 
         Returns
         -------
         tuple
-            containing x, y, z randomized values for point where figure will be drawn
+            containing x, y, z randomized values for point where figure will
+            be drawn
         &#34;&#34;&#34;
-
         x = choice((-1, 1)) * randrange(2, 10)
         y = choice((-1, 1)) * randrange(2, 10)
-        z = randrange(int(positionZ - 90), int(positionZ - 60))
+        z = randrange(int(position_z - 90), int(position_z - 60))
         return x, y, z
 
     def adjust_vertices(self, point):
-        &#34;&#34;&#34;Returns adjusted figure vertices according to set point
+        &#34;&#34;&#34;Return adjusted figure vertices according to set point.
 
         Parameters
         ----------
@@ -549,7 +543,6 @@ class Figure3D:
         list
             containing new vertices values allowing to draw 3D figure
         &#34;&#34;&#34;
-
         new_vertices = []
         for vertice in self.get_vertices():
             new = []
@@ -561,25 +554,11 @@ class Figure3D:
 
 
 class Cube(Figure3D):
-    &#34;&#34;&#34;
-    A class representing cube. It is children of Figure3D.
-
-    ...
-
-
-    Methods
-    -------
-    get_vertices()
-        returns tuple with points later processed to draw figure
-    get_edges()
-        returns tuple with connections between vertices - allowing to draw contour of figure
-    get_surfaces()
-        returns tuple with connections between vertices - allowing to draw full figure
-
-    &#34;&#34;&#34;
+    &#34;&#34;&#34;A class representing cube. It extends Figure3D.&#34;&#34;&#34;
 
     @staticmethod
     def get_vertices():
+        &#34;&#34;&#34;Return figure vertices.&#34;&#34;&#34;
         return (
             (1, -1, -1),
             (1, 1, -1),
@@ -593,6 +572,7 @@ class Cube(Figure3D):
 
     @staticmethod
     def get_edges():
+        &#34;&#34;&#34;Return figure edges.&#34;&#34;&#34;
         return (
             (0, 1),
             (0, 3),
@@ -610,6 +590,7 @@ class Cube(Figure3D):
 
     @staticmethod
     def get_surfaces():
+        &#34;&#34;&#34;Return figure surfaces.&#34;&#34;&#34;
         return (
             (0, 1, 2, 3),
             (3, 2, 7, 6),
@@ -621,25 +602,11 @@ class Cube(Figure3D):
 
 
 class Octagon(Figure3D):
-    &#34;&#34;&#34;
-    A class representing octagon. It is children of Figure3D.
-
-    ...
-
-
-    Methods
-    -------
-    get_vertices()
-        returns tuple with points later processed to draw figure
-    get_edges()
-        returns tuple with connections between vertices - allowing to draw contour of figure
-    get_surfaces()
-        returns tuple with connections between vertices - allowing to draw full figure
-
-    &#34;&#34;&#34;
+    &#34;&#34;&#34;A class representing octagon. It extends Figure3D.&#34;&#34;&#34;
 
     @staticmethod
     def get_vertices():
+        &#34;&#34;&#34;Return figure vertices.&#34;&#34;&#34;
         return (
             (-0.25, 0, -0.5),
             (0.25, 0, -0.5),
@@ -661,6 +628,7 @@ class Octagon(Figure3D):
 
     @staticmethod
     def get_edges():
+        &#34;&#34;&#34;Return figure edges.&#34;&#34;&#34;
         return (
             (0, 7),
             (0, 1),
@@ -690,6 +658,7 @@ class Octagon(Figure3D):
 
     @staticmethod
     def get_surfaces():
+        &#34;&#34;&#34;Return figure surfaces.&#34;&#34;&#34;
         return (
             (9, 8, 11, 10, 12, 15, 8, 11, 13, 12, 15, 14),
             (1, 0, 3, 2, 4, 7, 0, 3, 5, 4, 7, 6),
@@ -705,25 +674,11 @@ class Octagon(Figure3D):
 
 
 class Octahedron(Figure3D):
-    &#34;&#34;&#34;
-    A class representing octahedron. It is children of Figure3D.
-
-    ...
-
-
-    Methods
-    -------
-    get_vertices()
-        returns tuple with points later processed to draw figure
-    get_edges()
-        returns tuple with connections between vertices - allowing to draw contour of figure
-    get_surfaces()
-        returns tuple with connections between vertices - allowing to draw full figure
-
-    &#34;&#34;&#34;
+    &#34;&#34;&#34;A class representing octahedron. It extends Figure3D.&#34;&#34;&#34;
 
     @staticmethod
     def get_vertices():
+        &#34;&#34;&#34;Return figure vertices.&#34;&#34;&#34;
         return (
             (0, 1, 0),
             (-0.5, 0, -0.5),
@@ -735,6 +690,7 @@ class Octahedron(Figure3D):
 
     @staticmethod
     def get_edges():
+        &#34;&#34;&#34;Return figure edges.&#34;&#34;&#34;
         return (
             (0, 1),
             (0, 2),
@@ -752,6 +708,7 @@ class Octahedron(Figure3D):
 
     @staticmethod
     def get_surfaces():
+        &#34;&#34;&#34;Return figure surfaces.&#34;&#34;&#34;
         return (
             (0, 1, 2),
             (0, 3, 2),
@@ -765,25 +722,11 @@ class Octahedron(Figure3D):
 
 
 class Pyramid(Figure3D):
-    &#34;&#34;&#34;
-    A class representing pyramid. It is children of Figure3D.
-
-    ...
-
-
-    Methods
-    -------
-    get_vertices()
-        returns tuple with points later processed to draw figure
-    get_edges()
-        returns tuple with connections between vertices - allowing to draw contour of figure
-    get_surfaces()
-        returns tuple with connections between vertices - allowing to draw full figure
-
-    &#34;&#34;&#34;
+    &#34;&#34;&#34;A class representing pyramid. It extends Figure3D.&#34;&#34;&#34;
 
     @staticmethod
     def get_vertices():
+        &#34;&#34;&#34;Return figure vertices.&#34;&#34;&#34;
         return (
             (0, 1, 0),
             (-1, -1, -1),
@@ -794,6 +737,7 @@ class Pyramid(Figure3D):
 
     @staticmethod
     def get_edges():
+        &#34;&#34;&#34;Return figure edges.&#34;&#34;&#34;
         return (
             (0, 1),
             (0, 2),
@@ -807,6 +751,7 @@ class Pyramid(Figure3D):
 
     @staticmethod
     def get_surfaces():
+        &#34;&#34;&#34;Return figure surfaces.&#34;&#34;&#34;
         return (
             (0, 1, 2),
             (0, 3, 2),
@@ -821,59 +766,39 @@ class Pyramid(Figure3D):
 <section>
 </section>
 <section>
-</section>
-<section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="MemorizeIT.figure.Cube"><code class="flex name class">
+<dt id="memorizeit.figure.Cube"><code class="flex name class">
 <span>class <span class="ident">Cube</span></span>
-<span>(</span><span>positionZ, color, mode, operation)</span>
+<span>(</span><span>position_z, color, mode, operation)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>A class representing cube. It is children of Figure3D.</p>
-<p>&hellip;</p>
-<h2 id="methods">Methods</h2>
-<p>get_vertices()
-returns tuple with points later processed to draw figure
-get_edges()
-returns tuple with connections between vertices - allowing to draw contour of figure
-get_surfaces()
-returns tuple with connections between vertices - allowing to draw full figure</p>
+<section class="desc"><p>A class representing cube. It extends Figure3D.</p>
+<p>Initialize 3D figure.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>positionZ</code></strong> :&ensp;<code>int</code></dt>
-<dd>position of camera Z where figure will be drawn (how far from beginning - where camera started to move)</dd>
+<dt><strong><code>position_z</code></strong> :&ensp;<code>int</code></dt>
+<dd>position of camera Z where figure will be drawn (how far from
+beginning - where camera started to move)</dd>
 <dt><strong><code>color</code></strong> :&ensp;<code>tuple</code></dt>
 <dd>RGB color code represented as (0-1, 0-1, 0-1) values</dd>
 <dt><strong><code>mode</code></strong> :&ensp;<code>OpenGL.constant.IntConstant</code></dt>
 <dd>mode used to draw figures in 3D - GL_LINES or GL_QUADS</dd>
 <dt><strong><code>operation</code></strong> :&ensp;<code>function</code></dt>
-<dd>method used in specified mode to provide values needed to draw figure - get_edges or get_surfaces</dd>
+<dd>method used in specified mode to provide values needed to draw
+figure - get_edges or get_surfaces</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L516-L561" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class Cube(Figure3D):
-    &#34;&#34;&#34;
-    A class representing cube. It is children of Figure3D.
-
-    ...
-
-
-    Methods
-    -------
-    get_vertices()
-        returns tuple with points later processed to draw figure
-    get_edges()
-        returns tuple with connections between vertices - allowing to draw contour of figure
-    get_surfaces()
-        returns tuple with connections between vertices - allowing to draw full figure
-
-    &#34;&#34;&#34;
+    &#34;&#34;&#34;A class representing cube. It extends Figure3D.&#34;&#34;&#34;
 
     @staticmethod
     def get_vertices():
+        &#34;&#34;&#34;Return figure vertices.&#34;&#34;&#34;
         return (
             (1, -1, -1),
             (1, 1, -1),
@@ -887,6 +812,7 @@ returns tuple with connections between vertices - allowing to draw full figure</
 
     @staticmethod
     def get_edges():
+        &#34;&#34;&#34;Return figure edges.&#34;&#34;&#34;
         return (
             (0, 1),
             (0, 3),
@@ -904,6 +830,7 @@ returns tuple with connections between vertices - allowing to draw full figure</
 
     @staticmethod
     def get_surfaces():
+        &#34;&#34;&#34;Return figure surfaces.&#34;&#34;&#34;
         return (
             (0, 1, 2, 3),
             (3, 2, 7, 6),
@@ -915,21 +842,23 @@ returns tuple with connections between vertices - allowing to draw full figure</
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="MemorizeIT.figure.Figure3D" href="#MemorizeIT.figure.Figure3D">Figure3D</a></li>
+<li><a title="memorizeit.figure.Figure3D" href="#memorizeit.figure.Figure3D">Figure3D</a></li>
 </ul>
 <h3>Static methods</h3>
 <dl>
-<dt id="MemorizeIT.figure.Cube.get_edges"><code class="name flex">
+<dt id="memorizeit.figure.Cube.get_edges"><code class="name flex">
 <span>def <span class="ident">get_edges</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Return figure edges.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L533-L549" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_edges():
+    &#34;&#34;&#34;Return figure edges.&#34;&#34;&#34;
     return (
         (0, 1),
         (0, 3),
@@ -946,17 +875,19 @@ def get_edges():
     )</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Cube.get_surfaces"><code class="name flex">
+<dt id="memorizeit.figure.Cube.get_surfaces"><code class="name flex">
 <span>def <span class="ident">get_surfaces</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Return figure surfaces.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L551-L561" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_surfaces():
+    &#34;&#34;&#34;Return figure surfaces.&#34;&#34;&#34;
     return (
         (0, 1, 2, 3),
         (3, 2, 7, 6),
@@ -967,17 +898,19 @@ def get_surfaces():
     )</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Cube.get_vertices"><code class="name flex">
+<dt id="memorizeit.figure.Cube.get_vertices"><code class="name flex">
 <span>def <span class="ident">get_vertices</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Return figure vertices.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L519-L531" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_vertices():
+    &#34;&#34;&#34;Return figure vertices.&#34;&#34;&#34;
     return (
         (1, -1, -1),
         (1, 1, -1),
@@ -993,17 +926,17 @@ def get_vertices():
 </dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="MemorizeIT.figure.Figure3D" href="#MemorizeIT.figure.Figure3D">Figure3D</a></b></code>:
+<li><code><b><a title="memorizeit.figure.Figure3D" href="#memorizeit.figure.Figure3D">Figure3D</a></b></code>:
 <ul class="hlist">
-<li><code><a title="MemorizeIT.figure.Figure3D.adjust_vertices" href="#MemorizeIT.figure.Figure3D.adjust_vertices">adjust_vertices</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.fire" href="#MemorizeIT.figure.Figure3D.fire">fire</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.get_random_shift" href="#MemorizeIT.figure.Figure3D.get_random_shift">get_random_shift</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.normal" href="#MemorizeIT.figure.Figure3D.normal">normal</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.adjust_vertices" href="#memorizeit.figure.Figure3D.adjust_vertices">adjust_vertices</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.fire" href="#memorizeit.figure.Figure3D.fire">fire</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.get_random_shift" href="#memorizeit.figure.Figure3D.get_random_shift">get_random_shift</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.normal" href="#memorizeit.figure.Figure3D.normal">normal</a></code></li>
 </ul>
 </li>
 </ul>
 </dd>
-<dt id="MemorizeIT.figure.Figure2D"><code class="flex name class">
+<dt id="memorizeit.figure.Figure2D"><code class="flex name class">
 <span>class <span class="ident">Figure2D</span></span>
 <span>(</span><span>screen, figure, color, mid_point, size)</span>
 </code></dt>
@@ -1017,24 +950,12 @@ def get_vertices():
 <dt><strong><code>figure</code></strong> :&ensp;<code>str</code></dt>
 <dd>name of created figure</dd>
 <dt><strong><code>color</code></strong> :&ensp;<code>tuple</code> or <code>pygame.Surface</code></dt>
-<dd>RGB color code represented as (0-255, 0-255, 0-255) values, pygame.Surface if photo is used</dd>
+<dd>RGB color code represented as (0-255, 0-255, 0-255) values,
+pygame.Surface if photo is used</dd>
 <dt><strong><code>points</code></strong> :&ensp;<code>list</code></dt>
 <dd>list with points needed to draw figure</dd>
 </dl>
-<h2 id="methods">Methods</h2>
-<p>call()
-displays element on screen
-adjust_points(mid_point, size)
-according to type of created figure and its size adjusts points to draw it or returns proper point for placing
-photo on the screen
-get_diamond_points(mid_point, size)
-according to passed mid_point and size returns points to draw diamond
-get_square_points(mid_point, size)
-according to passed mid_point and size returns points to draw square
-get_triangle_points(mid_point, size)
-according to passed mid_point and size returns points to draw triangle
-get_octagon_points(mid_point, size)
-according to passed mid_point and size returns points to draw octagon</p>
+<p>Initialize 2D figure.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>screen</code></strong> :&ensp;<code>pygame.Surface</code></dt>
@@ -1042,7 +963,8 @@ according to passed mid_point and size returns points to draw octagon</p>
 <dt><strong><code>figure</code></strong> :&ensp;<code>str</code></dt>
 <dd>name of created figure</dd>
 <dt><strong><code>color</code></strong> :&ensp;<code>tuple</code> or <code>pygame.Surface</code></dt>
-<dd>RGB color code represented as (0-255, 0-255, 0-255) values, pygame.Surface if photo is used</dd>
+<dd>RGB color code represented as (0-255, 0-255, 0-255) values,
+pygame.Surface if photo is used</dd>
 <dt><strong><code>mid_point</code></strong> :&ensp;<code>tuple</code></dt>
 <dd>center of figure - tuple with two elements - width and height</dd>
 <dt><strong><code>size</code></strong> :&ensp;<code>int</code></dt>
@@ -1051,6 +973,7 @@ according to passed mid_point and size returns points to draw octagon</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L245-L402" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class Figure2D:
     &#34;&#34;&#34;
@@ -1065,29 +988,15 @@ according to passed mid_point and size returns points to draw octagon</p>
     figure : str
         name of created figure
     color : tuple or pygame.Surface
-        RGB color code represented as (0-255, 0-255, 0-255) values, pygame.Surface if photo is used
+        RGB color code represented as (0-255, 0-255, 0-255) values,
+        pygame.Surface if photo is used
     points : list
         list with points needed to draw figure
-
-    Methods
-    -------
-    call()
-        displays element on screen
-    adjust_points(mid_point, size)
-        according to type of created figure and its size adjusts points to draw it or returns proper point for placing
-        photo on the screen
-    get_diamond_points(mid_point, size)
-        according to passed mid_point and size returns points to draw diamond
-    get_square_points(mid_point, size)
-        according to passed mid_point and size returns points to draw square
-    get_triangle_points(mid_point, size)
-        according to passed mid_point and size returns points to draw triangle
-    get_octagon_points(mid_point, size)
-        according to passed mid_point and size returns points to draw octagon
     &#34;&#34;&#34;
 
     def __init__(self, screen, figure, color, mid_point, size):
-        &#34;&#34;&#34;
+        &#34;&#34;&#34;Initialize 2D figure.
+
         Parameters
         ----------
         screen: pygame.Surface
@@ -1095,31 +1004,31 @@ according to passed mid_point and size returns points to draw octagon</p>
         figure : str
             name of created figure
         color : tuple or pygame.Surface
-            RGB color code represented as (0-255, 0-255, 0-255) values, pygame.Surface if photo is used
+            RGB color code represented as (0-255, 0-255, 0-255) values,
+            pygame.Surface if photo is used
         mid_point : tuple
             center of figure - tuple with two elements - width and height
         size : int
             size of figure which will be drawn
         &#34;&#34;&#34;
-
         self.screen = screen
         self.figure = figure
         self.color = color
         self.points = self.adjust_points(mid_point, size)
 
     def __repr__(self):
+        &#34;&#34;&#34;Return `Figure2D` class representation.&#34;&#34;&#34;
         return f&#39;&lt;{self.figure} with points: {self.points}&gt;&#39;
 
     def __call__(self):
-        &#34;&#34;&#34;Draws figure or displays photo on screen&#34;&#34;&#34;
-
+        &#34;&#34;&#34;Draw figure or displays photo on screen.&#34;&#34;&#34;
         if isinstance(self.color, pygame.Surface):
             self.screen.blit(self.color, self.points)
         else:
             pygame.draw.polygon(self.screen, self.color, self.points)
 
     def adjust_points(self, mid_point, size):
-        &#34;&#34;&#34;Returns points needed to display element
+        &#34;&#34;&#34;Return points needed to display element.
 
         Parameters
         ----------
@@ -1131,9 +1040,9 @@ according to passed mid_point and size returns points to draw octagon</p>
         Returns
         -------
         list
-            list with points needed to draw or display element on screen (each has width and height value)
+            list with points needed to draw or display element on screen (each
+            has width and height value)
         &#34;&#34;&#34;
-
         if isinstance(self.color, pygame.Surface):
             w, h = self.color.get_size()
             return [int(mid_point[0] - w / 2), int(mid_point[1] - h / 2)]
@@ -1141,7 +1050,7 @@ according to passed mid_point and size returns points to draw octagon</p>
 
     @staticmethod
     def get_diamond_points(mid_point, size):
-        &#34;&#34;&#34;Returns points needed to draw diamond
+        &#34;&#34;&#34;Return points needed to draw diamond.
 
         Parameters
         ----------
@@ -1153,16 +1062,16 @@ according to passed mid_point and size returns points to draw octagon</p>
         Returns
         -------
         list
-            list with points needed to draw diamond on screen (each has width and height value)
+            list with points needed to draw diamond on screen (each has width
+            and height value)
         &#34;&#34;&#34;
-
         x, y = mid_point
         s = size
         return [(x, y - s), (x - s, y), (x, y + s), (x + s, y)]
 
     @staticmethod
     def get_square_points(mid_point, size):
-        &#34;&#34;&#34;Returns points needed to draw square
+        &#34;&#34;&#34;Return points needed to draw square.
 
         Parameters
         ----------
@@ -1174,16 +1083,16 @@ according to passed mid_point and size returns points to draw octagon</p>
         Returns
         -------
         list
-            list with points needed to draw square on screen (each has width and height value)
+            list with points needed to draw square on screen (each has width
+            and height value)
         &#34;&#34;&#34;
-
         x, y = mid_point
         s = size
         return [(x - s, y - s), (x - s, y + s), (x + s, y + s), (x + s, y - s)]
 
     @staticmethod
     def get_triangle_points(mid_point, size):
-        &#34;&#34;&#34;Returns points needed to draw triangle
+        &#34;&#34;&#34;Return points needed to draw triangle.
 
         Parameters
         ----------
@@ -1195,16 +1104,16 @@ according to passed mid_point and size returns points to draw octagon</p>
         Returns
         -------
         list
-            list with points needed to draw triangle on screen (each has width and height value)
+            list with points needed to draw triangle on screen (each has width
+            and height value)
         &#34;&#34;&#34;
-
         x, y = mid_point
         s = size
         return [(x - s, y + s), (x + s, y + s), (x, y - s)]
 
     @staticmethod
     def get_octagon_points(mid_point, size):
-        &#34;&#34;&#34;Returns points needed to draw octagon
+        &#34;&#34;&#34;Return points needed to draw octagon.
 
         Parameters
         ----------
@@ -1216,21 +1125,22 @@ according to passed mid_point and size returns points to draw octagon</p>
         Returns
         -------
         list
-            list with points needed to draw octagon on screen (each has width and height value)
+            list with points needed to draw octagon on screen (each has width
+            and height value)
         &#34;&#34;&#34;
-
         x, y = mid_point
         s = size
-        return [(x - s, y + s / 2), (x - s, y - s / 2), (x - s / 2, y - s), (x + s / 2, y - s), (x + s, y - s / 2),
-                (x + s, y + s / 2), (x + s / 2, y + s), (x - s / 2, y + s)]</code></pre>
+        return [(x - s, y + s / 2), (x - s, y - s / 2), (x - s / 2, y - s),
+                (x + s / 2, y - s), (x + s, y - s / 2), (x + s, y + s / 2),
+                (x + s / 2, y + s), (x - s / 2, y + s)]</code></pre>
 </details>
 <h3>Static methods</h3>
 <dl>
-<dt id="MemorizeIT.figure.Figure2D.get_diamond_points"><code class="name flex">
+<dt id="memorizeit.figure.Figure2D.get_diamond_points"><code class="name flex">
 <span>def <span class="ident">get_diamond_points</span></span>(<span>mid_point, size)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns points needed to draw diamond</p>
+<section class="desc"><p>Return points needed to draw diamond.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>mid_point</code></strong> :&ensp;<code>tuple</code></dt>
@@ -1241,15 +1151,17 @@ according to passed mid_point and size returns points to draw octagon</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>list</code></dt>
-<dd>list with points needed to draw diamond on screen (each has width and height value)</dd>
+<dd>list with points needed to draw diamond on screen (each has width
+and height value)</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L318-L337" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_diamond_points(mid_point, size):
-    &#34;&#34;&#34;Returns points needed to draw diamond
+    &#34;&#34;&#34;Return points needed to draw diamond.
 
     Parameters
     ----------
@@ -1261,19 +1173,19 @@ def get_diamond_points(mid_point, size):
     Returns
     -------
     list
-        list with points needed to draw diamond on screen (each has width and height value)
+        list with points needed to draw diamond on screen (each has width
+        and height value)
     &#34;&#34;&#34;
-
     x, y = mid_point
     s = size
     return [(x, y - s), (x - s, y), (x, y + s), (x + s, y)]</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Figure2D.get_octagon_points"><code class="name flex">
+<dt id="memorizeit.figure.Figure2D.get_octagon_points"><code class="name flex">
 <span>def <span class="ident">get_octagon_points</span></span>(<span>mid_point, size)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns points needed to draw octagon</p>
+<section class="desc"><p>Return points needed to draw octagon.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>mid_point</code></strong> :&ensp;<code>tuple</code></dt>
@@ -1284,15 +1196,17 @@ def get_diamond_points(mid_point, size):
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>list</code></dt>
-<dd>list with points needed to draw octagon on screen (each has width and height value)</dd>
+<dd>list with points needed to draw octagon on screen (each has width
+and height value)</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L381-L402" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_octagon_points(mid_point, size):
-    &#34;&#34;&#34;Returns points needed to draw octagon
+    &#34;&#34;&#34;Return points needed to draw octagon.
 
     Parameters
     ----------
@@ -1304,20 +1218,21 @@ def get_octagon_points(mid_point, size):
     Returns
     -------
     list
-        list with points needed to draw octagon on screen (each has width and height value)
+        list with points needed to draw octagon on screen (each has width
+        and height value)
     &#34;&#34;&#34;
-
     x, y = mid_point
     s = size
-    return [(x - s, y + s / 2), (x - s, y - s / 2), (x - s / 2, y - s), (x + s / 2, y - s), (x + s, y - s / 2),
-            (x + s, y + s / 2), (x + s / 2, y + s), (x - s / 2, y + s)]</code></pre>
+    return [(x - s, y + s / 2), (x - s, y - s / 2), (x - s / 2, y - s),
+            (x + s / 2, y - s), (x + s, y - s / 2), (x + s, y + s / 2),
+            (x + s / 2, y + s), (x - s / 2, y + s)]</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Figure2D.get_square_points"><code class="name flex">
+<dt id="memorizeit.figure.Figure2D.get_square_points"><code class="name flex">
 <span>def <span class="ident">get_square_points</span></span>(<span>mid_point, size)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns points needed to draw square</p>
+<section class="desc"><p>Return points needed to draw square.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>mid_point</code></strong> :&ensp;<code>tuple</code></dt>
@@ -1328,15 +1243,17 @@ def get_octagon_points(mid_point, size):
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>list</code></dt>
-<dd>list with points needed to draw square on screen (each has width and height value)</dd>
+<dd>list with points needed to draw square on screen (each has width
+and height value)</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L339-L358" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_square_points(mid_point, size):
-    &#34;&#34;&#34;Returns points needed to draw square
+    &#34;&#34;&#34;Return points needed to draw square.
 
     Parameters
     ----------
@@ -1348,19 +1265,19 @@ def get_square_points(mid_point, size):
     Returns
     -------
     list
-        list with points needed to draw square on screen (each has width and height value)
+        list with points needed to draw square on screen (each has width
+        and height value)
     &#34;&#34;&#34;
-
     x, y = mid_point
     s = size
     return [(x - s, y - s), (x - s, y + s), (x + s, y + s), (x + s, y - s)]</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Figure2D.get_triangle_points"><code class="name flex">
+<dt id="memorizeit.figure.Figure2D.get_triangle_points"><code class="name flex">
 <span>def <span class="ident">get_triangle_points</span></span>(<span>mid_point, size)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns points needed to draw triangle</p>
+<section class="desc"><p>Return points needed to draw triangle.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>mid_point</code></strong> :&ensp;<code>tuple</code></dt>
@@ -1371,15 +1288,17 @@ def get_square_points(mid_point, size):
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>list</code></dt>
-<dd>list with points needed to draw triangle on screen (each has width and height value)</dd>
+<dd>list with points needed to draw triangle on screen (each has width
+and height value)</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L360-L379" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_triangle_points(mid_point, size):
-    &#34;&#34;&#34;Returns points needed to draw triangle
+    &#34;&#34;&#34;Return points needed to draw triangle.
 
     Parameters
     ----------
@@ -1391,9 +1310,9 @@ def get_triangle_points(mid_point, size):
     Returns
     -------
     list
-        list with points needed to draw triangle on screen (each has width and height value)
+        list with points needed to draw triangle on screen (each has width
+        and height value)
     &#34;&#34;&#34;
-
     x, y = mid_point
     s = size
     return [(x - s, y + s), (x + s, y + s), (x, y - s)]</code></pre>
@@ -1402,11 +1321,11 @@ def get_triangle_points(mid_point, size):
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="MemorizeIT.figure.Figure2D.adjust_points"><code class="name flex">
+<dt id="memorizeit.figure.Figure2D.adjust_points"><code class="name flex">
 <span>def <span class="ident">adjust_points</span></span>(<span>self, mid_point, size)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns points needed to display element</p>
+<section class="desc"><p>Return points needed to display element.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>mid_point</code></strong> :&ensp;<code>tuple</code></dt>
@@ -1417,14 +1336,16 @@ def get_triangle_points(mid_point, size):
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>list</code></dt>
-<dd>list with points needed to draw or display element on screen (each has width and height value)</dd>
+<dd>list with points needed to draw or display element on screen (each
+has width and height value)</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L297-L316" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def adjust_points(self, mid_point, size):
-    &#34;&#34;&#34;Returns points needed to display element
+    &#34;&#34;&#34;Return points needed to display element.
 
     Parameters
     ----------
@@ -1436,9 +1357,9 @@ def get_triangle_points(mid_point, size):
     Returns
     -------
     list
-        list with points needed to draw or display element on screen (each has width and height value)
+        list with points needed to draw or display element on screen (each
+        has width and height value)
     &#34;&#34;&#34;
-
     if isinstance(self.color, pygame.Surface):
         w, h = self.color.get_size()
         return [int(mid_point[0] - w / 2), int(mid_point[1] - h / 2)]
@@ -1447,9 +1368,9 @@ def get_triangle_points(mid_point, size):
 </dd>
 </dl>
 </dd>
-<dt id="MemorizeIT.figure.Figure3D"><code class="flex name class">
+<dt id="memorizeit.figure.Figure3D"><code class="flex name class">
 <span>class <span class="ident">Figure3D</span></span>
-<span>(</span><span>positionZ, color, mode, operation)</span>
+<span>(</span><span>position_z, color, mode, operation)</span>
 </code></dt>
 <dd>
 <section class="desc"><p>A class with methods allowing to display 3D figures on screen.</p>
@@ -1461,35 +1382,29 @@ def get_triangle_points(mid_point, size):
 <dt><strong><code>mode</code></strong> :&ensp;<code>OpenGL.constant.IntConstant</code></dt>
 <dd>mode used to draw figures in 3D - GL_LINES or GL_QUADS</dd>
 <dt><strong><code>operation</code></strong> :&ensp;<code>function</code></dt>
-<dd>method used in specified mode to provide values needed to draw figure - get_edges or get_surfaces</dd>
+<dd>method used in specified mode to provide values needed to draw figure
+- get_edges or get_surfaces</dd>
 <dt><strong><code>vertices</code></strong> :&ensp;<code>list</code></dt>
 <dd>list filled with vertices needed to draw figure</dd>
 </dl>
-<h2 id="methods">Methods</h2>
-<p>call()
-displays figure on screen
-normal(positionZ, color)
-sets class parameters to draws contour of figure in set color
-fire(positionZ)
-sets class parameters to draws full figure with color movement imitating flame
-get_random_shift(positionZ)
-returns adjusted point according to moving camera
-adjust_vertices(point)
-returns adjusted figure vertices according to set point</p>
+<p>Initialize 3D figure.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>positionZ</code></strong> :&ensp;<code>int</code></dt>
-<dd>position of camera Z where figure will be drawn (how far from beginning - where camera started to move)</dd>
+<dt><strong><code>position_z</code></strong> :&ensp;<code>int</code></dt>
+<dd>position of camera Z where figure will be drawn (how far from
+beginning - where camera started to move)</dd>
 <dt><strong><code>color</code></strong> :&ensp;<code>tuple</code></dt>
 <dd>RGB color code represented as (0-1, 0-1, 0-1) values</dd>
 <dt><strong><code>mode</code></strong> :&ensp;<code>OpenGL.constant.IntConstant</code></dt>
 <dd>mode used to draw figures in 3D - GL_LINES or GL_QUADS</dd>
 <dt><strong><code>operation</code></strong> :&ensp;<code>function</code></dt>
-<dd>method used in specified mode to provide values needed to draw figure - get_edges or get_surfaces</dd>
+<dd>method used in specified mode to provide values needed to draw
+figure - get_edges or get_surfaces</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L405-L513" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class Figure3D:
     &#34;&#34;&#34;
@@ -1504,92 +1419,83 @@ returns adjusted figure vertices according to set point</p>
     mode : OpenGL.constant.IntConstant
         mode used to draw figures in 3D - GL_LINES or GL_QUADS
     operation : function
-        method used in specified mode to provide values needed to draw figure - get_edges or get_surfaces
+        method used in specified mode to provide values needed to draw figure
+        - get_edges or get_surfaces
     vertices : list
         list filled with vertices needed to draw figure
-
-    Methods
-    -------
-    call()
-        displays figure on screen
-    normal(positionZ, color)
-        sets class parameters to draws contour of figure in set color
-    fire(positionZ)
-        sets class parameters to draws full figure with color movement imitating flame
-    get_random_shift(positionZ)
-        returns adjusted point according to moving camera
-    adjust_vertices(point)
-        returns adjusted figure vertices according to set point
     &#34;&#34;&#34;
 
-    def __init__(self, positionZ, color, mode, operation):
-        &#34;&#34;&#34;
+    def __init__(self, position_z, color, mode, operation):
+        &#34;&#34;&#34;Initialize 3D figure.
+
         Parameters
         ----------
-        positionZ : int
-            position of camera Z where figure will be drawn (how far from beginning - where camera started to move)
+        position_z : int
+            position of camera Z where figure will be drawn (how far from
+            beginning - where camera started to move)
         color : tuple
             RGB color code represented as (0-1, 0-1, 0-1) values
         mode : OpenGL.constant.IntConstant
             mode used to draw figures in 3D - GL_LINES or GL_QUADS
         operation : function
-            method used in specified mode to provide values needed to draw figure - get_edges or get_surfaces
+            method used in specified mode to provide values needed to draw
+            figure - get_edges or get_surfaces
         &#34;&#34;&#34;
-
         self.color = color
         self.mode = mode
         self.operation = operation
-        self.vertices = self.adjust_vertices(self.get_random_shift(positionZ))
+        self.vertices = self.adjust_vertices(self.get_random_shift(position_z))
 
     def __repr__(self):
+        &#34;&#34;&#34;Return `Figure3D` class representation.&#34;&#34;&#34;
         return f&#39;&lt;{self.__class__.__name__} with vertices: {self.vertices}&gt;&#39;
 
     def __call__(self):
-        &#34;&#34;&#34;Displays figure on screen&#34;&#34;&#34;
-
+        &#34;&#34;&#34;Display figure on screen.&#34;&#34;&#34;
         glBegin(self.mode)
         for element in self.operation():
             for vertex in element:
-                color = choice(self.color) if all([isinstance(x, tuple) for x in self.color]) else self.color
+                color = choice(self.color) if all(
+                    [isinstance(x, tuple) for x in self.color]
+                ) else self.color
                 glColor3fv(color)
                 glVertex3fv(self.vertices[vertex])
         glEnd()
 
     @classmethod
-    def normal(cls, positionZ, color, *args):
-        &#34;&#34;&#34;Sets class parameters to draws contour of figure in set color&#34;&#34;&#34;
-
-        return cls(positionZ, color, GL_LINES, cls.get_edges)
+    def normal(cls, position_z, color, *args):
+        &#34;&#34;&#34;Set class parameters to draw contour of figure in set color.&#34;&#34;&#34;
+        return cls(position_z, color, GL_LINES, cls.get_edges)
 
     @classmethod
-    def fire(cls, positionZ, *args):
-        &#34;&#34;&#34;Sets class parameters to draws full figure with color movement imitating flame&#34;&#34;&#34;
-
-        return cls(positionZ, ((0.5, 0, 0), (1, 0.5, 0)), GL_QUADS, cls.get_surfaces)
+    def fire(cls, position_z, *args):
+        &#34;&#34;&#34;Set class parameters to draws full figure imitating flame.&#34;&#34;&#34;
+        return cls(position_z, ((0.5, 0, 0), (1, 0.5, 0)),
+                   GL_QUADS, cls.get_surfaces)
 
     @staticmethod
-    def get_random_shift(positionZ):
-        &#34;&#34;&#34;Returns adjusted point according to moving camera
-
+    def get_random_shift(position_z):
+        &#34;&#34;&#34;Return adjusted point according to moving camera.
 
         Parameters
         ----------
-        positionZ : int
-            position of camera Z where figure will be drawn (how far from beginning - where camera started to move)
+        position_z : int
+            position of camera Z where figure will be drawn (how far from
+            beginning - where camera started to move)
 
         Returns
         -------
         tuple
-            containing x, y, z randomized values for point where figure will be drawn
+            containing x, y, z randomized values for point where figure will
+            be drawn
         &#34;&#34;&#34;
-
         x = choice((-1, 1)) * randrange(2, 10)
         y = choice((-1, 1)) * randrange(2, 10)
-        z = randrange(int(positionZ - 90), int(positionZ - 60))
+        z = randrange(int(position_z - 90), int(position_z - 60))
         return x, y, z
 
     def adjust_vertices(self, point):
-        &#34;&#34;&#34;Returns adjusted figure vertices according to set point
+        &#34;&#34;&#34;Return adjusted figure vertices according to set point.
 
         Parameters
         ----------
@@ -1601,7 +1507,6 @@ returns adjusted figure vertices according to set point</p>
         list
             containing new vertices values allowing to draw 3D figure
         &#34;&#34;&#34;
-
         new_vertices = []
         for vertice in self.get_vertices():
             new = []
@@ -1613,94 +1518,98 @@ returns adjusted figure vertices according to set point</p>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="MemorizeIT.figure.Cube" href="#MemorizeIT.figure.Cube">Cube</a></li>
-<li><a title="MemorizeIT.figure.Octagon" href="#MemorizeIT.figure.Octagon">Octagon</a></li>
-<li><a title="MemorizeIT.figure.Octahedron" href="#MemorizeIT.figure.Octahedron">Octahedron</a></li>
-<li><a title="MemorizeIT.figure.Pyramid" href="#MemorizeIT.figure.Pyramid">Pyramid</a></li>
+<li><a title="memorizeit.figure.Cube" href="#memorizeit.figure.Cube">Cube</a></li>
+<li><a title="memorizeit.figure.Octagon" href="#memorizeit.figure.Octagon">Octagon</a></li>
+<li><a title="memorizeit.figure.Octahedron" href="#memorizeit.figure.Octahedron">Octahedron</a></li>
+<li><a title="memorizeit.figure.Pyramid" href="#memorizeit.figure.Pyramid">Pyramid</a></li>
 </ul>
 <h3>Static methods</h3>
 <dl>
-<dt id="MemorizeIT.figure.Figure3D.fire"><code class="name flex">
-<span>def <span class="ident">fire</span></span>(<span>positionZ, *args)</span>
+<dt id="memorizeit.figure.Figure3D.fire"><code class="name flex">
+<span>def <span class="ident">fire</span></span>(<span>position_z, *args)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Sets class parameters to draws full figure with color movement imitating flame</p></section>
+<section class="desc"><p>Set class parameters to draws full figure imitating flame.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L466-L470" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@classmethod
-def fire(cls, positionZ, *args):
-    &#34;&#34;&#34;Sets class parameters to draws full figure with color movement imitating flame&#34;&#34;&#34;
-
-    return cls(positionZ, ((0.5, 0, 0), (1, 0.5, 0)), GL_QUADS, cls.get_surfaces)</code></pre>
+def fire(cls, position_z, *args):
+    &#34;&#34;&#34;Set class parameters to draws full figure imitating flame.&#34;&#34;&#34;
+    return cls(position_z, ((0.5, 0, 0), (1, 0.5, 0)),
+               GL_QUADS, cls.get_surfaces)</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Figure3D.get_random_shift"><code class="name flex">
-<span>def <span class="ident">get_random_shift</span></span>(<span>positionZ)</span>
+<dt id="memorizeit.figure.Figure3D.get_random_shift"><code class="name flex">
+<span>def <span class="ident">get_random_shift</span></span>(<span>position_z)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns adjusted point according to moving camera</p>
+<section class="desc"><p>Return adjusted point according to moving camera.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>positionZ</code></strong> :&ensp;<code>int</code></dt>
-<dd>position of camera Z where figure will be drawn (how far from beginning - where camera started to move)</dd>
+<dt><strong><code>position_z</code></strong> :&ensp;<code>int</code></dt>
+<dd>position of camera Z where figure will be drawn (how far from
+beginning - where camera started to move)</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>tuple</code></dt>
-<dd>containing x, y, z randomized values for point where figure will be drawn</dd>
+<dd>containing x, y, z randomized values for point where figure will
+be drawn</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L472-L491" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
-def get_random_shift(positionZ):
-    &#34;&#34;&#34;Returns adjusted point according to moving camera
-
+def get_random_shift(position_z):
+    &#34;&#34;&#34;Return adjusted point according to moving camera.
 
     Parameters
     ----------
-    positionZ : int
-        position of camera Z where figure will be drawn (how far from beginning - where camera started to move)
+    position_z : int
+        position of camera Z where figure will be drawn (how far from
+        beginning - where camera started to move)
 
     Returns
     -------
     tuple
-        containing x, y, z randomized values for point where figure will be drawn
+        containing x, y, z randomized values for point where figure will
+        be drawn
     &#34;&#34;&#34;
-
     x = choice((-1, 1)) * randrange(2, 10)
     y = choice((-1, 1)) * randrange(2, 10)
-    z = randrange(int(positionZ - 90), int(positionZ - 60))
+    z = randrange(int(position_z - 90), int(position_z - 60))
     return x, y, z</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Figure3D.normal"><code class="name flex">
-<span>def <span class="ident">normal</span></span>(<span>positionZ, color, *args)</span>
+<dt id="memorizeit.figure.Figure3D.normal"><code class="name flex">
+<span>def <span class="ident">normal</span></span>(<span>position_z, color, *args)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Sets class parameters to draws contour of figure in set color</p></section>
+<section class="desc"><p>Set class parameters to draw contour of figure in set color.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L461-L464" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@classmethod
-def normal(cls, positionZ, color, *args):
-    &#34;&#34;&#34;Sets class parameters to draws contour of figure in set color&#34;&#34;&#34;
-
-    return cls(positionZ, color, GL_LINES, cls.get_edges)</code></pre>
+def normal(cls, position_z, color, *args):
+    &#34;&#34;&#34;Set class parameters to draw contour of figure in set color.&#34;&#34;&#34;
+    return cls(position_z, color, GL_LINES, cls.get_edges)</code></pre>
 </details>
 </dd>
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="MemorizeIT.figure.Figure3D.adjust_vertices"><code class="name flex">
+<dt id="memorizeit.figure.Figure3D.adjust_vertices"><code class="name flex">
 <span>def <span class="ident">adjust_vertices</span></span>(<span>self, point)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns adjusted figure vertices according to set point</p>
+<section class="desc"><p>Return adjusted figure vertices according to set point.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>point</code></strong> :&ensp;<code>tuple</code></dt>
@@ -1714,9 +1623,10 @@ def normal(cls, positionZ, color, *args):
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L493-L513" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def adjust_vertices(self, point):
-    &#34;&#34;&#34;Returns adjusted figure vertices according to set point
+    &#34;&#34;&#34;Return adjusted figure vertices according to set point.
 
     Parameters
     ----------
@@ -1728,7 +1638,6 @@ def normal(cls, positionZ, color, *args):
     list
         containing new vertices values allowing to draw 3D figure
     &#34;&#34;&#34;
-
     new_vertices = []
     for vertice in self.get_vertices():
         new = []
@@ -1741,55 +1650,37 @@ def normal(cls, positionZ, color, *args):
 </dd>
 </dl>
 </dd>
-<dt id="MemorizeIT.figure.Octagon"><code class="flex name class">
+<dt id="memorizeit.figure.Octagon"><code class="flex name class">
 <span>class <span class="ident">Octagon</span></span>
-<span>(</span><span>positionZ, color, mode, operation)</span>
+<span>(</span><span>position_z, color, mode, operation)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>A class representing octagon. It is children of Figure3D.</p>
-<p>&hellip;</p>
-<h2 id="methods">Methods</h2>
-<p>get_vertices()
-returns tuple with points later processed to draw figure
-get_edges()
-returns tuple with connections between vertices - allowing to draw contour of figure
-get_surfaces()
-returns tuple with connections between vertices - allowing to draw full figure</p>
+<section class="desc"><p>A class representing octagon. It extends Figure3D.</p>
+<p>Initialize 3D figure.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>positionZ</code></strong> :&ensp;<code>int</code></dt>
-<dd>position of camera Z where figure will be drawn (how far from beginning - where camera started to move)</dd>
+<dt><strong><code>position_z</code></strong> :&ensp;<code>int</code></dt>
+<dd>position of camera Z where figure will be drawn (how far from
+beginning - where camera started to move)</dd>
 <dt><strong><code>color</code></strong> :&ensp;<code>tuple</code></dt>
 <dd>RGB color code represented as (0-1, 0-1, 0-1) values</dd>
 <dt><strong><code>mode</code></strong> :&ensp;<code>OpenGL.constant.IntConstant</code></dt>
 <dd>mode used to draw figures in 3D - GL_LINES or GL_QUADS</dd>
 <dt><strong><code>operation</code></strong> :&ensp;<code>function</code></dt>
-<dd>method used in specified mode to provide values needed to draw figure - get_edges or get_surfaces</dd>
+<dd>method used in specified mode to provide values needed to draw
+figure - get_edges or get_surfaces</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L564-L633" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class Octagon(Figure3D):
-    &#34;&#34;&#34;
-    A class representing octagon. It is children of Figure3D.
-
-    ...
-
-
-    Methods
-    -------
-    get_vertices()
-        returns tuple with points later processed to draw figure
-    get_edges()
-        returns tuple with connections between vertices - allowing to draw contour of figure
-    get_surfaces()
-        returns tuple with connections between vertices - allowing to draw full figure
-
-    &#34;&#34;&#34;
+    &#34;&#34;&#34;A class representing octagon. It extends Figure3D.&#34;&#34;&#34;
 
     @staticmethod
     def get_vertices():
+        &#34;&#34;&#34;Return figure vertices.&#34;&#34;&#34;
         return (
             (-0.25, 0, -0.5),
             (0.25, 0, -0.5),
@@ -1811,6 +1702,7 @@ returns tuple with connections between vertices - allowing to draw full figure</
 
     @staticmethod
     def get_edges():
+        &#34;&#34;&#34;Return figure edges.&#34;&#34;&#34;
         return (
             (0, 7),
             (0, 1),
@@ -1840,6 +1732,7 @@ returns tuple with connections between vertices - allowing to draw full figure</
 
     @staticmethod
     def get_surfaces():
+        &#34;&#34;&#34;Return figure surfaces.&#34;&#34;&#34;
         return (
             (9, 8, 11, 10, 12, 15, 8, 11, 13, 12, 15, 14),
             (1, 0, 3, 2, 4, 7, 0, 3, 5, 4, 7, 6),
@@ -1855,21 +1748,23 @@ returns tuple with connections between vertices - allowing to draw full figure</
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="MemorizeIT.figure.Figure3D" href="#MemorizeIT.figure.Figure3D">Figure3D</a></li>
+<li><a title="memorizeit.figure.Figure3D" href="#memorizeit.figure.Figure3D">Figure3D</a></li>
 </ul>
 <h3>Static methods</h3>
 <dl>
-<dt id="MemorizeIT.figure.Octagon.get_edges"><code class="name flex">
+<dt id="memorizeit.figure.Octagon.get_edges"><code class="name flex">
 <span>def <span class="ident">get_edges</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Return figure edges.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L589-L617" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_edges():
+    &#34;&#34;&#34;Return figure edges.&#34;&#34;&#34;
     return (
         (0, 7),
         (0, 1),
@@ -1898,17 +1793,19 @@ def get_edges():
     )</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Octagon.get_surfaces"><code class="name flex">
+<dt id="memorizeit.figure.Octagon.get_surfaces"><code class="name flex">
 <span>def <span class="ident">get_surfaces</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Return figure surfaces.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L619-L633" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_surfaces():
+    &#34;&#34;&#34;Return figure surfaces.&#34;&#34;&#34;
     return (
         (9, 8, 11, 10, 12, 15, 8, 11, 13, 12, 15, 14),
         (1, 0, 3, 2, 4, 7, 0, 3, 5, 4, 7, 6),
@@ -1923,17 +1820,19 @@ def get_surfaces():
     )</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Octagon.get_vertices"><code class="name flex">
+<dt id="memorizeit.figure.Octagon.get_vertices"><code class="name flex">
 <span>def <span class="ident">get_vertices</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Return figure vertices.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L567-L587" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_vertices():
+    &#34;&#34;&#34;Return figure vertices.&#34;&#34;&#34;
     return (
         (-0.25, 0, -0.5),
         (0.25, 0, -0.5),
@@ -1957,65 +1856,47 @@ def get_vertices():
 </dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="MemorizeIT.figure.Figure3D" href="#MemorizeIT.figure.Figure3D">Figure3D</a></b></code>:
+<li><code><b><a title="memorizeit.figure.Figure3D" href="#memorizeit.figure.Figure3D">Figure3D</a></b></code>:
 <ul class="hlist">
-<li><code><a title="MemorizeIT.figure.Figure3D.adjust_vertices" href="#MemorizeIT.figure.Figure3D.adjust_vertices">adjust_vertices</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.fire" href="#MemorizeIT.figure.Figure3D.fire">fire</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.get_random_shift" href="#MemorizeIT.figure.Figure3D.get_random_shift">get_random_shift</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.normal" href="#MemorizeIT.figure.Figure3D.normal">normal</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.adjust_vertices" href="#memorizeit.figure.Figure3D.adjust_vertices">adjust_vertices</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.fire" href="#memorizeit.figure.Figure3D.fire">fire</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.get_random_shift" href="#memorizeit.figure.Figure3D.get_random_shift">get_random_shift</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.normal" href="#memorizeit.figure.Figure3D.normal">normal</a></code></li>
 </ul>
 </li>
 </ul>
 </dd>
-<dt id="MemorizeIT.figure.Octahedron"><code class="flex name class">
+<dt id="memorizeit.figure.Octahedron"><code class="flex name class">
 <span>class <span class="ident">Octahedron</span></span>
-<span>(</span><span>positionZ, color, mode, operation)</span>
+<span>(</span><span>position_z, color, mode, operation)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>A class representing octahedron. It is children of Figure3D.</p>
-<p>&hellip;</p>
-<h2 id="methods">Methods</h2>
-<p>get_vertices()
-returns tuple with points later processed to draw figure
-get_edges()
-returns tuple with connections between vertices - allowing to draw contour of figure
-get_surfaces()
-returns tuple with connections between vertices - allowing to draw full figure</p>
+<section class="desc"><p>A class representing octahedron. It extends Figure3D.</p>
+<p>Initialize 3D figure.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>positionZ</code></strong> :&ensp;<code>int</code></dt>
-<dd>position of camera Z where figure will be drawn (how far from beginning - where camera started to move)</dd>
+<dt><strong><code>position_z</code></strong> :&ensp;<code>int</code></dt>
+<dd>position of camera Z where figure will be drawn (how far from
+beginning - where camera started to move)</dd>
 <dt><strong><code>color</code></strong> :&ensp;<code>tuple</code></dt>
 <dd>RGB color code represented as (0-1, 0-1, 0-1) values</dd>
 <dt><strong><code>mode</code></strong> :&ensp;<code>OpenGL.constant.IntConstant</code></dt>
 <dd>mode used to draw figures in 3D - GL_LINES or GL_QUADS</dd>
 <dt><strong><code>operation</code></strong> :&ensp;<code>function</code></dt>
-<dd>method used in specified mode to provide values needed to draw figure - get_edges or get_surfaces</dd>
+<dd>method used in specified mode to provide values needed to draw
+figure - get_edges or get_surfaces</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L636-L681" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class Octahedron(Figure3D):
-    &#34;&#34;&#34;
-    A class representing octahedron. It is children of Figure3D.
-
-    ...
-
-
-    Methods
-    -------
-    get_vertices()
-        returns tuple with points later processed to draw figure
-    get_edges()
-        returns tuple with connections between vertices - allowing to draw contour of figure
-    get_surfaces()
-        returns tuple with connections between vertices - allowing to draw full figure
-
-    &#34;&#34;&#34;
+    &#34;&#34;&#34;A class representing octahedron. It extends Figure3D.&#34;&#34;&#34;
 
     @staticmethod
     def get_vertices():
+        &#34;&#34;&#34;Return figure vertices.&#34;&#34;&#34;
         return (
             (0, 1, 0),
             (-0.5, 0, -0.5),
@@ -2027,6 +1908,7 @@ returns tuple with connections between vertices - allowing to draw full figure</
 
     @staticmethod
     def get_edges():
+        &#34;&#34;&#34;Return figure edges.&#34;&#34;&#34;
         return (
             (0, 1),
             (0, 2),
@@ -2044,6 +1926,7 @@ returns tuple with connections between vertices - allowing to draw full figure</
 
     @staticmethod
     def get_surfaces():
+        &#34;&#34;&#34;Return figure surfaces.&#34;&#34;&#34;
         return (
             (0, 1, 2),
             (0, 3, 2),
@@ -2057,21 +1940,23 @@ returns tuple with connections between vertices - allowing to draw full figure</
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="MemorizeIT.figure.Figure3D" href="#MemorizeIT.figure.Figure3D">Figure3D</a></li>
+<li><a title="memorizeit.figure.Figure3D" href="#memorizeit.figure.Figure3D">Figure3D</a></li>
 </ul>
 <h3>Static methods</h3>
 <dl>
-<dt id="MemorizeIT.figure.Octahedron.get_edges"><code class="name flex">
+<dt id="memorizeit.figure.Octahedron.get_edges"><code class="name flex">
 <span>def <span class="ident">get_edges</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Return figure edges.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L651-L667" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_edges():
+    &#34;&#34;&#34;Return figure edges.&#34;&#34;&#34;
     return (
         (0, 1),
         (0, 2),
@@ -2088,17 +1973,19 @@ def get_edges():
     )</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Octahedron.get_surfaces"><code class="name flex">
+<dt id="memorizeit.figure.Octahedron.get_surfaces"><code class="name flex">
 <span>def <span class="ident">get_surfaces</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Return figure surfaces.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L669-L681" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_surfaces():
+    &#34;&#34;&#34;Return figure surfaces.&#34;&#34;&#34;
     return (
         (0, 1, 2),
         (0, 3, 2),
@@ -2111,17 +1998,19 @@ def get_surfaces():
     )</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Octahedron.get_vertices"><code class="name flex">
+<dt id="memorizeit.figure.Octahedron.get_vertices"><code class="name flex">
 <span>def <span class="ident">get_vertices</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Return figure vertices.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L639-L649" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_vertices():
+    &#34;&#34;&#34;Return figure vertices.&#34;&#34;&#34;
     return (
         (0, 1, 0),
         (-0.5, 0, -0.5),
@@ -2135,65 +2024,47 @@ def get_vertices():
 </dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="MemorizeIT.figure.Figure3D" href="#MemorizeIT.figure.Figure3D">Figure3D</a></b></code>:
+<li><code><b><a title="memorizeit.figure.Figure3D" href="#memorizeit.figure.Figure3D">Figure3D</a></b></code>:
 <ul class="hlist">
-<li><code><a title="MemorizeIT.figure.Figure3D.adjust_vertices" href="#MemorizeIT.figure.Figure3D.adjust_vertices">adjust_vertices</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.fire" href="#MemorizeIT.figure.Figure3D.fire">fire</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.get_random_shift" href="#MemorizeIT.figure.Figure3D.get_random_shift">get_random_shift</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.normal" href="#MemorizeIT.figure.Figure3D.normal">normal</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.adjust_vertices" href="#memorizeit.figure.Figure3D.adjust_vertices">adjust_vertices</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.fire" href="#memorizeit.figure.Figure3D.fire">fire</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.get_random_shift" href="#memorizeit.figure.Figure3D.get_random_shift">get_random_shift</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.normal" href="#memorizeit.figure.Figure3D.normal">normal</a></code></li>
 </ul>
 </li>
 </ul>
 </dd>
-<dt id="MemorizeIT.figure.Pyramid"><code class="flex name class">
+<dt id="memorizeit.figure.Pyramid"><code class="flex name class">
 <span>class <span class="ident">Pyramid</span></span>
-<span>(</span><span>positionZ, color, mode, operation)</span>
+<span>(</span><span>position_z, color, mode, operation)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>A class representing pyramid. It is children of Figure3D.</p>
-<p>&hellip;</p>
-<h2 id="methods">Methods</h2>
-<p>get_vertices()
-returns tuple with points later processed to draw figure
-get_edges()
-returns tuple with connections between vertices - allowing to draw contour of figure
-get_surfaces()
-returns tuple with connections between vertices - allowing to draw full figure</p>
+<section class="desc"><p>A class representing pyramid. It extends Figure3D.</p>
+<p>Initialize 3D figure.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>positionZ</code></strong> :&ensp;<code>int</code></dt>
-<dd>position of camera Z where figure will be drawn (how far from beginning - where camera started to move)</dd>
+<dt><strong><code>position_z</code></strong> :&ensp;<code>int</code></dt>
+<dd>position of camera Z where figure will be drawn (how far from
+beginning - where camera started to move)</dd>
 <dt><strong><code>color</code></strong> :&ensp;<code>tuple</code></dt>
 <dd>RGB color code represented as (0-1, 0-1, 0-1) values</dd>
 <dt><strong><code>mode</code></strong> :&ensp;<code>OpenGL.constant.IntConstant</code></dt>
 <dd>mode used to draw figures in 3D - GL_LINES or GL_QUADS</dd>
 <dt><strong><code>operation</code></strong> :&ensp;<code>function</code></dt>
-<dd>method used in specified mode to provide values needed to draw figure - get_edges or get_surfaces</dd>
+<dd>method used in specified mode to provide values needed to draw
+figure - get_edges or get_surfaces</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L684-L721" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class Pyramid(Figure3D):
-    &#34;&#34;&#34;
-    A class representing pyramid. It is children of Figure3D.
-
-    ...
-
-
-    Methods
-    -------
-    get_vertices()
-        returns tuple with points later processed to draw figure
-    get_edges()
-        returns tuple with connections between vertices - allowing to draw contour of figure
-    get_surfaces()
-        returns tuple with connections between vertices - allowing to draw full figure
-
-    &#34;&#34;&#34;
+    &#34;&#34;&#34;A class representing pyramid. It extends Figure3D.&#34;&#34;&#34;
 
     @staticmethod
     def get_vertices():
+        &#34;&#34;&#34;Return figure vertices.&#34;&#34;&#34;
         return (
             (0, 1, 0),
             (-1, -1, -1),
@@ -2204,6 +2075,7 @@ returns tuple with connections between vertices - allowing to draw full figure</
 
     @staticmethod
     def get_edges():
+        &#34;&#34;&#34;Return figure edges.&#34;&#34;&#34;
         return (
             (0, 1),
             (0, 2),
@@ -2217,6 +2089,7 @@ returns tuple with connections between vertices - allowing to draw full figure</
 
     @staticmethod
     def get_surfaces():
+        &#34;&#34;&#34;Return figure surfaces.&#34;&#34;&#34;
         return (
             (0, 1, 2),
             (0, 3, 2),
@@ -2227,21 +2100,23 @@ returns tuple with connections between vertices - allowing to draw full figure</
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="MemorizeIT.figure.Figure3D" href="#MemorizeIT.figure.Figure3D">Figure3D</a></li>
+<li><a title="memorizeit.figure.Figure3D" href="#memorizeit.figure.Figure3D">Figure3D</a></li>
 </ul>
 <h3>Static methods</h3>
 <dl>
-<dt id="MemorizeIT.figure.Pyramid.get_edges"><code class="name flex">
+<dt id="memorizeit.figure.Pyramid.get_edges"><code class="name flex">
 <span>def <span class="ident">get_edges</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Return figure edges.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L698-L710" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_edges():
+    &#34;&#34;&#34;Return figure edges.&#34;&#34;&#34;
     return (
         (0, 1),
         (0, 2),
@@ -2254,17 +2129,19 @@ def get_edges():
     )</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Pyramid.get_surfaces"><code class="name flex">
+<dt id="memorizeit.figure.Pyramid.get_surfaces"><code class="name flex">
 <span>def <span class="ident">get_surfaces</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Return figure surfaces.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L712-L721" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_surfaces():
+    &#34;&#34;&#34;Return figure surfaces.&#34;&#34;&#34;
     return (
         (0, 1, 2),
         (0, 3, 2),
@@ -2274,17 +2151,19 @@ def get_surfaces():
     )</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Pyramid.get_vertices"><code class="name flex">
+<dt id="memorizeit.figure.Pyramid.get_vertices"><code class="name flex">
 <span>def <span class="ident">get_vertices</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>Return figure vertices.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L687-L696" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_vertices():
+    &#34;&#34;&#34;Return figure vertices.&#34;&#34;&#34;
     return (
         (0, 1, 0),
         (-1, -1, -1),
@@ -2297,55 +2176,61 @@ def get_vertices():
 </dl>
 <h3>Inherited members</h3>
 <ul class="hlist">
-<li><code><b><a title="MemorizeIT.figure.Figure3D" href="#MemorizeIT.figure.Figure3D">Figure3D</a></b></code>:
+<li><code><b><a title="memorizeit.figure.Figure3D" href="#memorizeit.figure.Figure3D">Figure3D</a></b></code>:
 <ul class="hlist">
-<li><code><a title="MemorizeIT.figure.Figure3D.adjust_vertices" href="#MemorizeIT.figure.Figure3D.adjust_vertices">adjust_vertices</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.fire" href="#MemorizeIT.figure.Figure3D.fire">fire</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.get_random_shift" href="#MemorizeIT.figure.Figure3D.get_random_shift">get_random_shift</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.normal" href="#MemorizeIT.figure.Figure3D.normal">normal</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.adjust_vertices" href="#memorizeit.figure.Figure3D.adjust_vertices">adjust_vertices</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.fire" href="#memorizeit.figure.Figure3D.fire">fire</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.get_random_shift" href="#memorizeit.figure.Figure3D.get_random_shift">get_random_shift</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.normal" href="#memorizeit.figure.Figure3D.normal">normal</a></code></li>
 </ul>
 </li>
 </ul>
 </dd>
-<dt id="MemorizeIT.figure.Wave"><code class="flex name class">
+<dt id="memorizeit.figure.Wave"><code class="flex name class">
 <span>class <span class="ident">Wave</span></span>
 <span>(</span><span>figure_type, color, *args)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>A class with collection of the same methods needed both in Wave2D and Wave3D. It is base, responsible for creating
-wave of elements, iterating through its objects, counting and calling them (drawing).</p>
+<section class="desc"><p>A class with collection of the same methods both for Wave2D and Wave3D.</p>
+<p>It is base, responsible for creating wave of elements, iterating through
+its objects, counting and calling them (drawing).</p>
 <p>&hellip;</p>
 <h2 id="attributes">Attributes</h2>
 <dl>
 <dt><strong><code>figure_type</code></strong> :&ensp;<code>str</code></dt>
 <dd>name of figures which will be in the wave</dd>
 <dt><strong><code>color</code></strong> :&ensp;<code>tuple</code> or <code>pygame.Surface</code> or <code>False</code></dt>
-<dd>RGB code of color for wave (0-1, 0-1, 0-1), False if each element in wave will have his own color or
-pygame.Surface in case if photo will be used as displayed element</dd>
+<dd>RGB code of color for wave (0-1, 0-1, 0-1), False if each element in
+wave will have his own color or pygame.Surface in case if photo will
+be used as displayed element</dd>
 <dt><strong><code>*args</code></strong></dt>
-<dd>rest of parameters needed to create specified type of wave, see Wave2D and Wave3D</dd>
+<dd>rest of parameters needed to create specified type of wave, see Wave2D
+and Wave3D</dd>
 </dl>
-<h2 id="methods">Methods</h2>
-<p>call()
-spawns (displays) wave on screen</p>
+<p>Initialize wave.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>figure_type</code></strong> :&ensp;<code>str</code></dt>
 <dd>name of figures which will be in the wave</dd>
 <dt><strong><code>color</code></strong> :&ensp;<code>tuple</code> or <code>pygame.Surface</code> or <code>False</code></dt>
-<dd>RGB code of color for wave (0-1, 0-1, 0-1), False if each element in wave will have his own color or
-pygame.Surface in case if photo will be used as displayed element</dd>
+<dd>RGB code of color for wave (0-1, 0-1, 0-1), False if each element
+in wave will have his own color or pygame.Surface in case if photo
+will be used as displayed element</dd>
 <dt><strong><code>*args</code></strong></dt>
-<dd>rest of parameters needed to create specified type of wave, see Wave2D and Wave3D</dd>
+<dd>rest of parameters needed to create specified type of wave, see
+Wave2D and Wave3D</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L26-L83" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class Wave:
     &#34;&#34;&#34;
-    A class with collection of the same methods needed both in Wave2D and Wave3D. It is base, responsible for creating
-    wave of elements, iterating through its objects, counting and calling them (drawing).
+    A class with collection of the same methods both for Wave2D and Wave3D.
+
+    It is base, responsible for creating wave of elements, iterating through
+    its objects, counting and calling them (drawing).
 
     ...
 
@@ -2354,91 +2239,107 @@ pygame.Surface in case if photo will be used as displayed element</dd>
     figure_type : str
         name of figures which will be in the wave
     color : tuple or pygame.Surface or False
-        RGB code of color for wave (0-1, 0-1, 0-1), False if each element in wave will have his own color or
-        pygame.Surface in case if photo will be used as displayed element
+        RGB code of color for wave (0-1, 0-1, 0-1), False if each element in
+        wave will have his own color or pygame.Surface in case if photo will
+        be used as displayed element
     *args
-        rest of parameters needed to create specified type of wave, see Wave2D and Wave3D
-
-    Methods
-    -------
-    call()
-        spawns (displays) wave on screen
+        rest of parameters needed to create specified type of wave, see Wave2D
+        and Wave3D
     &#34;&#34;&#34;
 
     def __init__(self, figure_type, color, *args):
-        &#34;&#34;&#34;
+        &#34;&#34;&#34;Initialize wave.
+
         Parameters
         ----------
         figure_type : str
             name of figures which will be in the wave
         color : tuple or pygame.Surface or False
-            RGB code of color for wave (0-1, 0-1, 0-1), False if each element in wave will have his own color or
-            pygame.Surface in case if photo will be used as displayed element
+            RGB code of color for wave (0-1, 0-1, 0-1), False if each element
+            in wave will have his own color or pygame.Surface in case if photo
+            will be used as displayed element
         *args
-            rest of parameters needed to create specified type of wave, see Wave2D and Wave3D
+            rest of parameters needed to create specified type of wave, see
+            Wave2D and Wave3D
         &#34;&#34;&#34;
         self.figure = figure_type
         self.figures = []
         self.fill(color, *args)
 
     def __repr__(self):
-        return f&#39;&lt;{self.__class__.__name__} of {self.__len__()} {self.figure.lower()}s&gt;&#39;
+        &#34;&#34;&#34;Return `Wave` class representation.&#34;&#34;&#34;
+        name = self.__class__.__name__
+        return f&#39;&lt;{name} of {self.__len__()} {self.figure.lower()}s&gt;&#39;
 
     def __iter__(self):
+        &#34;&#34;&#34;Iterate through wave figures.&#34;&#34;&#34;
         return (x for x in self.figures)
 
     def __len__(self):
+        &#34;&#34;&#34;Return number of wave figures.&#34;&#34;&#34;
         return len(self.figures)
 
     def __call__(self):
-        &#34;&#34;&#34;Spawns (displays) wave on screen&#34;&#34;&#34;
-
-        for figure in self: figure()</code></pre>
+        &#34;&#34;&#34;Spawn (display) wave on screen.&#34;&#34;&#34;
+        for figure in self:
+            figure()</code></pre>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="MemorizeIT.figure.Wave2D" href="#MemorizeIT.figure.Wave2D">Wave2D</a></li>
-<li><a title="MemorizeIT.figure.Wave3D" href="#MemorizeIT.figure.Wave3D">Wave3D</a></li>
+<li><a title="memorizeit.figure.Wave2D" href="#memorizeit.figure.Wave2D">Wave2D</a></li>
+<li><a title="memorizeit.figure.Wave3D" href="#memorizeit.figure.Wave3D">Wave3D</a></li>
 </ul>
 </dd>
-<dt id="MemorizeIT.figure.Wave2D"><code class="flex name class">
+<dt id="memorizeit.figure.Wave2D"><code class="flex name class">
 <span>class <span class="ident">Wave2D</span></span>
 <span>(</span><span>figure_type, color, *args)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>A class with methods needed to display 2D wave. It is responsible for calculating proper points on screen to display
-objects, setting their size, pick amount. Has description how 2D wave should be created. It is child of class Wave.</p>
+<section class="desc"><p>A class with methods needed to display 2D wave.</p>
+<p>It is responsible for calculating proper points on screen to display
+objects, setting their size, pick amount. Has description how 2D wave
+should be created. It is child of class Wave.</p>
 <p>&hellip;</p>
 <h2 id="methods">Methods</h2>
 <p>get_amount()
 randomly pick number of elements from 1 to 9 according to their weights
 get_mid_points(resolution)
-according to resolution of screen - tuple (width, height) divides screen into nine equal fields (net 3x3) and
-returns list with their middle points (width, height)
+according to resolution of screen - tuple (width, height) divides
+screen into nine equal fields (net 3x3) and return list with their
+middle points (width, height)
 get_figure_size(resolution)
-according to resolution of screen - tuple (width, height) returns integer with size of figure
+according to resolution of screen - tuple (width, height) return
+integer with size of figure
 fill(color, screen, resolution)
-populates figures list with 2D figures objects binded to screen (<code>pygame.Surface</code>). Use wave color or photo if
-it is passed else pick random color for each element. Resolution is used to set figure size and region of screen
-where it will be displayed</p>
+populates figures list with 2D figures objects binded to screen
+(<code>pygame.Surface</code>). Use wave color or photo if it is passed else pick
+random color for each element. Resolution is used to set figure size
+and region of screen where it will be displayed</p>
+<p>Initialize wave.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>figure_type</code></strong> :&ensp;<code>str</code></dt>
 <dd>name of figures which will be in the wave</dd>
 <dt><strong><code>color</code></strong> :&ensp;<code>tuple</code> or <code>pygame.Surface</code> or <code>False</code></dt>
-<dd>RGB code of color for wave (0-1, 0-1, 0-1), False if each element in wave will have his own color or
-pygame.Surface in case if photo will be used as displayed element</dd>
+<dd>RGB code of color for wave (0-1, 0-1, 0-1), False if each element
+in wave will have his own color or pygame.Surface in case if photo
+will be used as displayed element</dd>
 <dt><strong><code>*args</code></strong></dt>
-<dd>rest of parameters needed to create specified type of wave, see Wave2D and Wave3D</dd>
+<dd>rest of parameters needed to create specified type of wave, see
+Wave2D and Wave3D</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L86-L195" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class Wave2D(Wave):
     &#34;&#34;&#34;
-    A class with methods needed to display 2D wave. It is responsible for calculating proper points on screen to display
-    objects, setting their size, pick amount. Has description how 2D wave should be created. It is child of class Wave.
+    A class with methods needed to display 2D wave.
+
+    It is responsible for calculating proper points on screen to display
+    objects, setting their size, pick amount. Has description how 2D wave
+    should be created. It is child of class Wave.
 
     ...
 
@@ -2447,114 +2348,137 @@ pygame.Surface in case if photo will be used as displayed element</dd>
     get_amount()
         randomly pick number of elements from 1 to 9 according to their weights
     get_mid_points(resolution)
-        according to resolution of screen - tuple (width, height) divides screen into nine equal fields (net 3x3) and
-        returns list with their middle points (width, height)
+        according to resolution of screen - tuple (width, height) divides
+        screen into nine equal fields (net 3x3) and return list with their
+        middle points (width, height)
     get_figure_size(resolution)
-        according to resolution of screen - tuple (width, height) returns integer with size of figure
+        according to resolution of screen - tuple (width, height) return
+        integer with size of figure
     fill(color, screen, resolution)
-        populates figures list with 2D figures objects binded to screen (`pygame.Surface`). Use wave color or photo if
-        it is passed else pick random color for each element. Resolution is used to set figure size and region of screen
-        where it will be displayed
+        populates figures list with 2D figures objects binded to screen
+        (`pygame.Surface`). Use wave color or photo if it is passed else pick
+        random color for each element. Resolution is used to set figure size
+        and region of screen where it will be displayed
     &#34;&#34;&#34;
 
     @staticmethod
     def get_amount():
-        &#34;&#34;&#34;Randomly pick number of elements from 1 to 9 according to their weights.&#34;&#34;&#34;
-
-        return choices(range(1, 10), weights=[0.03, 0.1, 0.2, 0.2, 0.2, 0.15, 0.1, 0.01, 0.01])[0]
+        &#34;&#34;&#34;Pick random number of elements from 1 to 9 according to weights.&#34;&#34;&#34;
+        return choices(
+            range(1, 10),
+            weights=[0.03, 0.1, 0.2, 0.2, 0.2, 0.15, 0.1, 0.01, 0.01]
+        )[0]
 
     @staticmethod
     def get_mid_points(resolution):
-        &#34;&#34;&#34;Divides screen in nine fields (net 3x3) and returns middle point of each field
+        &#34;&#34;&#34;Divide screen in net 3x3 and return middle point of each field.
 
         Parameters
         ----------
         resolution : tuple
-            a tuple with two int values - width, height - according to resolution of used monitor
+            a tuple with two int values - width, height - according to
+            resolution of used monitor
 
         Returns
         -------
         list
-            a list with 9 positions (screen divided in net 3x3) - middle point of each part of divided screen
+            a list with 9 positions (screen divided in net 3x3) - middle point
+            of each part of divided screen
         &#34;&#34;&#34;
-
         w, h = resolution
-        return [(int(x), int(y)) for x in (w / 6, w / 2, w - w / 6) for y in (h / 6, h / 2, h - h / 6)]
+        return [(int(x), int(y))
+                for x in (w / 6, w / 2, w - w / 6)
+                for y in (h / 6, h / 2, h - h / 6)]
 
     @staticmethod
     def get_figure_size(resolution):
-        &#34;&#34;&#34;Returns size of figure (used in drawing).
+        &#34;&#34;&#34;Return size of figure (used in drawing).
 
         Parameters
         ----------
         resolution : tuple
-            a tuple with two int values - width, height - according to resolution of used monitor
+            a tuple with two int values - width, height - according to
+            resolution of used monitor
 
         Returns
         -------
         int
             size of figure which will be drawn
         &#34;&#34;&#34;
-
         w, h = resolution
         return int(min(w / 3, h / 3) / 4)
 
     def fill(self, color, screen, resolution):
-        &#34;&#34;&#34;Populates figures list
+        &#34;&#34;&#34;Populate figures list.
 
-        2D figures objects are created and binded to screen (`pygame.Surface`). It uses wave color (RGB code
-        (0-1, 0-1, 0-1) which is converted to (0-255, 0-255, 0-255)) or photo if it is passed else it picks random color
-        for each element. Resolution is used to set figure size and region of screen where it will be displayed. Amount
-        of elements in wave is picked randomly according to method get_amount().
+        2D figures objects are created and binded to screen
+        (`pygame.Surface`). It uses wave color (RGB code (0-1, 0-1, 0-1) which
+        is converted to (0-255, 0-255, 0-255)) or photo if it is passed else
+        it picks random color for each element. Resolution is used to set
+        figure size and region of screen where it will be displayed. Amount of
+        elements in wave is picked randomly according to method get_amount().
 
         Parameters
         ----------
         color : tuple or pygame.Surface or False
-            RGB color code represented as (0-1, 0-1, 0-1) values, pygame.Surface if each object will display photo or
-            False in case when we don&#39;t want to create wave in solid color, but use random color for each object
+            RGB color code represented as (0-1, 0-1, 0-1) values,
+            pygame.Surface if each object will display photo or False in case
+            when we don&#39;t want to create wave in solid color, but use random
+            color for each object
         screen: pygame.Surface
-            object representing game screen where created figures will be binded
+            object representing game screen where created figures will be
+            binded
         resolution : tuple
-            a tuple with two int values - width, height - according to resolution of used monitor
+            a tuple with two int values - width, height - according to
+            resolution of used monitor
         &#34;&#34;&#34;
-
-        for point in sample(self.get_mid_points(resolution), self.get_amount()):
+        for point in sample(
+                self.get_mid_points(resolution), self.get_amount()):
             figure_color = color if color else colors.Random().get_color()
+
             if not isinstance(color, pygame.Surface):
                 figure_color = colors.convert(figure_color)
-            self.figures.append(Figure2D(screen, self.figure, figure_color, point, self.get_figure_size(resolution)))</code></pre>
+
+            self.figures.append(
+                Figure2D(screen, self.figure, figure_color, point,
+                         self.get_figure_size(resolution))
+            )</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="MemorizeIT.figure.Wave" href="#MemorizeIT.figure.Wave">Wave</a></li>
+<li><a title="memorizeit.figure.Wave" href="#memorizeit.figure.Wave">Wave</a></li>
 </ul>
 <h3>Static methods</h3>
 <dl>
-<dt id="MemorizeIT.figure.Wave2D.get_amount"><code class="name flex">
+<dt id="memorizeit.figure.Wave2D.get_amount"><code class="name flex">
 <span>def <span class="ident">get_amount</span></span>(<span>)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Randomly pick number of elements from 1 to 9 according to their weights.</p></section>
+<section class="desc"><p>Pick random number of elements from 1 to 9 according to weights.</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L114-L120" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_amount():
-    &#34;&#34;&#34;Randomly pick number of elements from 1 to 9 according to their weights.&#34;&#34;&#34;
-
-    return choices(range(1, 10), weights=[0.03, 0.1, 0.2, 0.2, 0.2, 0.15, 0.1, 0.01, 0.01])[0]</code></pre>
+    &#34;&#34;&#34;Pick random number of elements from 1 to 9 according to weights.&#34;&#34;&#34;
+    return choices(
+        range(1, 10),
+        weights=[0.03, 0.1, 0.2, 0.2, 0.2, 0.15, 0.1, 0.01, 0.01]
+    )[0]</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Wave2D.get_figure_size"><code class="name flex">
+<dt id="memorizeit.figure.Wave2D.get_figure_size"><code class="name flex">
 <span>def <span class="ident">get_figure_size</span></span>(<span>resolution)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Returns size of figure (used in drawing).</p>
+<section class="desc"><p>Return size of figure (used in drawing).</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>resolution</code></strong> :&ensp;<code>tuple</code></dt>
-<dd>a tuple with two int values - width, height - according to resolution of used monitor</dd>
+<dd>a tuple with two int values - width, height - according to
+resolution of used monitor</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -2564,227 +2488,283 @@ def get_amount():
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L143-L159" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_figure_size(resolution):
-    &#34;&#34;&#34;Returns size of figure (used in drawing).
+    &#34;&#34;&#34;Return size of figure (used in drawing).
 
     Parameters
     ----------
     resolution : tuple
-        a tuple with two int values - width, height - according to resolution of used monitor
+        a tuple with two int values - width, height - according to
+        resolution of used monitor
 
     Returns
     -------
     int
         size of figure which will be drawn
     &#34;&#34;&#34;
-
     w, h = resolution
     return int(min(w / 3, h / 3) / 4)</code></pre>
 </details>
 </dd>
-<dt id="MemorizeIT.figure.Wave2D.get_mid_points"><code class="name flex">
+<dt id="memorizeit.figure.Wave2D.get_mid_points"><code class="name flex">
 <span>def <span class="ident">get_mid_points</span></span>(<span>resolution)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Divides screen in nine fields (net 3x3) and returns middle point of each field</p>
+<section class="desc"><p>Divide screen in net 3x3 and return middle point of each field.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>resolution</code></strong> :&ensp;<code>tuple</code></dt>
-<dd>a tuple with two int values - width, height - according to resolution of used monitor</dd>
+<dd>a tuple with two int values - width, height - according to
+resolution of used monitor</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><code>list</code></dt>
-<dd>a list with 9 positions (screen divided in net 3x3) - middle point of each part of divided screen</dd>
+<dd>a list with 9 positions (screen divided in net 3x3) - middle point
+of each part of divided screen</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L122-L141" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">@staticmethod
 def get_mid_points(resolution):
-    &#34;&#34;&#34;Divides screen in nine fields (net 3x3) and returns middle point of each field
+    &#34;&#34;&#34;Divide screen in net 3x3 and return middle point of each field.
 
     Parameters
     ----------
     resolution : tuple
-        a tuple with two int values - width, height - according to resolution of used monitor
+        a tuple with two int values - width, height - according to
+        resolution of used monitor
 
     Returns
     -------
     list
-        a list with 9 positions (screen divided in net 3x3) - middle point of each part of divided screen
+        a list with 9 positions (screen divided in net 3x3) - middle point
+        of each part of divided screen
     &#34;&#34;&#34;
-
     w, h = resolution
-    return [(int(x), int(y)) for x in (w / 6, w / 2, w - w / 6) for y in (h / 6, h / 2, h - h / 6)]</code></pre>
+    return [(int(x), int(y))
+            for x in (w / 6, w / 2, w - w / 6)
+            for y in (h / 6, h / 2, h - h / 6)]</code></pre>
 </details>
 </dd>
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="MemorizeIT.figure.Wave2D.fill"><code class="name flex">
+<dt id="memorizeit.figure.Wave2D.fill"><code class="name flex">
 <span>def <span class="ident">fill</span></span>(<span>self, color, screen, resolution)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Populates figures list</p>
-<p>2D figures objects are created and binded to screen (<code>pygame.Surface</code>). It uses wave color (RGB code
-(0-1, 0-1, 0-1) which is converted to (0-255, 0-255, 0-255)) or photo if it is passed else it picks random color
-for each element. Resolution is used to set figure size and region of screen where it will be displayed. Amount
-of elements in wave is picked randomly according to method get_amount().</p>
+<section class="desc"><p>Populate figures list.</p>
+<p>2D figures objects are created and binded to screen
+(<code>pygame.Surface</code>). It uses wave color (RGB code (0-1, 0-1, 0-1) which
+is converted to (0-255, 0-255, 0-255)) or photo if it is passed else
+it picks random color for each element. Resolution is used to set
+figure size and region of screen where it will be displayed. Amount of
+elements in wave is picked randomly according to method get_amount().</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>color</code></strong> :&ensp;<code>tuple</code> or <code>pygame.Surface</code> or <code>False</code></dt>
-<dd>RGB color code represented as (0-1, 0-1, 0-1) values, pygame.Surface if each object will display photo or
-False in case when we don't want to create wave in solid color, but use random color for each object</dd>
+<dd>RGB color code represented as (0-1, 0-1, 0-1) values,
+pygame.Surface if each object will display photo or False in case
+when we don't want to create wave in solid color, but use random
+color for each object</dd>
 <dt><strong><code>screen</code></strong> :&ensp;<code>pygame.Surface</code></dt>
-<dd>object representing game screen where created figures will be binded</dd>
+<dd>object representing game screen where created figures will be
+binded</dd>
 <dt><strong><code>resolution</code></strong> :&ensp;<code>tuple</code></dt>
-<dd>a tuple with two int values - width, height - according to resolution of used monitor</dd>
+<dd>a tuple with two int values - width, height - according to
+resolution of used monitor</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L161-L195" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">def fill(self, color, screen, resolution):
-    &#34;&#34;&#34;Populates figures list
+    &#34;&#34;&#34;Populate figures list.
 
-    2D figures objects are created and binded to screen (`pygame.Surface`). It uses wave color (RGB code
-    (0-1, 0-1, 0-1) which is converted to (0-255, 0-255, 0-255)) or photo if it is passed else it picks random color
-    for each element. Resolution is used to set figure size and region of screen where it will be displayed. Amount
-    of elements in wave is picked randomly according to method get_amount().
+    2D figures objects are created and binded to screen
+    (`pygame.Surface`). It uses wave color (RGB code (0-1, 0-1, 0-1) which
+    is converted to (0-255, 0-255, 0-255)) or photo if it is passed else
+    it picks random color for each element. Resolution is used to set
+    figure size and region of screen where it will be displayed. Amount of
+    elements in wave is picked randomly according to method get_amount().
 
     Parameters
     ----------
     color : tuple or pygame.Surface or False
-        RGB color code represented as (0-1, 0-1, 0-1) values, pygame.Surface if each object will display photo or
-        False in case when we don&#39;t want to create wave in solid color, but use random color for each object
+        RGB color code represented as (0-1, 0-1, 0-1) values,
+        pygame.Surface if each object will display photo or False in case
+        when we don&#39;t want to create wave in solid color, but use random
+        color for each object
     screen: pygame.Surface
-        object representing game screen where created figures will be binded
+        object representing game screen where created figures will be
+        binded
     resolution : tuple
-        a tuple with two int values - width, height - according to resolution of used monitor
+        a tuple with two int values - width, height - according to
+        resolution of used monitor
     &#34;&#34;&#34;
-
-    for point in sample(self.get_mid_points(resolution), self.get_amount()):
+    for point in sample(
+            self.get_mid_points(resolution), self.get_amount()):
         figure_color = color if color else colors.Random().get_color()
+
         if not isinstance(color, pygame.Surface):
             figure_color = colors.convert(figure_color)
-        self.figures.append(Figure2D(screen, self.figure, figure_color, point, self.get_figure_size(resolution)))</code></pre>
+
+        self.figures.append(
+            Figure2D(screen, self.figure, figure_color, point,
+                     self.get_figure_size(resolution))
+        )</code></pre>
 </details>
 </dd>
 </dl>
 </dd>
-<dt id="MemorizeIT.figure.Wave3D"><code class="flex name class">
+<dt id="memorizeit.figure.Wave3D"><code class="flex name class">
 <span>class <span class="ident">Wave3D</span></span>
 <span>(</span><span>figure_type, color, *args)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>A class with method allowing to create 3D wave -it fills figure list with proper objects. It is child of class Wave.</p>
+<section class="desc"><p>A class with method allowing to create 3D wave.</p>
+<p>It fills figure list with proper objects. It is child of class Wave.</p>
 <p>&hellip;</p>
 <h2 id="methods">Methods</h2>
 <p>fill(color, position)
-populates figures list with 3D figures objects. Position Z of camera must be specified (how far from beginning
-figure will be drawn). It uses wave color if it is passed else picks random color for each element.</p>
+populates figures list with 3D figures objects. Position Z of camera
+must be specified (how far from beginning figure will be drawn). It
+uses wave color if it is passed else picks random color for each
+element.</p>
+<p>Initialize wave.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>figure_type</code></strong> :&ensp;<code>str</code></dt>
 <dd>name of figures which will be in the wave</dd>
 <dt><strong><code>color</code></strong> :&ensp;<code>tuple</code> or <code>pygame.Surface</code> or <code>False</code></dt>
-<dd>RGB code of color for wave (0-1, 0-1, 0-1), False if each element in wave will have his own color or
-pygame.Surface in case if photo will be used as displayed element</dd>
+<dd>RGB code of color for wave (0-1, 0-1, 0-1), False if each element
+in wave will have his own color or pygame.Surface in case if photo
+will be used as displayed element</dd>
 <dt><strong><code>*args</code></strong></dt>
-<dd>rest of parameters needed to create specified type of wave, see Wave2D and Wave3D</dd>
+<dd>rest of parameters needed to create specified type of wave, see
+Wave2D and Wave3D</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L198-L242" class="git-link">Browse git</a>
 </summary>
 <pre><code class="python">class Wave3D(Wave):
     &#34;&#34;&#34;
-    A class with method allowing to create 3D wave -it fills figure list with proper objects. It is child of class Wave.
+    A class with method allowing to create 3D wave.
+
+    It fills figure list with proper objects. It is child of class Wave.
 
     ...
 
     Methods
     -------
     fill(color, position)
-        populates figures list with 3D figures objects. Position Z of camera must be specified (how far from beginning
-        figure will be drawn). It uses wave color if it is passed else picks random color for each element.
+        populates figures list with 3D figures objects. Position Z of camera
+        must be specified (how far from beginning figure will be drawn). It
+        uses wave color if it is passed else picks random color for each
+        element.
     &#34;&#34;&#34;
 
-    def fill(self, color, positionZ):
-        &#34;&#34;&#34;Populates figures list
+    def fill(self, color, position_z):
+        &#34;&#34;&#34;Populate figures list.
 
-        3D figures objects are created according to randomly generated number in range 2-6. It uses wave color (RGB code
-        (0-1, 0-1, 0-1) if it is passed else it picks random color for each element. Figures are created in normal mode.
-        Easter egg (for those who like to read documentation as I do): there is also available fire mode (see Figure3D
-        fire @classmethod) which will simulate flames. Be aware that each object will be colored same way. Replace
-        .normal with .fire in loop below - where objects are created.
+        3D figures objects are created according to randomly generated number
+        in range 2-6. It uses wave color (RGB code (0-1, 0-1, 0-1) if it is
+        passed else it picks random color for each element. Figures are
+        created in normal mode. Easter egg (for those who like to read
+        documentation as I do): there is also available fire mode (see
+        Figure3D fire @classmethod) which will simulate flames. Be aware that
+        each object will be colored same way. Replace `.normal` with `.fire`
+        in loop below - where objects are created.
 
         Parameters
         ----------
         color : tuple or False
-            RGB color code represented as (0-1, 0-1, 0-1) or False in case when we don&#39;t want to create wave in solid
-            color, but use random color for each object
-        positionZ : int
-            position of camera Z where figure will be drawn (how far from beginning - where camera started to move)
+            RGB color code represented as (0-1, 0-1, 0-1) or False in case
+            when we don&#39;t want to create wave in solid color, but use random
+            color for each object
+        position_z : int
+            position of camera Z where figure will be drawn (how far from
+            beginning - where camera started to move)
         &#34;&#34;&#34;
-
         for _ in range(randint(2, 6)):
             figure_color = color if color else colors.Random().get_color()
-            self.figures.append(eval(self.figure).normal(positionZ, figure_color))</code></pre>
+
+            self.figures.append(
+                eval(self.figure).normal(position_z, figure_color)
+            )</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="MemorizeIT.figure.Wave" href="#MemorizeIT.figure.Wave">Wave</a></li>
+<li><a title="memorizeit.figure.Wave" href="#memorizeit.figure.Wave">Wave</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="MemorizeIT.figure.Wave3D.fill"><code class="name flex">
-<span>def <span class="ident">fill</span></span>(<span>self, color, positionZ)</span>
+<dt id="memorizeit.figure.Wave3D.fill"><code class="name flex">
+<span>def <span class="ident">fill</span></span>(<span>self, color, position_z)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Populates figures list</p>
-<p>3D figures objects are created according to randomly generated number in range 2-6. It uses wave color (RGB code
-(0-1, 0-1, 0-1) if it is passed else it picks random color for each element. Figures are created in normal mode.
-Easter egg (for those who like to read documentation as I do): there is also available fire mode (see Figure3D
-fire @classmethod) which will simulate flames. Be aware that each object will be colored same way. Replace
-.normal with .fire in loop below - where objects are created.</p>
+<section class="desc"><p>Populate figures list.</p>
+<p>3D figures objects are created according to randomly generated number
+in range 2-6. It uses wave color (RGB code (0-1, 0-1, 0-1) if it is
+passed else it picks random color for each element. Figures are
+created in normal mode. Easter egg (for those who like to read
+documentation as I do): there is also available fire mode (see
+Figure3D fire @classmethod) which will simulate flames. Be aware that
+each object will be colored same way. Replace <code>.normal</code> with <code>.fire</code>
+in loop below - where objects are created.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>color</code></strong> :&ensp;<code>tuple</code> or <code>False</code></dt>
-<dd>RGB color code represented as (0-1, 0-1, 0-1) or False in case when we don't want to create wave in solid
-color, but use random color for each object</dd>
-<dt><strong><code>positionZ</code></strong> :&ensp;<code>int</code></dt>
-<dd>position of camera Z where figure will be drawn (how far from beginning - where camera started to move)</dd>
+<dd>RGB color code represented as (0-1, 0-1, 0-1) or False in case
+when we don't want to create wave in solid color, but use random
+color for each object</dd>
+<dt><strong><code>position_z</code></strong> :&ensp;<code>int</code></dt>
+<dd>position of camera Z where figure will be drawn (how far from
+beginning - where camera started to move)</dd>
 </dl></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
+<a href="https://github.com/ethru/memorizeit/blob/89314c29ad839a7e7e05f0ea1204b81c1bea302c/memorizeit/figure.py#L215-L242" class="git-link">Browse git</a>
 </summary>
-<pre><code class="python">def fill(self, color, positionZ):
-    &#34;&#34;&#34;Populates figures list
+<pre><code class="python">def fill(self, color, position_z):
+    &#34;&#34;&#34;Populate figures list.
 
-    3D figures objects are created according to randomly generated number in range 2-6. It uses wave color (RGB code
-    (0-1, 0-1, 0-1) if it is passed else it picks random color for each element. Figures are created in normal mode.
-    Easter egg (for those who like to read documentation as I do): there is also available fire mode (see Figure3D
-    fire @classmethod) which will simulate flames. Be aware that each object will be colored same way. Replace
-    .normal with .fire in loop below - where objects are created.
+    3D figures objects are created according to randomly generated number
+    in range 2-6. It uses wave color (RGB code (0-1, 0-1, 0-1) if it is
+    passed else it picks random color for each element. Figures are
+    created in normal mode. Easter egg (for those who like to read
+    documentation as I do): there is also available fire mode (see
+    Figure3D fire @classmethod) which will simulate flames. Be aware that
+    each object will be colored same way. Replace `.normal` with `.fire`
+    in loop below - where objects are created.
 
     Parameters
     ----------
     color : tuple or False
-        RGB color code represented as (0-1, 0-1, 0-1) or False in case when we don&#39;t want to create wave in solid
-        color, but use random color for each object
-    positionZ : int
-        position of camera Z where figure will be drawn (how far from beginning - where camera started to move)
+        RGB color code represented as (0-1, 0-1, 0-1) or False in case
+        when we don&#39;t want to create wave in solid color, but use random
+        color for each object
+    position_z : int
+        position of camera Z where figure will be drawn (how far from
+        beginning - where camera started to move)
     &#34;&#34;&#34;
-
     for _ in range(randint(2, 6)):
         figure_color = color if color else colors.Random().get_color()
-        self.figures.append(eval(self.figure).normal(positionZ, figure_color))</code></pre>
+
+        self.figures.append(
+            eval(self.figure).normal(position_z, figure_color)
+        )</code></pre>
 </details>
 </dd>
 </dl>
@@ -2793,85 +2773,88 @@ color, but use random color for each object</dd>
 </section>
 </article>
 <nav id="sidebar">
+<header><img src="https://raw.githubusercontent.com/ethru/memorizeit/master/img/brain.png" alt=""></header>
 <h1>Index</h1>
 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#figure">Figure</a></li>
+</ul>
 </div>
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="MemorizeIT" href="index.html">MemorizeIT</a></code></li>
+<li><code><a title="memorizeit" href="index.html">memorizeit</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="MemorizeIT.figure.Cube" href="#MemorizeIT.figure.Cube">Cube</a></code></h4>
+<h4><code><a title="memorizeit.figure.Cube" href="#memorizeit.figure.Cube">Cube</a></code></h4>
 <ul class="">
-<li><code><a title="MemorizeIT.figure.Cube.get_edges" href="#MemorizeIT.figure.Cube.get_edges">get_edges</a></code></li>
-<li><code><a title="MemorizeIT.figure.Cube.get_surfaces" href="#MemorizeIT.figure.Cube.get_surfaces">get_surfaces</a></code></li>
-<li><code><a title="MemorizeIT.figure.Cube.get_vertices" href="#MemorizeIT.figure.Cube.get_vertices">get_vertices</a></code></li>
+<li><code><a title="memorizeit.figure.Cube.get_edges" href="#memorizeit.figure.Cube.get_edges">get_edges</a></code></li>
+<li><code><a title="memorizeit.figure.Cube.get_surfaces" href="#memorizeit.figure.Cube.get_surfaces">get_surfaces</a></code></li>
+<li><code><a title="memorizeit.figure.Cube.get_vertices" href="#memorizeit.figure.Cube.get_vertices">get_vertices</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="MemorizeIT.figure.Figure2D" href="#MemorizeIT.figure.Figure2D">Figure2D</a></code></h4>
+<h4><code><a title="memorizeit.figure.Figure2D" href="#memorizeit.figure.Figure2D">Figure2D</a></code></h4>
 <ul class="">
-<li><code><a title="MemorizeIT.figure.Figure2D.adjust_points" href="#MemorizeIT.figure.Figure2D.adjust_points">adjust_points</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure2D.get_diamond_points" href="#MemorizeIT.figure.Figure2D.get_diamond_points">get_diamond_points</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure2D.get_octagon_points" href="#MemorizeIT.figure.Figure2D.get_octagon_points">get_octagon_points</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure2D.get_square_points" href="#MemorizeIT.figure.Figure2D.get_square_points">get_square_points</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure2D.get_triangle_points" href="#MemorizeIT.figure.Figure2D.get_triangle_points">get_triangle_points</a></code></li>
+<li><code><a title="memorizeit.figure.Figure2D.adjust_points" href="#memorizeit.figure.Figure2D.adjust_points">adjust_points</a></code></li>
+<li><code><a title="memorizeit.figure.Figure2D.get_diamond_points" href="#memorizeit.figure.Figure2D.get_diamond_points">get_diamond_points</a></code></li>
+<li><code><a title="memorizeit.figure.Figure2D.get_octagon_points" href="#memorizeit.figure.Figure2D.get_octagon_points">get_octagon_points</a></code></li>
+<li><code><a title="memorizeit.figure.Figure2D.get_square_points" href="#memorizeit.figure.Figure2D.get_square_points">get_square_points</a></code></li>
+<li><code><a title="memorizeit.figure.Figure2D.get_triangle_points" href="#memorizeit.figure.Figure2D.get_triangle_points">get_triangle_points</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="MemorizeIT.figure.Figure3D" href="#MemorizeIT.figure.Figure3D">Figure3D</a></code></h4>
+<h4><code><a title="memorizeit.figure.Figure3D" href="#memorizeit.figure.Figure3D">Figure3D</a></code></h4>
 <ul class="">
-<li><code><a title="MemorizeIT.figure.Figure3D.adjust_vertices" href="#MemorizeIT.figure.Figure3D.adjust_vertices">adjust_vertices</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.fire" href="#MemorizeIT.figure.Figure3D.fire">fire</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.get_random_shift" href="#MemorizeIT.figure.Figure3D.get_random_shift">get_random_shift</a></code></li>
-<li><code><a title="MemorizeIT.figure.Figure3D.normal" href="#MemorizeIT.figure.Figure3D.normal">normal</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.adjust_vertices" href="#memorizeit.figure.Figure3D.adjust_vertices">adjust_vertices</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.fire" href="#memorizeit.figure.Figure3D.fire">fire</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.get_random_shift" href="#memorizeit.figure.Figure3D.get_random_shift">get_random_shift</a></code></li>
+<li><code><a title="memorizeit.figure.Figure3D.normal" href="#memorizeit.figure.Figure3D.normal">normal</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="MemorizeIT.figure.Octagon" href="#MemorizeIT.figure.Octagon">Octagon</a></code></h4>
+<h4><code><a title="memorizeit.figure.Octagon" href="#memorizeit.figure.Octagon">Octagon</a></code></h4>
 <ul class="">
-<li><code><a title="MemorizeIT.figure.Octagon.get_edges" href="#MemorizeIT.figure.Octagon.get_edges">get_edges</a></code></li>
-<li><code><a title="MemorizeIT.figure.Octagon.get_surfaces" href="#MemorizeIT.figure.Octagon.get_surfaces">get_surfaces</a></code></li>
-<li><code><a title="MemorizeIT.figure.Octagon.get_vertices" href="#MemorizeIT.figure.Octagon.get_vertices">get_vertices</a></code></li>
+<li><code><a title="memorizeit.figure.Octagon.get_edges" href="#memorizeit.figure.Octagon.get_edges">get_edges</a></code></li>
+<li><code><a title="memorizeit.figure.Octagon.get_surfaces" href="#memorizeit.figure.Octagon.get_surfaces">get_surfaces</a></code></li>
+<li><code><a title="memorizeit.figure.Octagon.get_vertices" href="#memorizeit.figure.Octagon.get_vertices">get_vertices</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="MemorizeIT.figure.Octahedron" href="#MemorizeIT.figure.Octahedron">Octahedron</a></code></h4>
+<h4><code><a title="memorizeit.figure.Octahedron" href="#memorizeit.figure.Octahedron">Octahedron</a></code></h4>
 <ul class="">
-<li><code><a title="MemorizeIT.figure.Octahedron.get_edges" href="#MemorizeIT.figure.Octahedron.get_edges">get_edges</a></code></li>
-<li><code><a title="MemorizeIT.figure.Octahedron.get_surfaces" href="#MemorizeIT.figure.Octahedron.get_surfaces">get_surfaces</a></code></li>
-<li><code><a title="MemorizeIT.figure.Octahedron.get_vertices" href="#MemorizeIT.figure.Octahedron.get_vertices">get_vertices</a></code></li>
+<li><code><a title="memorizeit.figure.Octahedron.get_edges" href="#memorizeit.figure.Octahedron.get_edges">get_edges</a></code></li>
+<li><code><a title="memorizeit.figure.Octahedron.get_surfaces" href="#memorizeit.figure.Octahedron.get_surfaces">get_surfaces</a></code></li>
+<li><code><a title="memorizeit.figure.Octahedron.get_vertices" href="#memorizeit.figure.Octahedron.get_vertices">get_vertices</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="MemorizeIT.figure.Pyramid" href="#MemorizeIT.figure.Pyramid">Pyramid</a></code></h4>
+<h4><code><a title="memorizeit.figure.Pyramid" href="#memorizeit.figure.Pyramid">Pyramid</a></code></h4>
 <ul class="">
-<li><code><a title="MemorizeIT.figure.Pyramid.get_edges" href="#MemorizeIT.figure.Pyramid.get_edges">get_edges</a></code></li>
-<li><code><a title="MemorizeIT.figure.Pyramid.get_surfaces" href="#MemorizeIT.figure.Pyramid.get_surfaces">get_surfaces</a></code></li>
-<li><code><a title="MemorizeIT.figure.Pyramid.get_vertices" href="#MemorizeIT.figure.Pyramid.get_vertices">get_vertices</a></code></li>
+<li><code><a title="memorizeit.figure.Pyramid.get_edges" href="#memorizeit.figure.Pyramid.get_edges">get_edges</a></code></li>
+<li><code><a title="memorizeit.figure.Pyramid.get_surfaces" href="#memorizeit.figure.Pyramid.get_surfaces">get_surfaces</a></code></li>
+<li><code><a title="memorizeit.figure.Pyramid.get_vertices" href="#memorizeit.figure.Pyramid.get_vertices">get_vertices</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="MemorizeIT.figure.Wave" href="#MemorizeIT.figure.Wave">Wave</a></code></h4>
+<h4><code><a title="memorizeit.figure.Wave" href="#memorizeit.figure.Wave">Wave</a></code></h4>
 </li>
 <li>
-<h4><code><a title="MemorizeIT.figure.Wave2D" href="#MemorizeIT.figure.Wave2D">Wave2D</a></code></h4>
+<h4><code><a title="memorizeit.figure.Wave2D" href="#memorizeit.figure.Wave2D">Wave2D</a></code></h4>
 <ul class="">
-<li><code><a title="MemorizeIT.figure.Wave2D.fill" href="#MemorizeIT.figure.Wave2D.fill">fill</a></code></li>
-<li><code><a title="MemorizeIT.figure.Wave2D.get_amount" href="#MemorizeIT.figure.Wave2D.get_amount">get_amount</a></code></li>
-<li><code><a title="MemorizeIT.figure.Wave2D.get_figure_size" href="#MemorizeIT.figure.Wave2D.get_figure_size">get_figure_size</a></code></li>
-<li><code><a title="MemorizeIT.figure.Wave2D.get_mid_points" href="#MemorizeIT.figure.Wave2D.get_mid_points">get_mid_points</a></code></li>
+<li><code><a title="memorizeit.figure.Wave2D.fill" href="#memorizeit.figure.Wave2D.fill">fill</a></code></li>
+<li><code><a title="memorizeit.figure.Wave2D.get_amount" href="#memorizeit.figure.Wave2D.get_amount">get_amount</a></code></li>
+<li><code><a title="memorizeit.figure.Wave2D.get_figure_size" href="#memorizeit.figure.Wave2D.get_figure_size">get_figure_size</a></code></li>
+<li><code><a title="memorizeit.figure.Wave2D.get_mid_points" href="#memorizeit.figure.Wave2D.get_mid_points">get_mid_points</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="MemorizeIT.figure.Wave3D" href="#MemorizeIT.figure.Wave3D">Wave3D</a></code></h4>
+<h4><code><a title="memorizeit.figure.Wave3D" href="#memorizeit.figure.Wave3D">Wave3D</a></code></h4>
 <ul class="">
-<li><code><a title="MemorizeIT.figure.Wave3D.fill" href="#MemorizeIT.figure.Wave3D.fill">fill</a></code></li>
+<li><code><a title="memorizeit.figure.Wave3D.fill" href="#memorizeit.figure.Wave3D.fill">fill</a></code></li>
 </ul>
 </li>
 </ul>
@@ -2880,7 +2863,7 @@ color, but use random color for each object</dd>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad()</script>
